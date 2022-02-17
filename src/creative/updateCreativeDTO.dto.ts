@@ -6,9 +6,6 @@ export class UpdateCreativeDTO {
     public creativeDescription: String;
     public costPerSale: number;
     public creativeType: String;
-    // public image: boolean;
-    // public video:boolean;
-    // public imageAndVideo:boolean;
     public deletedAt : Date;
 
 }

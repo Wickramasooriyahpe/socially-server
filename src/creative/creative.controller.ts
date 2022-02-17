@@ -1,4 +1,4 @@
-import { Body,Controller, Delete, Get, HttpCode, NotFoundException, Param, Post, Put, Query, Req, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body,Controller, Delete, Get, HttpCode, NotFoundException, Param, Post, Put, Query, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import path from 'path/posix';
 import { Creative } from './creative.entity';
 import { creativeService } from './creative.service';
@@ -8,8 +8,11 @@ import { UpdateCreativeDTO } from './updateCreativeDTO.dto';
 import { Campaign } from 'src/campaign/campaign.entity';
 import {getConnection} from "typeorm";
 import { CreativeDTO } from './creativeDTO';
+import { JwtStrategy } from 'src/auth/jwt.strategy';
+import { JwtAuthGuard } from 'src/auth/jwt.guard';
 
 @Controller('creative')
+@UseGuards(JwtAuthGuard)
 export class creativeController {
     constructor(private readonly creativeService : creativeService){}
 

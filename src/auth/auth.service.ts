@@ -10,7 +10,7 @@ import { RegistrationStatus } from './interfaces/regisration-status.interface';
 
 @Injectable()
 export class AuthService {
-    constructor(private readonly advertiserService : AdvertiserService, private readonly jwtService: JwtService,) {}
+    constructor(private readonly advertiserService : AdvertiserService, private readonly jwtService: JwtService) {}
 
     async register(advertiserDto: AdvertiserCreateDto): 
     Promise<RegistrationStatus> {
@@ -37,18 +37,18 @@ export class AuthService {
         const token = this._createToken(advertiser);
         
         return {
-            email: advertiser.email, ...token,
-            name : advertiser.name    
+             ...token,
+                
         };  
     }
 
     private _createToken({ email }: AdvertiserDto): any {
-        const expiresIn = '60s';
+        const expiresIn = '1200s';
 
         const advertiser: JwtPayload = { email:email };    
         const accessToken = this.jwtService.sign(advertiser);    
         return {
-            expiresIn,
+            //expiresIn,
             accessToken,    
         };  
     }

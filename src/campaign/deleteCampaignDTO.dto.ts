@@ -14,7 +14,7 @@ export class DeleteCampaignDTO {
 
   
     public endDate: Date ;
-    //@DeleteDateColumn()
+    
     public deletedAt?: Date;
     adveID :number;
 }

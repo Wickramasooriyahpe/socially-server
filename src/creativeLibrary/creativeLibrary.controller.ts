@@ -7,7 +7,7 @@ import { extname } from 'path';
 import { Advertiser } from 'src/Advertiser/advertiser.entity';
 import { Campaign } from 'src/campaign/campaign.entity';
 import { Creative } from 'src/creative/creative.entity';
-
+import { AuthService } from 'src/auth/auth.service';
 
 @Controller('media')
 export class creativeLibraryController {
@@ -29,6 +29,7 @@ export class creativeLibraryController {
     )
     )
     uploadAvatar(@Param('userid') userId, @UploadedFile() file) {
+      
       this.creativeLibraryService.setAvatar(Number(userId), `${this.SERVER_URL}${file.path}`);
     }
 

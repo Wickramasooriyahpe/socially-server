@@ -16,5 +16,5 @@ export class campaignCreationDTO{
     @IsNotEmpty()
     @IsDate()
     endDate: Date ;
-    adveID :number;
+    //adveID :number;
 }

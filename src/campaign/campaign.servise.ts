@@ -1,7 +1,9 @@
 import { HttpException, HttpStatus, Injectable,NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AdvertiserDto } from 'src/advertiser/advertiserDto';
 import { Repository } from 'typeorm';
 import { Campaign } from './campaign.entity';
+import { campaignCreationDTO } from './campaignCreation.dto';
 import { updateCampaignDTO } from './updateCampaign.dto';
 
 @Injectable()
@@ -27,6 +29,14 @@ export class campaignService {
     async  createCampaign(campaignCreation: Campaign): Promise<Campaign> {
         return await this.campaignRepository.save(campaignCreation);
     }
+
+    // async createCampaign({id} : AdvertiserDto,campaignCreation: campaignCreationDTO): Promise<campaignCreationDTO>{
+
+    //    const {campaignName,budge,startDate,endDate,deletedAt} =campaignCreationDTO;
+
+    //    const owner = await this.adver.findOne({where : {id}});
+    //    const camp: Campaign = await this.campaignRepository.create({owner,campaignName,budge,startDate,endDate,deletedAt})
+    // }
 
     async updateCampaign(updateCampaignDTO:updateCampaignDTO ): Promise<Campaign>{
         const{campaignId,campaignName,budget,startDate,endDate}= updateCampaignDTO;

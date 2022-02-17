@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { Creative } from './creative.entity';
 import { UpdateCreativeDTO } from './updateCreativeDTO.dto';
 //import {CategoryNotFoundException} from './exceptions/categoryNotFound.exception';
-//import{}
+
 
 @Injectable()
 export class creativeService {

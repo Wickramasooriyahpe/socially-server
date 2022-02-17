@@ -6,7 +6,6 @@ export class updateCampaignDTO{
     public budget: number;
     public startDate: Date;
     public endDate: Date ;
-    //@DeleteDateColumn()
     public deletedAt?: Date;
     adveID :number;
 }

@@ -29,9 +29,10 @@ export class Campaign {
     @OneToMany(()=> Creative,Creative=> Creative.creativeId, )
     public creative :Creative[];
 
-    @JoinColumn({name: 'adveID'})
+   @JoinColumn({name: 'adveID'})
     @ManyToOne(() =>Advertiser,Advertiser=> Advertiser.id,)
     public Advertiser : Advertiser;
-
+    // @ManyToOne(() =>Advertiser,adv=> adv.Campaign)
+    // public adv : Advertiser;
 }
 

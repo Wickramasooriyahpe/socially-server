@@ -3,9 +3,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { creativeController } from './creative.controller';
 import { creativeService } from './creative.service';
 import { Creative } from './creative.entity';
+import { AuthModule } from 'src/auth/auth.module';
+import { AdvertiserModule } from 'src/advertiser/advertiser.module';
 
 @Module({
-    imports : [TypeOrmModule.forFeature([Creative])],
+    imports : [AuthModule,AdvertiserModule,TypeOrmModule.forFeature([Creative])],
     controllers: [creativeController],
     providers: [creativeService],
     exports:[creativeService]

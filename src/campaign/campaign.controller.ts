@@ -1,12 +1,18 @@
-import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post, Put, Query, Req, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Advertiser } from 'src/Advertiser/advertiser.entity';
 import { Campaign } from './campaign.entity';
 import { campaignService } from './campaign.servise';
 import { campaignCreationDTO } from './campaignCreation.dto';
 import { DeleteCampaignDTO } from './deleteCampaignDTO.dto';
 import { updateCampaignDTO } from './updateCampaign.dto';
-
-
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { AdvertiserDto } from 'src/advertiser/advertiserDto';
+import { JwtStrategy } from 'src/auth/jwt.strategy';
+import { JwtAuthGuard } from 'src/auth/jwt.guard';
+//import JwtAuthenticationGuard from '../authentication/jwt-authentication.guard'; 
 @Controller('campaign')
+@UseGuards(JwtAuthGuard)
 export class campaignController {
     constructor(private readonly campaignService : campaignService){}
 
@@ -20,10 +26,19 @@ export class campaignController {
       return this.campaignService.getCampaignById(campaignId);
     }
 
+    // @Post('createCampaign')
+    // @UseGuards(AuthGuard())
+    // async createCampaign(@Body() campaignData: Campaign, @Req() req : any): Promise<any> {
+    //   const Advertiser = <AdvertiserDto>req.Advertiser;
+    //   return this.campaignService.createCampaign(campaignData);
+    // }  
+    
     @Post('createCampaign')
     async createCampaign(@Body() campaignData: Campaign): Promise<any> {
       return this.campaignService.createCampaign(campaignData);
-    }  
+    }
+     
+   
 
     @Put(':campaignId')
     async updateCampaign(@Param('campaignId') campaignId:number, @Body() updateCampaignDTO:updateCampaignDTO){

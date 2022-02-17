@@ -6,10 +6,5 @@ export class DeleteCreativeDTO {
     public creativeDescription: String;
     public costPerSale: number;
     public creativeType: String;
-
-    //public creativeTypeID: number;
-    // public image: boolean;
-    // public video:boolean;
-    // public imageAndVideo:boolean;
     public deletedAt:Date;
 }

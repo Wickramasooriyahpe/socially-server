@@ -11,15 +11,18 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     constructor(private readonly authService: AuthService) {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+            ignoreExpiration: false,
             secretOrKey: jwtConstants.secret,
+            
         });  
     }
     
-    async validate(payload: JwtPayload): Promise<AdvertiserDto> {
-        const advertiser = await this.authService.validateAdvertiser(payload);
-        if (!advertiser) {
-            throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);    
-        }    
-        return advertiser;  
+    async validate(payload: any) {
+        // const advertiser = await this.authService.validateAdvertiser(payload);
+        // if (!advertiser) {
+        //     throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);    
+        // }    
+        // return advertiser; 
+        return {userId: payload.email} 
     }
 }

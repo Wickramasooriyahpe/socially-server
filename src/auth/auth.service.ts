@@ -16,7 +16,7 @@ export class AuthService {
     Promise<RegistrationStatus> {
     let status: RegistrationStatus = {
         success: true,   
-        message: 'user registered',
+        message: 'user registered!',
     };
     try {
         await this.advertiserService.createAdvertiser(advertiserDto);

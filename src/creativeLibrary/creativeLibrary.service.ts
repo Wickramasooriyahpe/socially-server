@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreativeLibrary } from './creativeLibrary.entity';
 import { creativeLibraryController } from './creativeLibrary.controller';
+import { updateCreativeLibraryDTO } from './updateCreativeLibraryDTO.dto';
 
 
 
@@ -16,24 +17,28 @@ export class creativeLibraryService {
 
         ) { }
 
-        public async setAvatar(userId: number, avatarUrl: string){
-            this.creativeLibraryRepository.update(userId, {avatar: avatarUrl});
-        }
+        async getCreativeLibraryById(creativeLibraryId: number): Promise<CreativeLibrary> {
+            const creativeLibrary = await this.creativeLibraryRepository.findOne(
+                creativeLibraryId, 
+              {
+               
+                withDeleted: true 
+              }
+            );
+            if (creativeLibrary) {
+              return creativeLibrary;
+            }
+            //throw new CategoryNotFoundException(id);
+          }
+        async updateCreativeLibrary(updateCreativeLibraryDTO:updateCreativeLibraryDTO):Promise<CreativeLibrary>{
+        const{creativeLibraryId,thumbnailImagePath,creID}=updateCreativeLibraryDTO;
+        const cretiveLibrary = await this.getCreativeLibraryById(creativeLibraryId);
 
-        /*async getImageById(filename:String):Promise<any>{
-            try{
-                return this.creativeLibraryRepository.findOne({})
-            }catch(err){
-                throw err;
-            }    
-        }*/
-       
-        // async saveLocalFileData(fileData: LocalFileDto) {
-        //     const newFile = await this.creativeLibraryRepository.create(fileData)
-        //     await this.creativeLibraryRepository.save(newFile);
-        //     return newFile;
-        //   }
-      
+        cretiveLibrary.thumbnailImagePath=thumbnailImagePath;
+        cretiveLibrary.creID=creID;
+        return this.creativeLibraryRepository.save(cretiveLibrary);
+}
+        
      
 
     

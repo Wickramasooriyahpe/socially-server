@@ -12,7 +12,7 @@ import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
 //import JwtAuthenticationGuard from '../authentication/jwt-authentication.guard'; 
 @Controller('campaign')
-@UseGuards(JwtAuthGuard)
+
 export class campaignController {
     constructor(private readonly campaignService : campaignService){}
 
@@ -34,6 +34,7 @@ export class campaignController {
     // }  
     
     @Post('createCampaign')
+    @UseGuards(JwtAuthGuard)
     async createCampaign(@Body() campaignData: Campaign): Promise<any> {
       return this.campaignService.createCampaign(campaignData);
     }
@@ -41,6 +42,7 @@ export class campaignController {
    
 
     @Put(':campaignId')
+    @UseGuards(JwtAuthGuard)
     async updateCampaign(@Param('campaignId') campaignId:number, @Body() updateCampaignDTO:updateCampaignDTO){
       updateCampaignDTO.campaignId= campaignId;
        return this.campaignService.updateCampaign(updateCampaignDTO);

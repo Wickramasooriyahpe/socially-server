@@ -22,21 +22,15 @@ export class Creative {
     @Column()
     public creativeType: String;
 
-    // @Column()
-    // public image: boolean;
-
-    // @Column()
-    // public video:boolean;
-
-    // @Column()
-    // public imageAndVideo:boolean;
-
     @DeleteDateColumn()
     public deletedAt?: Date;
 
     @JoinColumn({name: 'campID'})
     @ManyToOne (() => Campaign,Campaign => Campaign.campaignId)
     public campaign: Campaign;
+
+    @OneToOne(()=>CreativeLibrary,CreativeLibrary=> CreativeLibrary.creativeLibraryId)
+    public CreativeLibrary: CreativeLibrary;
 
     @Column()
     public campID:number;

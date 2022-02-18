@@ -12,7 +12,7 @@ import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
 
 @Controller('creative')
-@UseGuards(JwtAuthGuard)
+
 export class creativeController {
     constructor(private readonly creativeService : creativeService){}
 
@@ -42,12 +42,14 @@ export class creativeController {
 
     
      @Post('createCreative')
+     @UseGuards(JwtAuthGuard)
     async createCreative(@Body() creativeData: Creative): Promise<any> {
      
       return this.creativeService.createCreative(creativeData);
     }  
     
     @Put(':creativeId')
+    @UseGuards(JwtAuthGuard)
     async updateCreative(@Param('creativeId') creativeId:number, @Body() updateCreativeDTO:UpdateCreativeDTO){
        updateCreativeDTO.creativeId= creativeId;
        return this.creativeService.UpdateCreative(updateCreativeDTO);

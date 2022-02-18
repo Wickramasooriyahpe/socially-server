@@ -1,5 +1,5 @@
 import {Request, Body, Controller, Delete, Get,Req, HttpCode, NotFoundException, Param, Post, Put,UseInterceptors,UploadedFile, Bind,UploadedFiles, Res, StreamableFile, Response, UseGuards } from '@nestjs/common';
-import path from 'path/posix';
+import path, { join } from 'path/posix';
 import { creativeLibraryService } from './creativeLibrary.service';
 import { FileInterceptor,FilesInterceptor} from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -11,12 +11,10 @@ import { AuthService } from 'src/auth/auth.service';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import { Observable } from 'rxjs';
 import { updateCreativeLibraryDTO } from './updateCreativeLibraryDTO.dto';
+import { AdvertiserService } from 'src/advertiser/advertiser.service';
+import { request } from 'http';
 
-// @Controller('media')
-// export class creativeLibraryController {
-//     SERVER_URL:  string  =  "http://localhost:3000/";
-//     constructor(private readonly creativeLibraryService: creativeLibraryService) {}    
-
+//Genarate Uniqe File name
 export const editFileName = (req, file, callback) => {
   const name = file.originalname.split('.')[0];
   const fileExtName = extname(file.originalname);
@@ -26,23 +24,33 @@ export const editFileName = (req, file, callback) => {
     .join('');
   callback(null, `${name}-${randomName}${fileExtName}`);
 };
-
-
+//Image file filter
+export const imageFileFilter = (req, file, callback) => {
+  if (!file.originalname.match(/\.(JPG|JPEG|jpg|jpeg|png)$/)) {
+    return callback(new Error('Only image files are allowed!'), false);
+  }
+  callback(null, true);
+};
 
 @Controller('UploadMedia')
-@UseGuards(JwtAuthGuard) 
+
 export class creativeLibraryController {
-    constructor(private readonly creativeLibraryService : creativeLibraryService){}
+    constructor(private readonly creativeLibraryService : creativeLibraryService,
+      private AdvertiserService :AdvertiserService,){}
+   
+   
     @Post()
+    @UseGuards(JwtAuthGuard) 
     @UseInterceptors(FileInterceptor('file', {
       storage: diskStorage({
         destination:'./file1',
         filename: editFileName
       }),
+      fileFilter: imageFileFilter,
 
     }))
     
-    async uploadFile( @UploadedFile() file,@Request() req: Observable<object>) {
+    async uploadFile( @UploadedFile() file,@Req() request:Advertiser) {
       
       const response = {
        // originalname: file.originalname,
@@ -51,13 +59,12 @@ export class creativeLibraryController {
         
       };
      return response;
-     
+   
     }
    
-
-
-    
+    //Upload Multiple Images/Files
     @Post('multiple')
+    @UseGuards(JwtAuthGuard) 
     @UseInterceptors(
     FilesInterceptor('files', 20, {
     storage: diskStorage({
@@ -83,15 +90,7 @@ export class creativeLibraryController {
 @Get('image/:filename')
 seeUploadedFile(@Param('filename') image, @Res() res) { 
   return res.sendFile(image, { root: './file1' });
-
 }
 
-
-@Put(':creativeLibraryId')
-async updateCreativeLibrary(@Param('creativeLibraryIdcreativeLibraryId') creativeLibraryId:number,@Body() updateCreativeLibraryDTO:updateCreativeLibraryDTO){
-  updateCreativeLibraryDTO.creativeLibraryId = creativeLibraryId;
-  return this.creativeLibraryService.updateCreativeLibrary(updateCreativeLibraryDTO);
 }
- 
-  }
 

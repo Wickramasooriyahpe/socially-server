@@ -20,13 +20,7 @@ export class creativeService {
         return await this.creativeRepository.find();
     }
    //get a creative by id
-   /* async getCreativeById(creativeId:number):Promise<Creative>{
-    try{
-        return this.creativeRepository.findOne({creativeId})
-    }catch(err){
-        throw err;
-    }    
-    }*/
+  
     async getCreativeById(creativeId: number): Promise<Creative> {
         const creative = await this.creativeRepository.findOne(
             creativeId, 

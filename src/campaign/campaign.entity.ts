@@ -32,7 +32,6 @@ export class Campaign {
    @JoinColumn({name: 'adveID'})
     @ManyToOne(() =>Advertiser,Advertiser=> Advertiser.id,)
     public Advertiser : Advertiser;
-    // @ManyToOne(() =>Advertiser,adv=> adv.Campaign)
-    // public adv : Advertiser;
+    
 }
 

@@ -26,13 +26,6 @@ export class campaignController {
       return this.campaignService.getCampaignById(campaignId);
     }
 
-    // @Post('createCampaign')
-    // @UseGuards(AuthGuard())
-    // async createCampaign(@Body() campaignData: Campaign, @Req() req : any): Promise<any> {
-    //   const Advertiser = <AdvertiserDto>req.Advertiser;
-    //   return this.campaignService.createCampaign(campaignData);
-    // }  
-    
     @Post('createCampaign')
     @UseGuards(JwtAuthGuard)
     async createCampaign(@Body() campaignData: Campaign): Promise<any> {

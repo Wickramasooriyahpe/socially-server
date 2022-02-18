@@ -17,14 +17,5 @@ export class CreativeDTO {
 
     @IsNotEmpty()
     public creativeType: String;
-    // public image: boolean;
-
-   
-    // public video:boolean;
-
-   
-    // public imageAndVideo:boolean;
-
-    
-
+  
 }

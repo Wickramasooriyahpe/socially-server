@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { CreativeLibrary } from './creativeLibrary.entity';
 import { creativeLibraryController } from './creativeLibrary.controller';
 import { updateCreativeLibraryDTO } from './updateCreativeLibraryDTO.dto';
-
+import { AdvertiserService } from 'src/advertiser/advertiser.service';
 
 
 @Injectable()
@@ -14,7 +14,7 @@ export class creativeLibraryService {
     constructor(
         @InjectRepository(CreativeLibrary)
         private creativeLibraryRepository: Repository<CreativeLibrary>,
-
+        
         ) { }
 
         async getCreativeLibraryById(creativeLibraryId: number): Promise<CreativeLibrary> {
@@ -30,16 +30,11 @@ export class creativeLibraryService {
             }
             //throw new CategoryNotFoundException(id);
           }
-        async updateCreativeLibrary(updateCreativeLibraryDTO:updateCreativeLibraryDTO):Promise<CreativeLibrary>{
-        const{creativeLibraryId,thumbnailImagePath,creID}=updateCreativeLibraryDTO;
-        const cretiveLibrary = await this.getCreativeLibraryById(creativeLibraryId);
+       
 
-        cretiveLibrary.thumbnailImagePath=thumbnailImagePath;
-        cretiveLibrary.creID=creID;
-        return this.creativeLibraryRepository.save(cretiveLibrary);
 }
         
      
 
     
-}
+

@@ -8,7 +8,6 @@ export class CreativeCreationDTO {
     public creativeHeading: String;
 
     @IsNotEmpty()
-   // @IsString()
     @IsUrl()
     public destinationURL: String;
 

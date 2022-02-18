@@ -40,6 +40,8 @@ export class creativeController {
     return AD;
      }
 
+    // createCreativeLib
+
     
      @Post('createCreative')
      @UseGuards(JwtAuthGuard)

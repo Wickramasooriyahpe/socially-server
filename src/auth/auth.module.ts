@@ -6,10 +6,11 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './jwt.strategy';
 import { jwtConstants } from './constants';
+import { PublisherModule } from './../Publisher/publisher.module';
 
 @Module({
-    imports: [    
-        AdvertiserModule,    
+    imports: [  
+    AdvertiserModule, 
         PassportModule.register({
             defaultStrategy: 'jwt',
             property: 'user',
@@ -20,12 +21,13 @@ import { jwtConstants } from './constants';
                 expiresIn: '60s',
             },
         }),
+        PublisherModule
     ], 
     controllers: [AuthController],  
     providers: [AuthService, JwtStrategy],  
     exports: [
         PassportModule, 
-        JwtModule
+        JwtModule,
     ],
 })
 export class AuthModule {}

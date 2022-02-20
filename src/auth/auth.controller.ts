@@ -4,6 +4,7 @@ import { AdvertiserLoginDto } from 'src/advertiser/advertiserLogin.dto';
 import { AuthService } from './auth.service';
 import { LoginStatus } from './interfaces/login-status.interface';
 import { RegistrationStatus } from './interfaces/regisration-status.interface';
+import { PublisherCreateDto } from './../Publisher/publisherCreateDto';
 
 @Controller('auth')
 export class AuthController {
@@ -22,6 +23,14 @@ export class AuthController {
     @Post('login')  
     public async login(@Body() advertiserLoginDto: AdvertiserLoginDto): Promise<LoginStatus> {
     return await this.authService.login(advertiserLoginDto);  
-}
+    }
 
+    @Post('publisherRegister')
+    public async mobileRegister(@Body() publisherCreateDto : PublisherCreateDto): Promise<RegistrationStatus>{
+       const result = await this.authService.publisherRegister(publisherCreateDto);
+       if(!result.success){
+           throw new HttpException(result.message, HttpStatus.BAD_REQUEST)
+       }
+       return result;
+    }
 }

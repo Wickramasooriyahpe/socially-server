@@ -17,9 +17,9 @@ export class uploadMdata{
     @Column()
     mimetype: string;
 
-    @JoinColumn({name: 'cID'})
-    @OneToOne(() => Creative , Creative => Creative.creativeId)
-    public Creative: Creative;
+    // @JoinColumn({name: 'cID'})
+    // @OneToOne(() => Creative , Creative => Creative.creativeId)
+    // public Creative: Creative;
 
     @Column()
     public cID: number;

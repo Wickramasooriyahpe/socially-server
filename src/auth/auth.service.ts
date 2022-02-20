@@ -7,10 +7,12 @@ import { AdvertiserService } from './../advertiser/advertiser.service';
 import { LoginStatus } from './interfaces/login-status.interface';
 import { JwtPayload } from './interfaces/payload.interface';
 import { RegistrationStatus } from './interfaces/regisration-status.interface';
+import { PublisherCreateDto } from './../Publisher/publisherCreateDto';
+import { PublisherService } from './../Publisher/publisher.service';
 
 @Injectable()
 export class AuthService {
-    constructor(private readonly advertiserService : AdvertiserService, private readonly jwtService: JwtService,) {}
+    constructor(private readonly publisherService:PublisherService,private readonly advertiserService : AdvertiserService,private readonly jwtService: JwtService, ) {}
 
     async register(advertiserDto: AdvertiserCreateDto): 
     Promise<RegistrationStatus> {
@@ -28,6 +30,22 @@ export class AuthService {
     }
     return status;  
 }
+    async publisherRegister(publisherCreateDto:PublisherCreateDto):Promise<RegistrationStatus>{
+        let status : RegistrationStatus={
+            success:true,
+            message:'user registered'
+        }
+        try {
+            await this.publisherService.createPublisher(publisherCreateDto);
+        }catch(err){
+            status ={
+                success : false,
+                message: err
+            }
+        }
+        return status;
+    }
+
 
     async login(loginAdvertiserDto: AdvertiserLoginDto): Promise<LoginStatus> {    
         // find user in db    
@@ -55,7 +73,7 @@ export class AuthService {
 
     async validateAdvertiser(payload: JwtPayload): Promise<AdvertiserDto> {
         const advertiser = await this.advertiserService.findByPayload(payload);    
-        if (!advertiser) {
+        if (!advertiser) {      
             throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);    
         }    
         return advertiser;  

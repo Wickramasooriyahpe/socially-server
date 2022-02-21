@@ -13,6 +13,8 @@ import { Observable } from 'rxjs';
 import { updateCreativeLibraryDTO } from './updateCreativeLibraryDTO.dto';
 import { AdvertiserService } from 'src/advertiser/advertiser.service';
 import { request } from 'http';
+import { CreativeLibrary } from './creativeLibrary.entity';
+import { creativeLibraryDTO } from './creativeLibraryDTO.dto';
 
 //Genarate Uniqe File name
 export const editFileName = (req, file, callback) => {
@@ -38,9 +40,9 @@ export class creativeLibraryController {
     constructor(private readonly creativeLibraryService : creativeLibraryService,
       private AdvertiserService :AdvertiserService,){}
    
-   
+   //Upload a single image (thumbnail)
     @Post()
-    @UseGuards(JwtAuthGuard) 
+   // @UseGuards(JwtAuthGuard) 
     @UseInterceptors(FileInterceptor('file', {
       storage: diskStorage({
         destination:'./file1',
@@ -50,7 +52,7 @@ export class creativeLibraryController {
 
     }))
     
-    async uploadFile( @UploadedFile() file,@Req() request:Advertiser) {
+    async uploadFile( @UploadedFile() file) {
       
       const response = {
        // originalname: file.originalname,
@@ -59,7 +61,7 @@ export class creativeLibraryController {
         
       };
      return response;
-   
+      
     }
    
     //Upload Multiple Images/Files

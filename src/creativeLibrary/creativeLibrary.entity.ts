@@ -10,10 +10,12 @@ export class CreativeLibrary {
      @Column()
      public creID:number;
 
-     //{nullable: true}
-    @Column()
+    @Column({nullable: true})
       public thumbnailImagePath: string;
 
+
+    /* relationships*/
+      
     @JoinColumn({name:'creID'})
     @OneToOne(() =>Creative , Creative => Creative.creativeId)
     public Creative:Creative; 

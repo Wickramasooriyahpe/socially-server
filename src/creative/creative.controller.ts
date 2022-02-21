@@ -26,7 +26,7 @@ export class creativeController {
        return this.creativeService.getCreativeById(creativeId);
      }
 
-//Get all creatives for a particuler 
+//Get all creatives for a particuler campaign
      @Get(':campID')
      async findAllCreatives(@Param('campID') campID:number){
       
@@ -40,9 +40,7 @@ export class creativeController {
     return AD;
      }
 
-    // createCreativeLib
-
-    
+   // Create Creative 
      @Post('createCreative')
      @UseGuards(JwtAuthGuard)
     async createCreative(@Body() creativeData: Creative): Promise<any> {
@@ -76,6 +74,7 @@ export class creativeController {
         //  }
      }*/
 
+     // soft delete creative
      @Delete(':creativeId')
      async softDeleteCreative(@Param('creativeId' ) creativeId:number , @Body() DeleteCreativeDTO:DeleteCreativeDTO)
      {

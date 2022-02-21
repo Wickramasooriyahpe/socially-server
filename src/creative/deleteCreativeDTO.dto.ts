@@ -4,7 +4,7 @@ export class DeleteCreativeDTO {
     public creativeHeading: String;
     public destinationURL: String;
     public creativeDescription: String;
-    public costPerSale: number;
     public creativeType: String;
+    public costPerSale: number;
     public deletedAt:Date;
 }

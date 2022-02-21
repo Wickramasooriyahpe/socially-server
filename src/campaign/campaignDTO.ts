@@ -9,6 +9,9 @@ export class campaignDTO{
     @IsNotEmpty()
     budget: number;
 
+    @IsNotEmpty() 
+    adCategory : String;
+
     @IsNotEmpty()
     startDate: Date;
 

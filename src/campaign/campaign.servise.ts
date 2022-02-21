@@ -30,22 +30,15 @@ export class campaignService {
         return await this.campaignRepository.save(campaignCreation);
     }
 
-    // async createCampaign({id} : AdvertiserDto,campaignCreation: campaignCreationDTO): Promise<campaignCreationDTO>{
-
-    //    const {campaignName,budge,startDate,endDate,deletedAt} =campaignCreationDTO;
-
-    //    const owner = await this.adver.findOne({where : {id}});
-    //    const camp: Campaign = await this.campaignRepository.create({owner,campaignName,budge,startDate,endDate,deletedAt})
-    // }
-
     async updateCampaign(updateCampaignDTO:updateCampaignDTO ): Promise<Campaign>{
-        const{campaignId,campaignName,budget,startDate,endDate}= updateCampaignDTO;
+        const{campaignId,campaignName,budget,startDate,endDate,adCategory}= updateCampaignDTO;
         const Campaign = await this.getCampaignById(campaignId);
         
         Campaign.campaignName = campaignName;
         Campaign.budget =budget;
         Campaign.startDate=startDate;
-        Campaign.endDate = endDate
+        Campaign.endDate = endDate;
+        Campaign.adCategory=adCategory;
         
         return this.campaignRepository.save(Campaign);
     }

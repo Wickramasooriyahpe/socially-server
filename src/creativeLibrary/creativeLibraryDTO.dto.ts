@@ -1,4 +1,7 @@
-interface creativeLibraryDTO {
+export class creativeLibraryDTO {
   
-  thumbnailImagePath :string;
+  public creativeLibraryId: number;
+  public thumbnailImagePath: string;
+  public creID:number;
+  
 }

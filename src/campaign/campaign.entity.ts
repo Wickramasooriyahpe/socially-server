@@ -15,6 +15,9 @@ export class Campaign {
     public budget: number;
 
     @Column()
+    public adCategory : String;
+
+    @Column()
     public startDate: Date;
 
     @Column()

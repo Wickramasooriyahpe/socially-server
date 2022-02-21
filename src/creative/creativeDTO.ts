@@ -10,12 +10,14 @@ export class CreativeDTO {
     public destinationURL: String;
 
     @IsNotEmpty()
+    public creativeType: String;
+
+    @IsNotEmpty()
     public creativeDescription: String;
 
     @IsNotEmpty()
     public costPerSale: number;
 
-    @IsNotEmpty()
-    public creativeType: String;
+   
   
 }

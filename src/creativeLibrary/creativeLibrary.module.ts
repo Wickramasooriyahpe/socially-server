@@ -6,12 +6,8 @@ import { creativeLibraryService } from './creativeLibrary.service';
 import { AuthModule } from 'src/auth/auth.module';
 import { AdvertiserModule } from 'src/advertiser/advertiser.module';
 
-
-
 @Module({
-    imports : [AdvertiserModule,AuthModule,TypeOrmModule.forFeature([CreativeLibrary])
-    
-],
+    imports : [AdvertiserModule,AuthModule,TypeOrmModule.forFeature([CreativeLibrary])],
     controllers: [creativeLibraryController],
     providers: [creativeLibraryService],
     exports:[creativeLibraryService]

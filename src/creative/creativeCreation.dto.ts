@@ -16,6 +16,10 @@ export class CreativeCreationDTO {
     creativeDescription: String;
 
     @IsNotEmpty()
+    @IsString()
+    public creativeType: String;
+
+    @IsNotEmpty()
     public costPerSale: number;
 
     public creativeTypeID: number;

@@ -10,10 +10,11 @@ import { AdvertiserService } from 'src/Advertiser/advertiser.service';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
 
+
 @Module({
     imports : [AdvertiserModule,TypeOrmModule.forFeature([Campaign,Advertiser]),AuthModule],
     controllers: [campaignController],
-    providers: [campaignService],
+    providers: [campaignService,AdvertiserService],
     exports:[campaignService]
 })
 export class campaignModule {}

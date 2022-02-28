@@ -21,6 +21,6 @@ export class Advertiser {
         this.password = await bcrypt.hash(this.password, 10)
     }
 
-    @OneToMany(() => Campaign, Campaign => Campaign.campaignId)
+    @OneToMany(() => Campaign, Campaign => Campaign.Advertiser)
     public Campaign: Campaign[];
 }

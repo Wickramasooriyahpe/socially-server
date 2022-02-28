@@ -12,4 +12,5 @@ export class AdvertiserCreateDto{
     @IsNotEmpty()
     password:string
 
+   Campaign: number[];
 }

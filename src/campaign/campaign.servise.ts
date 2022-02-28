@@ -5,14 +5,18 @@ import { Repository } from 'typeorm';
 import { Campaign } from './campaign.entity';
 import { campaignCreationDTO } from './campaignCreation.dto';
 import { updateCampaignDTO } from './updateCampaign.dto';
+import { Advertiser } from 'src/Advertiser/advertiser.entity';
+import { AdvertiserService } from 'src/advertiser/advertiser.service';
+
 
 @Injectable()
 export class campaignService {
 
     constructor(
-        @InjectRepository(Campaign)
-        private campaignRepository: Repository<Campaign>,
+        @InjectRepository(Campaign) private campaignRepository: Repository<Campaign>,
+      
     ) { }
+    
 
     async  findAll(): Promise<Campaign[]> {
         return await this.campaignRepository.find();
@@ -26,8 +30,11 @@ export class campaignService {
         }    
     }
 
-    async  createCampaign(campaignCreation: Campaign): Promise<Campaign> {
-        return await this.campaignRepository.save(campaignCreation);
+   
+    async  createCampaign(Advertiser:Advertiser,campaignCreation: Campaign): Promise<any>{
+    campaignCreation.Advertiser=Advertiser;
+    return await this.campaignRepository.save(campaignCreation);
+        
     }
 
     async updateCampaign(updateCampaignDTO:updateCampaignDTO ): Promise<Campaign>{

@@ -27,13 +27,13 @@ export class Campaign {
     public deletedAt?: Date;
 
     @Column()
-    public adveID :number;
+    public adveID? :number;
 
     @OneToMany(()=> Creative,Creative=> Creative.creativeId, )
     public creative :Creative[];
 
-   @JoinColumn({name: 'adveID'})
-    @ManyToOne(() =>Advertiser,Advertiser=> Advertiser.id,)
+    @JoinColumn({name: 'adveID'})
+    @ManyToOne(() =>Advertiser,Advertiser=> Advertiser.Campaign)
     public Advertiser : Advertiser;
     
 }

@@ -12,6 +12,7 @@ import { creativeLibraryModule } from './creativeLibrary/creativeLibrary.module'
 import { AdvertiserModule } from './Advertiser/advertiser.module';
 import { AuthModule } from './auth/auth.module';
 import { PublisherModule } from './publisher/publisher.module';
+import { OtpModule } from './otp/otp.module';
 
 @Dependencies(Connection)
 @Module({
@@ -25,6 +26,7 @@ import { PublisherModule } from './publisher/publisher.module';
   MulterModule.register({
     dest : './files',
   }),
+  OtpModule,
   
   ],
   controllers: [AppController],

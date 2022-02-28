@@ -7,10 +7,12 @@ import { AuthController } from './auth.controller';
 import { JwtStrategy } from './jwt.strategy';
 import { jwtConstants } from './constants';
 import { PublisherModule } from './../Publisher/publisher.module';
+import { OtpModule } from './../OTP/otp.module';
 
 @Module({
     imports: [  
-    AdvertiserModule, 
+
+AdvertiserModule, 
         PassportModule.register({
             defaultStrategy: 'jwt',
             property: 'user',
@@ -21,7 +23,8 @@ import { PublisherModule } from './../Publisher/publisher.module';
                 expiresIn: '60s',
             },
         }),
-        PublisherModule
+        PublisherModule,
+        OtpModule
     ], 
     controllers: [AuthController],  
     providers: [AuthService, JwtStrategy],  

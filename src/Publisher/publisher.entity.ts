@@ -9,5 +9,8 @@ export class Publisher{
     userName: string
 
     @Column()
-    mobileNumber: string
+    phoneNumber: string
+
+    @Column()
+    otp:string
 }

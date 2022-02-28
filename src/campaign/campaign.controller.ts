@@ -27,7 +27,7 @@ export class campaignController {
     async getCampaignById(@Param('campaignId') campaignId:number){
       return this.campaignService.getCampaignById(campaignId);
     }
-
+   // Create a new Campaign
     @UseGuards(JwtAuthGuard)
     @Post('createCampaign')
     async createCampaign(@Body() campaignData: Campaign, @Request() req): Promise<any> {
@@ -38,7 +38,7 @@ export class campaignController {
     @Put(':campaignId')
     @UseGuards(JwtAuthGuard)
     async updateCampaign(@Param('campaignId') campaignId:number, @Body() updateCampaignDTO:updateCampaignDTO){
-      updateCampaignDTO.campaignId= campaignId;
+       updateCampaignDTO.campaignId= campaignId;
        return this.campaignService.updateCampaign(updateCampaignDTO);
      }
     

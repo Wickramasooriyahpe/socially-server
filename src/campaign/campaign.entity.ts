@@ -17,10 +17,10 @@ export class Campaign {
     @Column()
     public adCategory : String;
 
-    @Column()
+    @Column({nullable:true})
     public startDate: Date;
 
-    @Column()
+    @Column({nullable:true})
     public endDate: Date ;
 
     @DeleteDateColumn()
@@ -29,7 +29,7 @@ export class Campaign {
     @Column()
     public adveID? :number;
 
-    @OneToMany(()=> Creative,Creative=> Creative.creativeId, )
+    @OneToMany(()=> Creative,Creative=> Creative.campaign )
     public creative :Creative[];
 
     @JoinColumn({name: 'adveID'})

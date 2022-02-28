@@ -43,8 +43,7 @@ export class creativeController {
    // Create Creative 
      @Post('createCreative')
      @UseGuards(JwtAuthGuard)
-    async createCreative(@Body() creativeData: Creative): Promise<any> {
-     
+     async createCreative(@Body() creativeData: Creative): Promise<any> {
       return this.creativeService.createCreative(creativeData);
     }  
     

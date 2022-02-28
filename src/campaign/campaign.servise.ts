@@ -38,9 +38,9 @@ export class campaignService {
     }
 
     async updateCampaign(updateCampaignDTO:updateCampaignDTO ): Promise<Campaign>{
+        
         const{campaignId,campaignName,budget,startDate,endDate,adCategory}= updateCampaignDTO;
         const Campaign = await this.getCampaignById(campaignId);
-        
         Campaign.campaignName = campaignName;
         Campaign.budget =budget;
         Campaign.startDate=startDate;

@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable, NotFoundException, Options, Param } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Campaign } from 'src/campaign/campaign.entity';
 import { Repository } from 'typeorm';
 import { Creative } from './creative.entity';
 import { UpdateCreativeDTO } from './updateCreativeDTO.dto';
@@ -37,7 +38,8 @@ export class creativeService {
 
     //Create a creative
     async  createCreative(creativeCreation: Creative): Promise<Creative> {
-        return await this.creativeRepository.save(creativeCreation);
+        
+    return await this.creativeRepository.save(creativeCreation);
     }
     
     //update a creative

@@ -25,18 +25,25 @@ export class PublisherService {
 
         async findPublisherStatus({phoneNumber}:PublisherMobileDto):Promise<publisherStatus>{
             const publisher = await this.publisherRepository.findOne({where:{phoneNumber}})
-
-            if(!publisher){
-                let status:publisherStatus={
+            let status:publisherStatus={
+                IsNewUser:false
+            }
+            if( !publisher){
+                    status={
+                        IsNewUser:true
+                    }   
+            }
+            else if(!publisher.userName){
+                status={
                     IsNewUser:true
-                }
-                return status;
-            }else{
-               let status:publisherStatus ={
+                }   
+            }
+            else{
+               status={
                     IsNewUser:false
                 }
-                return status;
             }
+            return status;
         }
 
         async findByPublisherPayload({phoneNumber}:any):Promise<PublisherDto>{

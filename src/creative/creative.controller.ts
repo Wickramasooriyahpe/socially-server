@@ -1,4 +1,4 @@
-import { Body,Controller, Delete, Get, HttpCode, NotFoundException, Param, Post, Put, Query, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body,Controller, Delete, Get, HttpCode, NotFoundException, Param, Post, Put, Query, Req, Request, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import path from 'path/posix';
 import { Creative } from './creative.entity';
 import { creativeService } from './creative.service';
@@ -44,6 +44,7 @@ export class creativeController {
      @Post('createCreative')
      @UseGuards(JwtAuthGuard)
      async createCreative(@Body() creativeData: Creative): Promise<any> {
+     
       return this.creativeService.createCreative(creativeData);
     }  
     

@@ -10,7 +10,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { AdvertiserDto } from 'src/advertiser/advertiserDto';
 import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
-
+import {getConnection} from "typeorm";
 @Controller('campaign')
 
 export class campaignController {
@@ -22,30 +22,43 @@ export class campaignController {
     getAllCampaign(){
          return this.campaignService.findAll();
      }
+     //get campaigns belong to one advertiser
+     @Get(':adveID')
+     async findAllCreatives(@Param('adveID') adveID:number){
+      
+          const camp = await getConnection()
+          .createQueryBuilder()
+          .select("Campaign")
+          .from(Campaign,"Campaign")
+          .where("Campaign.adveID = :adveID", { adveID: adveID })
+          .getMany();
+
+    return camp;
+     }
 
     @Get(':campaignId')
     async getCampaignById(@Param('campaignId') campaignId:number){
-      return this.campaignService.getCampaignById(campaignId);
+          return this.campaignService.getCampaignById(campaignId);
     }
    // Create a new Campaign
     @UseGuards(JwtAuthGuard)
     @Post('createCampaign')
     async createCampaign(@Body() campaignData: Campaign, @Request() req): Promise<any> {
-      console.log(req.user.userId)
-     return this.campaignService.createCampaign(req.user.userId,campaignData);
+          console.log(req.user.userId)
+          return this.campaignService.createCampaign(req.user.userId,campaignData);
     }
      
     @Put(':campaignId')
     @UseGuards(JwtAuthGuard)
     async updateCampaign(@Param('campaignId') campaignId:number, @Body() updateCampaignDTO:updateCampaignDTO){
-       updateCampaignDTO.campaignId= campaignId;
-       return this.campaignService.updateCampaign(updateCampaignDTO);
+        updateCampaignDTO.campaignId= campaignId;
+        return this.campaignService.updateCampaign(updateCampaignDTO);
      }
     
      @Delete(':campaignId')
      async softDeleteCampaign(@Param('campaignId' ) campaignId:number , @Body() DeletecampaignDTO:DeleteCampaignDTO)
      {
-      DeletecampaignDTO.campaignId=campaignId;
-       return this.campaignService.softDeleteCampaign(campaignId);
+         DeletecampaignDTO.campaignId=campaignId;
+        return this.campaignService.softDeleteCampaign(campaignId);
      }
     }

@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Campaign } from 'src/campaign/campaign.entity';
 import { Repository } from 'typeorm';
 import { Creative } from './creative.entity';
+import { CreativeCreationDTO } from './creativeCreation.dto';
 import { UpdateCreativeDTO } from './updateCreativeDTO.dto';
 //import {CategoryNotFoundException} from './exceptions/categoryNotFound.exception';
 

@@ -1,5 +1,7 @@
-interface LocalFileDto {
-  filename: string;
-  path: string;
-  mimetype: string;
+export class creativeLibraryDTO {
+  
+  public creativeLibraryId: number;
+  public thumbnailImagePath: string;
+  public creID:number;
+  
 }

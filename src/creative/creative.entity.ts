@@ -13,7 +13,7 @@ export class Creative {
     @Column()
     public destinationURL: String;
 
-    @Column()
+    @Column({nullable : true})
     public creativeDescription: String;
 
     @Column()
@@ -22,24 +22,18 @@ export class Creative {
     @Column()
     public creativeType: String;
 
-    // @Column()
-    // public image: boolean;
-
-    // @Column()
-    // public video:boolean;
-
-    // @Column()
-    // public imageAndVideo:boolean;
-
     @DeleteDateColumn()
     public deletedAt?: Date;
 
     @JoinColumn({name: 'campID'})
-    @ManyToOne (() => Campaign,Campaign => Campaign.campaignId)
+    @ManyToOne (() => Campaign,Campaign => Campaign.creative)
     public campaign: Campaign;
 
+    @OneToOne(()=>CreativeLibrary,CreativeLibrary=> CreativeLibrary.creativeLibraryId)
+    public CreativeLibrary: CreativeLibrary;
+
     @Column()
-    public campID:number;
+    public campID? :number;
    
 
 }

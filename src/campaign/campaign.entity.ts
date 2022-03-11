@@ -15,23 +15,26 @@ export class Campaign {
     public budget: number;
 
     @Column()
+    public adCategory : String;
+
+    @Column({nullable:true})
     public startDate: Date;
 
-    @Column()
+    @Column({nullable:true})
     public endDate: Date ;
 
     @DeleteDateColumn()
     public deletedAt?: Date;
 
     @Column()
-    public adveID :number;
+    public adveID? :number;
 
-    @OneToMany(()=> Creative,Creative=> Creative.creativeId, )
+    @OneToMany(()=> Creative,Creative=> Creative.campaign )
     public creative :Creative[];
 
     @JoinColumn({name: 'adveID'})
-    @ManyToOne(() =>Advertiser,Advertiser=> Advertiser.id,)
+    @ManyToOne(() =>Advertiser,Advertiser=> Advertiser.Campaign)
     public Advertiser : Advertiser;
-
+    
 }
 

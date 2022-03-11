@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { identity } from 'rxjs';
 import { AdvertiserCreateDto } from 'src/advertiser/AdvertiserCreate.dto';
 import { AdvertiserDto } from 'src/advertiser/advertiserDto';
 import { AdvertiserLoginDto } from 'src/advertiser/advertiserLogin.dto';
@@ -10,13 +11,13 @@ import { RegistrationStatus } from './interfaces/regisration-status.interface';
 
 @Injectable()
 export class AuthService {
-    constructor(private readonly advertiserService : AdvertiserService, private readonly jwtService: JwtService,) {}
+    constructor(private readonly advertiserService : AdvertiserService, private readonly jwtService: JwtService) {}
 
     async register(advertiserDto: AdvertiserCreateDto): 
     Promise<RegistrationStatus> {
     let status: RegistrationStatus = {
         success: true,   
-        message: 'user registered',
+        message: 'user registered!',
     };
     try {
         await this.advertiserService.createAdvertiser(advertiserDto);
@@ -25,6 +26,7 @@ export class AuthService {
             success: false,        
             message: err,
         };    
+
     }
     return status;  
 }
@@ -37,18 +39,18 @@ export class AuthService {
         const token = this._createToken(advertiser);
         
         return {
-            email: advertiser.email, ...token,
-            name : advertiser.name    
+             ...token,
+             
         };  
     }
 
-    private _createToken({ email }: AdvertiserDto): any {
-        const expiresIn = '60s';
+    private _createToken( AdvertiserDTO: AdvertiserDto): any {
+        const expiresIn = '1200s';
 
-        const advertiser: JwtPayload = { email:email };    
-        const accessToken = this.jwtService.sign(advertiser);    
+       // const advertiser: JwtPayload = { email:email,id:id };    
+        const accessToken = this.jwtService.sign(AdvertiserDTO);    
         return {
-            expiresIn,
+            //expiresIn,
             accessToken,    
         };  
     }

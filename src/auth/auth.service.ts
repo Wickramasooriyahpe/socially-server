@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { identity } from 'rxjs';
 import { AdvertiserCreateDto } from 'src/advertiser/AdvertiserCreate.dto';
 import { AdvertiserDto } from 'src/advertiser/advertiserDto';
 import { AdvertiserLoginDto } from 'src/advertiser/advertiserLogin.dto';
@@ -18,13 +19,17 @@ import { PublisherCreateDto } from './../Publisher/publisherCreate.dto';
 var otpGenerator = require('otp-generator');
 @Injectable()
 export class AuthService {
+<<<<<<< HEAD
     constructor(private readonly publisherService:PublisherService,private readonly advertiserService : AdvertiserService,private readonly jwtService: JwtService,private readonly otpService:OtpService ) {}
+=======
+    constructor(private readonly advertiserService : AdvertiserService, private readonly jwtService: JwtService) {}
+>>>>>>> master
 
     async register(advertiserDto: AdvertiserCreateDto): 
     Promise<RegistrationStatus> {
     let status: RegistrationStatus = {
         success: true,   
-        message: 'user registered',
+        message: 'user registered!',
     };
     try {
         await this.advertiserService.createAdvertiser(advertiserDto);
@@ -33,6 +38,7 @@ export class AuthService {
             success: false,        
             message: err,
         };    
+
     }
     return status;  
 }
@@ -45,17 +51,22 @@ export class AuthService {
         const token = this._createToken(advertiser);
         
         return {
+<<<<<<< HEAD
             email: advertiser.email, ...token,   
+=======
+             ...token,
+             
+>>>>>>> master
         };  
     }
 
-    private _createToken({ email }: AdvertiserDto): any {
-        const expiresIn = '60s';
+    private _createToken( AdvertiserDTO: AdvertiserDto): any {
+        const expiresIn = '1200s';
 
-        const advertiser: JwtPayload = { email:email };    
-        const accessToken = this.jwtService.sign(advertiser);    
+       // const advertiser: JwtPayload = { email:email,id:id };    
+        const accessToken = this.jwtService.sign(AdvertiserDTO);    
         return {
-            expiresIn,
+            //expiresIn,
             accessToken,    
         };  
     }

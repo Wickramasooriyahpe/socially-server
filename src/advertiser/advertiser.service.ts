@@ -20,15 +20,15 @@ export class AdvertiserService {
         //     return this.advertiserRepository.find(); // SELECT * FROM Advertiser
         // }
 
-        // async getAdvertiserById(id:number):Promise<Advertiser>{
-        //     try{
-        //         const advertiser = await this.advertiserRepository.findOneOrFail(id);  // SELECT * FROM Advertiser WHERE Advertiser.id = id
+        async getAdvertiserById(id:number):Promise<Advertiser>{
+            try{
+                const advertiser = await this.advertiserRepository.findOneOrFail(id);  // SELECT * FROM Advertiser WHERE Advertiser.id = id
                 
-        //         return advertiser; 
-        //     }catch(err){
-        //         throw err;
-        //     }    
-        // }
+                return advertiser; 
+            }catch(err){
+                throw err;
+            }    
+        }
 
         // async updateAdvertiser(advertiserUpdateDto:AdvertiserUpdateDto):Promise<Advertiser>{
         //     const{id,name} = advertiserUpdateDto;

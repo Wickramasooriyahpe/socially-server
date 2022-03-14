@@ -16,10 +16,10 @@ export class AdvertiserController {
     //     return this.advertiserService.getAll();
     // }
 
-    // @Get(':id')
-    // getAdvertiserById(@Param('id') id:number){
-    //     return this.advertiserService.getAdvertiserById(id);
-    // }
+    @Get(':id')
+    getAdvertiserById(@Param('id') id:number){
+        return this.advertiserService.getAdvertiserById(id);
+    }
 
     // @Post()
     // @UsePipes(ValidationPipe)

@@ -31,6 +31,7 @@ AdvertiserModule,
     exports: [
         PassportModule, 
         JwtModule,
+        AuthService
     ],
 })
 export class AuthModule {}

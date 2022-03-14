@@ -13,8 +13,13 @@ export class campaignCreationDTO{
     @IsDate()
     startDate: Date;
 
+     adCategory : String;
+
     @IsNotEmpty()
     @IsDate()
     endDate: Date ;
+    
     adveID :number;
+
+    
 }

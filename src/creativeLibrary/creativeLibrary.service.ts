@@ -4,7 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreativeLibrary } from './creativeLibrary.entity';
 import { creativeLibraryController } from './creativeLibrary.controller';
-
+import { updateCreativeLibraryDTO } from './updateCreativeLibraryDTO';
+import { AdvertiserService } from 'src/advertiser/advertiser.service';
 
 
 @Injectable()
@@ -13,28 +14,27 @@ export class creativeLibraryService {
     constructor(
         @InjectRepository(CreativeLibrary)
         private creativeLibraryRepository: Repository<CreativeLibrary>,
-
+        
         ) { }
 
-        public async setAvatar(userId: number, avatarUrl: string){
-            this.creativeLibraryRepository.update(userId, {avatar: avatarUrl});
-        }
-
-        /*async getImageById(filename:String):Promise<any>{
-            try{
-                return this.creativeLibraryRepository.findOne({})
-            }catch(err){
-                throw err;
-            }    
-        }*/
+        async getCreativeLibraryById(creativeLibraryId: number): Promise<CreativeLibrary> {
+            const creativeLibrary = await this.creativeLibraryRepository.findOne(
+                creativeLibraryId, 
+              {
+               
+                withDeleted: true 
+              }
+            );
+            if (creativeLibrary) {
+              return creativeLibrary;
+            }
+            //throw new CategoryNotFoundException(id);
+          }
        
-        // async saveLocalFileData(fileData: LocalFileDto) {
-        //     const newFile = await this.creativeLibraryRepository.create(fileData)
-        //     await this.creativeLibraryRepository.save(newFile);
-        //     return newFile;
-        //   }
-      
+
+}
+        
      
 
     
-}
+

@@ -8,13 +8,16 @@ export class CreativeCreationDTO {
     public creativeHeading: String;
 
     @IsNotEmpty()
-   // @IsString()
     @IsUrl()
     public destinationURL: String;
 
     @IsNotEmpty()
     @IsString()
     creativeDescription: String;
+
+    @IsNotEmpty()
+    @IsString()
+    public creativeType: String;
 
     @IsNotEmpty()
     public costPerSale: number;

@@ -1,4 +1,4 @@
-import { Body,Controller, Delete, Get, HttpCode, NotFoundException, Param, Post, Put, Query, Req, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body,Controller, Delete, Get, HttpCode, NotFoundException, Param, Post, Put, Query, Req, Request, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import path from 'path/posix';
 import { Creative } from './creative.entity';
 import { creativeService } from './creative.service';
@@ -8,8 +8,11 @@ import { UpdateCreativeDTO } from './updateCreativeDTO.dto';
 import { Campaign } from 'src/campaign/campaign.entity';
 import {getConnection} from "typeorm";
 import { CreativeDTO } from './creativeDTO';
+import { JwtStrategy } from 'src/auth/jwt.strategy';
+import { JwtAuthGuard } from 'src/auth/jwt.guard';
 
 @Controller('creative')
+
 export class creativeController {
     constructor(private readonly creativeService : creativeService){}
 
@@ -23,7 +26,7 @@ export class creativeController {
        return this.creativeService.getCreativeById(creativeId);
      }
 
-//Get all creatives for a particuler 
+//Get all creatives for a particuler campaign
      @Get(':campID')
      async findAllCreatives(@Param('campID') campID:number){
       
@@ -37,14 +40,16 @@ export class creativeController {
     return AD;
      }
 
-    
+   // Create Creative 
      @Post('createCreative')
-    async createCreative(@Body() creativeData: Creative): Promise<any> {
+     @UseGuards(JwtAuthGuard)
+     async createCreative(@Body() creativeData: Creative): Promise<any> {
      
       return this.creativeService.createCreative(creativeData);
     }  
     
     @Put(':creativeId')
+    @UseGuards(JwtAuthGuard)
     async updateCreative(@Param('creativeId') creativeId:number, @Body() updateCreativeDTO:UpdateCreativeDTO){
        updateCreativeDTO.creativeId= creativeId;
        return this.creativeService.UpdateCreative(updateCreativeDTO);
@@ -69,6 +74,7 @@ export class creativeController {
         //  }
      }*/
 
+     // soft delete creative
      @Delete(':creativeId')
      async softDeleteCreative(@Param('creativeId' ) creativeId:number , @Body() DeleteCreativeDTO:DeleteCreativeDTO)
      {

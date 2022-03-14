@@ -1,10 +1,12 @@
 import { HttpException, HttpStatus, Injectable, NotFoundException, Options, Param } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Campaign } from 'src/campaign/campaign.entity';
 import { Repository } from 'typeorm';
 import { Creative } from './creative.entity';
+import { CreativeCreationDTO } from './creativeCreation.dto';
 import { UpdateCreativeDTO } from './updateCreativeDTO.dto';
 //import {CategoryNotFoundException} from './exceptions/categoryNotFound.exception';
-//import{}
+
 
 @Injectable()
 export class creativeService {
@@ -20,13 +22,7 @@ export class creativeService {
         return await this.creativeRepository.find();
     }
    //get a creative by id
-   /* async getCreativeById(creativeId:number):Promise<Creative>{
-    try{
-        return this.creativeRepository.findOne({creativeId})
-    }catch(err){
-        throw err;
-    }    
-    }*/
+  
     async getCreativeById(creativeId: number): Promise<Creative> {
         const creative = await this.creativeRepository.findOne(
             creativeId, 
@@ -43,7 +39,8 @@ export class creativeService {
 
     //Create a creative
     async  createCreative(creativeCreation: Creative): Promise<Creative> {
-        return await this.creativeRepository.save(creativeCreation);
+        
+    return await this.creativeRepository.save(creativeCreation);
     }
     
     //update a creative

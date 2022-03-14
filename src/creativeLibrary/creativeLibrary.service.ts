@@ -4,11 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreativeLibrary } from './creativeLibrary.entity';
 import { creativeLibraryController } from './creativeLibrary.controller';
-<<<<<<< HEAD
-import { updateCreativeLibraryDTO } from './updateCreativeLibraryDTO';
-=======
 import { updateCreativeLibraryDTO } from './updateCreativeLibraryDTO.dto';
->>>>>>> master
 import { AdvertiserService } from 'src/advertiser/advertiser.service';
 
 

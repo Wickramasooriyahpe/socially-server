@@ -11,13 +11,22 @@ import { MulterModule } from '@nestjs/platform-express';
 import { creativeLibraryModule } from './creativeLibrary/creativeLibrary.module';
 import { AdvertiserModule } from './Advertiser/advertiser.module';
 import { AuthModule } from './auth/auth.module';
+import { PublisherModule } from './publisher/publisher.module';
+import { OtpModule } from './otp/otp.module';
+
 @Dependencies(Connection)
 @Module({
-  imports: [ TypeOrmModule.forRoot(config),campaignModule,creativeModule,
-    creativeLibraryModule,AdvertiserModule, AuthModule,
+  imports: [ TypeOrmModule.forRoot(config),
+    // campaignModule,
+    // creativeModule,
+    // creativeLibraryModule,
+    AdvertiserModule,
+    AuthModule,
+    PublisherModule,
   MulterModule.register({
     dest : './files',
   }),
+  OtpModule,
   
   ],
   controllers: [AppController],

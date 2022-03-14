@@ -5,13 +5,25 @@ import { AdvertiserCreateDto } from 'src/advertiser/AdvertiserCreate.dto';
 import { AdvertiserDto } from 'src/advertiser/advertiserDto';
 import { AdvertiserLoginDto } from 'src/advertiser/advertiserLogin.dto';
 import { AdvertiserService } from './../advertiser/advertiser.service';
-import { LoginStatus } from './interfaces/login-status.interface';
-import { JwtPayload } from './interfaces/payload.interface';
-import { RegistrationStatus } from './interfaces/regisration-status.interface';
+import { LoginStatus, PublisherLoginStatus } from './interfaces/login-status.interface';
+import { JwtPayload, publisherJwlPayload } from './interfaces/payload.interface';
+import { PublisherRegisterStatus, publisherStatus, RegistrationStatus } from './interfaces/regisration-status.interface';
+import { PublisherService } from './../Publisher/publisher.service';
+import { PublisherDto } from './../Publisher/Publisher.dto';
+import { PublisherMobileDto } from './../Publisher/publisherMobile.dto';
+import { OtpService } from './../OTP/otp.service';
+import { NewPublisherDto } from '../Publisher/newPublisher.dto';
+import { OtpDto } from './../OTP/otp.dto';
+import { PublisherCreateDto } from './../Publisher/publisherCreate.dto';
 
+var otpGenerator = require('otp-generator');
 @Injectable()
 export class AuthService {
+<<<<<<< HEAD
+    constructor(private readonly publisherService:PublisherService,private readonly advertiserService : AdvertiserService,private readonly jwtService: JwtService,private readonly otpService:OtpService ) {}
+=======
     constructor(private readonly advertiserService : AdvertiserService, private readonly jwtService: JwtService) {}
+>>>>>>> master
 
     async register(advertiserDto: AdvertiserCreateDto): 
     Promise<RegistrationStatus> {
@@ -39,8 +51,12 @@ export class AuthService {
         const token = this._createToken(advertiser);
         
         return {
+<<<<<<< HEAD
+            email: advertiser.email, ...token,   
+=======
              ...token,
              
+>>>>>>> master
         };  
     }
 
@@ -57,11 +73,65 @@ export class AuthService {
 
     async validateAdvertiser(payload: JwtPayload): Promise<AdvertiserDto> {
         const advertiser = await this.advertiserService.findByPayload(payload);    
-        if (!advertiser) {
+        if (!advertiser) {      
             throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);    
         }    
         return advertiser;  
     }
-    
+    async publisherRegister(publisherCreateDto:PublisherCreateDto):Promise<PublisherRegisterStatus>{
+        let status:PublisherRegisterStatus={
+            success:true,
+            message:'publisher registered'
+        };
+        try{
+            await this.publisherService.createVerifiedPublisher(publisherCreateDto)
+        }catch(err){
+            status={
+                success:false,
+                message:err
+            }
+        }
+        return status;
 
+    }
+    async publisherLogin(otpDto:OtpDto):Promise<PublisherLoginStatus>{
+        const publisher = await this.publisherService.findByLogin(otpDto);
+
+        const token = this._createPublisherToken(publisher)
+
+        return{
+            phoneNumber:publisher.phoneNumber,...token,
+        }
+    }
+
+    private _createPublisherToken({phoneNumber}:PublisherDto):any{
+        const expiresIn = '60s';
+        const publisher: publisherJwlPayload ={phoneNumber:phoneNumber}
+        const accessToken = this.jwtService.sign(publisher)
+        return{
+            expiresIn,
+            accessToken
+        }
+    }
+
+    async phone(publisherMobileDto:PublisherMobileDto):Promise<publisherStatus>{
+        let status = await this.publisherService.
+        findPublisherStatus(publisherMobileDto);
+
+        const otp = otpGenerator.generate(6,{alphabets:false,upperCase:false,lowerCase:false,specialChars:false})
+        const publisher:NewPublisherDto={
+            phoneNumber:publisherMobileDto.phoneNumber,
+            otp
+        }
+        if(status.IsNewUser){
+            try{
+                await this.publisherService.createPublisher(publisher)
+            }catch(err){
+                throw new HttpException(err,HttpStatus.BAD_REQUEST)
+            }
+        }else{
+           await this.publisherService.updatePublisher(publisher)
+        }
+        return status;
+    }
 }

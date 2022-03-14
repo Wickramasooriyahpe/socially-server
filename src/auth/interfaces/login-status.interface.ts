@@ -5,3 +5,9 @@ export interface LoginStatus {
   accessToken: any;
   expiresIn: any;
 }
+
+export interface PublisherLoginStatus{
+  phoneNumber: string
+  accessToken:any
+  expireIn:any
+}

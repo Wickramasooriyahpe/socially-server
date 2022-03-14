@@ -4,6 +4,23 @@ import { BeforeInsert, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedCol
 @Entity()
 export class CreativeLibrary {
 
+<<<<<<< HEAD
+  @PrimaryGeneratedColumn()
+  public creativeLibraryId: number;
+
+  @Column()
+  public creID:number;
+
+ @Column({nullable: true})
+   public thumbnailImagePath: string;
+
+
+ /* relationships*/
+   
+ @JoinColumn({name:'creID'})
+ @OneToOne(() =>Creative , Creative => Creative.creativeId)
+ public Creative:Creative; 
+=======
     @PrimaryGeneratedColumn()
      public creativeLibraryId: number;
 
@@ -21,5 +38,6 @@ export class CreativeLibrary {
     public Creative:Creative; 
  
  
+>>>>>>> master
 
 }

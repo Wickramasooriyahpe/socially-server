@@ -1,3 +1,7 @@
 export interface JwtPayload {
-    email: string;
+    email: string,
+  }
+
+  export interface publisherJwlPayload{
+    phoneNumber : string
   }

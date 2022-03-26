@@ -11,8 +11,8 @@ import { AdvertiserDto } from 'src/advertiser/advertiserDto';
 import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import {getConnection} from "typeorm";
-@Controller('campaign')
 
+@Controller('campaign')
 export class campaignController {
     constructor(private readonly campaignService : campaignService,
                  

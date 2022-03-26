@@ -19,11 +19,7 @@ import { PublisherCreateDto } from './../Publisher/publisherCreate.dto';
 var otpGenerator = require('otp-generator');
 @Injectable()
 export class AuthService {
-<<<<<<< HEAD
     constructor(private readonly publisherService:PublisherService,private readonly advertiserService : AdvertiserService,private readonly jwtService: JwtService,private readonly otpService:OtpService ) {}
-=======
-    constructor(private readonly advertiserService : AdvertiserService, private readonly jwtService: JwtService) {}
->>>>>>> master
 
     async register(advertiserDto: AdvertiserCreateDto): 
     Promise<RegistrationStatus> {
@@ -51,12 +47,8 @@ export class AuthService {
         const token = this._createToken(advertiser);
         
         return {
-<<<<<<< HEAD
-            email: advertiser.email, ...token,   
-=======
              ...token,
              
->>>>>>> master
         };  
     }
 

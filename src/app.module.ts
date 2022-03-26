@@ -11,25 +11,23 @@ import { MulterModule } from '@nestjs/platform-express';
 import { creativeLibraryModule } from './creativeLibrary/creativeLibrary.module';
 import { AdvertiserModule } from './Advertiser/advertiser.module';
 import { AuthModule } from './auth/auth.module';
-import { PublisherModule } from './publisher/publisher.module';
-import { OtpModule } from './otp/otp.module';
-
+import { ConfigurationService } from './configuration/configuration/configuration.service';
 @Dependencies(Connection)
 @Module({
-  imports: [ TypeOrmModule.forRoot(config),
-    // campaignModule,
-    // creativeModule,
-    // creativeLibraryModule,
-    AdvertiserModule,
-    AuthModule,
-    PublisherModule,
+  imports: [ TypeOrmModule.forRoot(config),campaignModule,creativeModule,
+    creativeLibraryModule,AdvertiserModule, AuthModule,
   MulterModule.register({
     dest : './files',
   }),
-  OtpModule,
   
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,ConfigurationService],
 })
-export class AppModule {}
+export class AppModule {
+  static port: number;
+
+  constructor(private readonly configurationService:ConfigurationService){
+    AppModule.port = this.configurationService.port as number;
+  }
+}

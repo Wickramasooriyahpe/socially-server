@@ -1,6 +1,6 @@
 export class DeleteCampaignDTO {
 
-     public campaignId: number;
+    public campaignId: number;
     public campaignName: String;
     public budget: number;
     public adCategory : String;

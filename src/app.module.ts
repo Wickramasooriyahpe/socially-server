@@ -11,7 +11,7 @@ import { MulterModule } from '@nestjs/platform-express';
 import { creativeLibraryModule } from './creativeLibrary/creativeLibrary.module';
 import { AdvertiserModule } from './Advertiser/advertiser.module';
 import { AuthModule } from './auth/auth.module';
-import { ConfigurationService } from './configuration/configuration/configuration.service';
+
 @Dependencies(Connection)
 @Module({
   imports: [ TypeOrmModule.forRoot(config),campaignModule,creativeModule,
@@ -22,12 +22,8 @@ import { ConfigurationService } from './configuration/configuration/configuratio
   
   ],
   controllers: [AppController],
-  providers: [AppService,ConfigurationService],
+  providers: [AppService],
 })
 export class AppModule {
-  static port: number;
-
-  constructor(private readonly configurationService:ConfigurationService){
-    AppModule.port = this.configurationService.port as number;
-  }
+  
 }

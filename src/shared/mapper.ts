@@ -5,8 +5,8 @@ import { PublisherDto } from '../Publisher/Publisher.dto';
 import { PublisherMobileDto } from './../Publisher/publisherMobile.dto';
 
 export const toAdvertiserDto = (data: Advertiser):AdvertiserDto  =>  {  
-    const { id, name, email,password } = data;
-    let advertiserDto: AdvertiserDto = { id, name, email,password};
+    const { id, name, email,password,generatedOTP,otpSentTime ,isActive } = data;
+    let advertiserDto: AdvertiserDto = { id, name, email,password,generatedOTP,otpSentTime,isActive};
     return advertiserDto;
 };
 

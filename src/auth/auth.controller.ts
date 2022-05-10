@@ -8,6 +8,9 @@ import { NewPublisherDto } from '../Publisher/newPublisher.dto';
 import { PublisherMobileDto } from './../Publisher/publisherMobile.dto';
 import { OtpDto } from 'src/OTP/otp.dto';
 import { PublisherCreateDto } from 'src/Publisher/publisherCreate.dto';
+import { AdvertiserVerifyDto } from 'src/Advertiser/AdvertiserVerifyDto';
+import { verificationStatus } from './interfaces/verificationStatus';
+
 
 @Controller('auth')
 export class AuthController {
@@ -22,6 +25,16 @@ export class AuthController {
     }
     return result;  
 }
+
+    @Post('verify')  
+    public async verify(@Body() AdvertiserVerifyDto: AdvertiserVerifyDto,  ): Promise<verificationStatus> 
+    {    
+    const result:verificationStatus = await this.authService.verify(AdvertiserVerifyDto,);
+    if (!result.success) {
+        throw new HttpException(result.message, HttpStatus.BAD_REQUEST);    
+    }
+    return result; 
+    }
 
     @Post('login')  
     public async login(@Body() advertiserLoginDto: AdvertiserLoginDto): Promise<LoginStatus> {

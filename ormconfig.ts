@@ -12,7 +12,7 @@ const config: MysqlConnectionOptions = {
     host: 'localhost',
     port: 3306,
     username: 'root',
-    password: 'Sk7*1997',
+    password: 'Hpunsara159',
     database: 'socially',
     entities: [
         Campaign,

@@ -20,6 +20,14 @@ export class Advertiser {
     async hashPassword(){
         this.password = await bcrypt.hash(this.password, 10)
     }
+    @Column()
+    generatedOTP : number
+
+    @Column()
+    otpSentTime : Date
+
+    @Column()
+    isActive:boolean
 
     @OneToMany(() => Campaign, Campaign => Campaign.Advertiser)
     public Campaign: Campaign[];

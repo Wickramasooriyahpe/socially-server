@@ -15,6 +15,9 @@ import { OtpService } from './../OTP/otp.service';
 import { NewPublisherDto } from '../Publisher/newPublisher.dto';
 import { OtpDto } from './../OTP/otp.dto';
 import { PublisherCreateDto } from './../Publisher/publisherCreate.dto';
+import { AdvertiserVerifyDto } from 'src/Advertiser/AdvertiserVerifyDto';
+import { MailService } from 'src/mail/mail.service';
+import { verificationStatus } from './interfaces/verificationStatus';
 
 var otpGenerator = require('otp-generator');
 @Injectable()
@@ -38,6 +41,20 @@ export class AuthService {
     }
     return status;  
 }
+
+    async verify(advertiserverifyDto: AdvertiserVerifyDto):  Promise<verificationStatus> {
+        let status: verificationStatus = {
+            success: true,   
+            message: 'confirmed registration',
+        };
+    // find user in db    
+        await this.advertiserService.verifyOTP(advertiserverifyDto);
+            
+    // generate and sign token    
+    //const token = this._createToken(advertiser);
+    
+    return status;
+    }
 
     async login(loginAdvertiserDto: AdvertiserLoginDto): Promise<LoginStatus> {    
         // find user in db    

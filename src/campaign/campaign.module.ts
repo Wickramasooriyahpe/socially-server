@@ -9,10 +9,10 @@ import { AdvertiserModule } from 'src/Advertiser/advertiser.module';
 import { AdvertiserService } from 'src/Advertiser/advertiser.service';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
-
+import { MailModule } from 'src/mail/mail.module';
 
 @Module({
-    imports : [AdvertiserModule,TypeOrmModule.forFeature([Campaign,Advertiser]),AuthModule],
+    imports : [MailModule,AdvertiserModule,TypeOrmModule.forFeature([Campaign,Advertiser]),AuthModule],
     controllers: [campaignController],
     providers: [campaignService,AdvertiserService],
     exports:[campaignService]

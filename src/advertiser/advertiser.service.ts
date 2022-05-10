@@ -9,11 +9,13 @@ import { AdvertiserLoginDto } from './advertiserLogin.dto';
 import { compare } from 'bcrypt';
 import { AdvertiserDto } from './advertiserDto';
 import { comparePasswords } from './../shared/utils';
+import { MailService } from 'src/mail/mail.service';
+import { AdvertiserVerifyDto } from './AdvertiserVerifyDto';
 
 @Injectable()
 export class AdvertiserService {
     constructor(
-        @InjectRepository(Advertiser) private advertiserRepository : Repository<Advertiser>
+        @InjectRepository(Advertiser) private advertiserRepository : Repository<Advertiser>, private mailService: MailService
         ){}
 
         // getAll():Promise<Advertiser[]>{
@@ -72,18 +74,45 @@ export class AdvertiserService {
                 where:  { email } });  
         }
 
+
+
+        
+        //............................Advertiser register.................................. 
+
+        //create Advertiser Temporary
         async createAdvertiser(advertiserDto:AdvertiserCreateDto):Promise<AdvertiserDto>{
             const{name,email,password} =advertiserDto;
 
             //Check if user already registered
-            const usrerInDB = await this.advertiserRepository.findOne({where: {email}});
-
-            if(usrerInDB){
+            const searchAdvertiser = await this.advertiserRepository.findOne({where: {email}});
+            if(searchAdvertiser){
                 throw new HttpException('Advertiser already exists', HttpStatus.BAD_REQUEST);
             }
-            const advertiser: Advertiser = await this.advertiserRepository.create({ name, password, email, });
+
+            //Genarate OTP
+            const generatedOTP=(Math.floor(Math.random() * (9 * Math.pow(10, 3))) + Math.pow(10, 3));
+            const advertiser: Advertiser = await this.advertiserRepository.create({ name,email,password, generatedOTP, otpSentTime: new Date(), isActive: false});
+
+            //send Email
+            await this.mailService.sendUserConfirmation(advertiser, generatedOTP);
+
+            
             await this.advertiserRepository.save(advertiser);
             return toAdvertiserDto(advertiser);  
+        }
+
+        async verifyOTP({email, enteredOTP}: AdvertiserVerifyDto):Promise<AdvertiserDto>{
+           // const{enteredOTP} =AdvertiserVerifyDto;
+            const advertiser = await this.advertiserRepository.findOne({where:  {email}});
+            
+            const areEqual = advertiser.generatedOTP == enteredOTP;
+            if(!areEqual){
+                throw new HttpException('Invalid OTP', HttpStatus.UNAUTHORIZED);
+            }
+        
+                await this.advertiserRepository.update({isActive: false},{isActive: true});
+            return toAdvertiserDto(advertiser); 
+            
         }
 }
 

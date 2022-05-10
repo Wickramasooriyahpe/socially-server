@@ -13,4 +13,8 @@ export class AdvertiserDto{
     @IsNotEmpty()
     password:string
 
+    generatedOTP:number
+    otpSentTime : Date
+    isActive:boolean
+
 }

@@ -8,6 +8,7 @@ import { JwtStrategy } from './jwt.strategy';
 import { jwtConstants } from './constants';
 import { PublisherModule } from './../Publisher/publisher.module';
 import { OtpModule } from './../OTP/otp.module';
+import { MailModule } from 'src/mail/mail.module';
 
 @Module({
     imports: [  
@@ -22,7 +23,7 @@ AdvertiserModule,
             secret: jwtConstants.secret, signOptions: {
                 expiresIn: '60s',
             },
-        }),
+        }), MailModule,
         PublisherModule,
         OtpModule
     ], 

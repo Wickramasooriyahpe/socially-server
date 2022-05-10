@@ -11,6 +11,7 @@ import { MulterModule } from '@nestjs/platform-express';
 import { creativeLibraryModule } from './creativeLibrary/creativeLibrary.module';
 import { AdvertiserModule } from './Advertiser/advertiser.module';
 import { AuthModule } from './auth/auth.module';
+import { MailModule } from './mail/mail.module';
 
 @Dependencies(Connection)
 @Module({
@@ -19,7 +20,7 @@ import { AuthModule } from './auth/auth.module';
   MulterModule.register({
     dest : './files',
   }),
-  
+  MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

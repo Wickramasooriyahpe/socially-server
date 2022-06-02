@@ -15,12 +15,17 @@ import { MailModule } from './mail/mail.module';
 
 @Dependencies(Connection)
 @Module({
-  imports: [ TypeOrmModule.forRoot(config),campaignModule,creativeModule,
-    creativeLibraryModule,AdvertiserModule, AuthModule,
-  MulterModule.register({
-    dest : './files',
-  }),
-  MailModule,
+  imports: [
+    TypeOrmModule.forRoot(config),
+    campaignModule,
+    creativeModule,
+    creativeLibraryModule,
+    AdvertiserModule,
+    AuthModule,
+    MulterModule.register({
+      dest: './files',
+    }),
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

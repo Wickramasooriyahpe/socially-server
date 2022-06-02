@@ -12,15 +12,24 @@ import { creativeLibraryModule } from './creativeLibrary/creativeLibrary.module'
 import { AdvertiserModule } from './Advertiser/advertiser.module';
 import { AuthModule } from './auth/auth.module';
 import { MailModule } from './mail/mail.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Dependencies(Connection)
 @Module({
-  imports: [ TypeOrmModule.forRoot(config),campaignModule,creativeModule,
-    creativeLibraryModule,AdvertiserModule, AuthModule,
-  MulterModule.register({
-    dest : './files',
-  }),
-  MailModule,
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal:true,
+    }),
+    TypeOrmModule.forRoot(config),
+    campaignModule,
+    creativeModule,
+    creativeLibraryModule,
+    AdvertiserModule,
+    AuthModule,
+    MulterModule.register({
+      dest: './files',
+    }),
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

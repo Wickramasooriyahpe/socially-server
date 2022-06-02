@@ -3,9 +3,9 @@ import { AdvertiserCreateDto } from 'src/advertiser/AdvertiserCreate.dto';
 import { AdvertiserLoginDto } from 'src/advertiser/advertiserLogin.dto';
 import { AuthService } from './auth.service';
 import { LoginStatus, PublisherLoginStatus} from './interfaces/login-status.interface';
-import { PublisherRegisterStatus, publisherStatus, RegistrationStatus } from './interfaces/regisration-status.interface';
+import { PublisherRegisterStatus, OtpSendingStatus, RegistrationStatus } from './interfaces/regisration-status.interface';
 import { NewPublisherDto } from '../Publisher/newPublisher.dto';
-import { PublisherMobileDto } from './../Publisher/publisherMobile.dto';
+import { PublisherMobileNoDto } from './../Publisher/publisherMobile.dto';
 import { OtpDto } from 'src/OTP/otp.dto';
 import { PublisherCreateDto } from 'src/Publisher/publisherCreate.dto';
 import { AdvertiserVerifyDto } from 'src/Advertiser/AdvertiserVerifyDto';
@@ -43,7 +43,7 @@ export class AuthController {
     
     @Post('otp')
     public async otp(@Body() otpDto:OtpDto):Promise<PublisherLoginStatus>{
-        return await this.authService.publisherLogin(otpDto);
+        return await this.authService.publisherOtpCheck(otpDto);
     }
 
     @Post('publisherRegister')
@@ -52,7 +52,7 @@ export class AuthController {
     }
 
     @Post('phone')
-    public async phone(@Body() publisherMobileDto:PublisherMobileDto ):Promise<publisherStatus> {
+    public async phone(@Body() publisherMobileDto:PublisherMobileNoDto ):Promise<OtpSendingStatus> {
         return await this.authService.phone(publisherMobileDto);
     }
 

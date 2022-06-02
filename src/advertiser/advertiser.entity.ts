@@ -11,7 +11,7 @@ export class Advertiser {
     name : string
 
     @Column()
-    email : string
+  email: string;
 
     @Column()
     password : string

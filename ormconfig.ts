@@ -12,7 +12,7 @@ const config: MysqlConnectionOptions = {
     host: 'localhost',
     port: 3306,
     username: 'root',
-    password: 'Hpunsara159',
+    password: 'Ak@172855',
     database: 'socially',
     entities: [
         Campaign,
@@ -23,7 +23,7 @@ const config: MysqlConnectionOptions = {
         uploadMdata
     ],
     //entities: ['**/src/entity/*{.ts,.js}'],
-    synchronize: true
+  synchronize: true,
     // dropSchema: true
 }
 

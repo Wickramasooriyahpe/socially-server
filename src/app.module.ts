@@ -12,10 +12,14 @@ import { creativeLibraryModule } from './creativeLibrary/creativeLibrary.module'
 import { AdvertiserModule } from './Advertiser/advertiser.module';
 import { AuthModule } from './auth/auth.module';
 import { MailModule } from './mail/mail.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Dependencies(Connection)
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal:true,
+    }),
     TypeOrmModule.forRoot(config),
     campaignModule,
     creativeModule,

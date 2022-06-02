@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { PublisherMobileDto } from './../Publisher/publisherMobile.dto';
+var otpGenerator = require('otp-generator');
 
 @Injectable()
 export class OtpService {
-    async createOtp(publisherMobileDto:PublisherMobileDto){
-        
+     createOtp():string{
+        const otp = otpGenerator.generate(6,{alphabets:false,upperCase:false,lowerCase:false,specialChars:false})
+        console.log(otp)
+        return '123';
     }
 }

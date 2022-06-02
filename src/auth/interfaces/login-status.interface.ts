@@ -10,4 +10,5 @@ export interface PublisherLoginStatus{
   phoneNumber: string
   accessToken:any
   expireIn:any
+  isNewUser:boolean
 }

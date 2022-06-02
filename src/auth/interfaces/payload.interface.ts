@@ -2,6 +2,6 @@ export interface JwtPayload {
     email: string,
   }
 
-  export interface publisherJwlPayload{
+  export interface publisherJwtPayload{
     phoneNumber : string
   }

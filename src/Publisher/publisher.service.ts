@@ -5,17 +5,19 @@ import { PublisherDto } from './Publisher.dto';
 import { Repository } from 'typeorm';
 import { toPublisherDto } from 'src/shared/mapper';
 import { Publisher } from 'src/Publisher/publisher.entity';
-import { PublisherMobileDto } from './publisherMobile.dto';
+import { PublisherMobileNoDto } from './publisherMobile.dto';
 import { OtpDto } from './../OTP/otp.dto';
-import { publisherStatus } from 'src/auth/interfaces/regisration-status.interface';
+import { OtpSendingStatus } from 'src/auth/interfaces/regisration-status.interface';
 import { PublisherUpdateDto } from './publisherUpdate.dto';
 import { PublisherCreateDto } from './publisherCreate.dto';
+import { OtpService } from './../OTP/otp.service';
+var otpGenerator = require('otp-generator');
 
 @Injectable()
 export class PublisherService {
     constructor(
         @InjectRepository(Publisher)
-        private publisherRepository: Repository<Publisher>
+        private publisherRepository: Repository<Publisher>, private readonly otpService:OtpService
     ){}
 
     async findOne(options?: object):Promise<PublisherDto>{
@@ -23,26 +25,35 @@ export class PublisherService {
         return toPublisherDto(publisher)
     }
 
-        async findPublisherStatus({phoneNumber}:PublisherMobileDto):Promise<publisherStatus>{
+    async sendOtp(publisherMobileNoDto:PublisherMobileNoDto):Promise<OtpSendingStatus>{
+            let {phoneNumber} = publisherMobileNoDto;
             const publisher = await this.publisherRepository.findOne({where:{phoneNumber}})
-            let status:publisherStatus={
-                IsNewUser:false
+            let status:OtpSendingStatus={
+                IsOtpSend:false,
             }
-            if( !publisher){
-                    status={
-                        IsNewUser:true
-                    }   
+            const otp = otpGenerator.generate(6,{alphabets:false,upperCase:false,lowerCase:false,specialChars:false})
+            const newPublisher:NewPublisherDto={
+                phoneNumber:publisherMobileNoDto.phoneNumber,
+                otp
             }
-            else if(!publisher.userName){
+            if(publisher){
+                await this.updatePublisher(newPublisher)
                 status={
-                    IsNewUser:true
-                }   
+                    IsOtpSend:true
+                }  
+                    
             }
             else{
-               status={
-                    IsNewUser:false
+                try{
+                    await this.createPublisher(newPublisher)
+                    status={
+                        IsOtpSend:true
+                    }  
+                }catch(err){
+                    throw new HttpException(err,HttpStatus.BAD_REQUEST)
                 }
             }
+
             return status;
         }
 
@@ -63,26 +74,24 @@ export class PublisherService {
     {
         const {phoneNumber,otp} = newpublisherDto;
 
-            const publisher : Publisher = await this.publisherRepository.create({userName:" ",phoneNumber,otp});
+            const publisher : Publisher = await this.publisherRepository.create({userName:"",phoneNumber,otp});
             await this.publisherRepository.save(publisher);
             return toPublisherDto(publisher);
     }
 
     async updatePublisher(publisherUpdateDto:PublisherUpdateDto){
-        const{phoneNumber,otp}=publisherUpdateDto
+        const{otp}=publisherUpdateDto
          const publisher = await this.findByPublisherPayload(publisherUpdateDto)
          publisher.otp = otp
          this.publisherRepository.save(publisher)
     }
 
     async createVerifiedPublisher(publisherCreateDto:PublisherCreateDto):Promise<PublisherDto>{
-        const{phoneNumber,userName,otp} = publisherCreateDto
+        const{phoneNumber,userName} = publisherCreateDto
         const publisher = await this.publisherRepository.findOne({where:{phoneNumber}})
-        if(!(otp === publisher.otp)){
-            throw new HttpException('Wrong OTP',HttpStatus.UNAUTHORIZED)
-        }
+
         publisher.userName = userName
         this.publisherRepository.save(publisher)
-        return toPublisherDto(publisher)
+        return publisher;
     }
 }

@@ -51,6 +51,7 @@ export class campaignController {
     @Put(':campaignId')
     @UseGuards(JwtAuthGuard)
     async updateCampaign(@Param('campaignId') campaignId:number, @Body() updateCampaignDTO:updateCampaignDTO){
+          console.log()
         updateCampaignDTO.campaignId= campaignId;
         return this.campaignService.updateCampaign(updateCampaignDTO);
      }

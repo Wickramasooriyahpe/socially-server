@@ -8,12 +8,12 @@ import { Advertiser } from "src/Advertiser/advertiser.entity";
 import { Publisher } from './src/Publisher/publisher.entity';
 
 const config: MysqlConnectionOptions = {
-    type: 'mysql',
-    host: 'localhost',
-    port: 3306,
-    username: 'root',
-    password: 'Ak@172855',
-    database: 'socially',
+  type: 'mysql',
+  host: 'localhost',
+  port: 3306,
+  username: 'root',
+  password: 'Ak@172855',
+  database: 'socially',
     entities: [
         Campaign,
         Creative,

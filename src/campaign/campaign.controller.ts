@@ -8,7 +8,6 @@ import { updateCampaignDTO } from './updateCampaign.dto';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AdvertiserDto } from 'src/advertiser/advertiserDto';
-import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import {getConnection} from "typeorm";
 
@@ -51,6 +50,7 @@ export class campaignController {
     @Put(':campaignId')
     @UseGuards(JwtAuthGuard)
     async updateCampaign(@Param('campaignId') campaignId:number, @Body() updateCampaignDTO:updateCampaignDTO){
+          console.log()
         updateCampaignDTO.campaignId= campaignId;
         return this.campaignService.updateCampaign(updateCampaignDTO);
      }

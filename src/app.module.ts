@@ -14,6 +14,9 @@ import { AuthModule } from './auth/auth.module';
 import { MailModule } from './mail/mail.module';
 import { ConfigModule } from '@nestjs/config';
 import { CreativePreviewModule } from './creative-preview/creative-preview.module';
+import { AdSharingController } from './ad-sharing/ad-sharing.controller';
+import { AdSharingService } from './ad-sharing/ad-sharing.service';
+import { AdSharingModule } from './ad-sharing/ad-sharing.module';
 
 @Dependencies(Connection)
 @Module({
@@ -32,9 +35,10 @@ import { CreativePreviewModule } from './creative-preview/creative-preview.modul
     }),
     MailModule,
     CreativePreviewModule,
+    AdSharingModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, AdSharingController],
+  providers: [AppService, AdSharingService],
 })
 export class AppModule {
   

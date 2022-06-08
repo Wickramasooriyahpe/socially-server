@@ -8,7 +8,6 @@ import { UpdateCreativeDTO } from './updateCreativeDTO.dto';
 import { Campaign } from 'src/campaign/campaign.entity';
 import {getConnection} from "typeorm";
 import { CreativeDTO } from './creativeDTO';
-import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
 
 @Controller('creative')

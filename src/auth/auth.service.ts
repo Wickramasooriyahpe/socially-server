@@ -58,24 +58,15 @@ export class AuthService {
     async login(loginAdvertiserDto: AdvertiserLoginDto): Promise<LoginStatus> {    
         // find user in db    
         const advertiser = await this.advertiserService.findByLogin(loginAdvertiserDto);
-        
         // generate and sign token    
-        const token = this._createToken(advertiser);
-        
-        return {
-             ...token,
-             
-        };  
-    }
+        const payload:JwtPayload = {email:advertiser.email,id:advertiser.id}
+        const token = this.jwtService.sign(payload);
+        const expiresIn = '60s'
 
-    private _createToken( AdvertiserDTO: AdvertiserDto): any {
-        const expiresIn = '1200s';
-
-       // const advertiser: JwtPayload = { email:email,id:id };    
-        const accessToken = this.jwtService.sign(AdvertiserDTO);    
         return {
-            //expiresIn,
-            accessToken,    
+            userName:advertiser.name,
+            accessToken:token,
+            expiresIn:expiresIn           
         };  
     }
 
@@ -86,9 +77,9 @@ export class AuthService {
         }    
         return advertiser;  
     }
-    async validatePublisher(paload:JwtPayload):Promise<PublisherDto>{
-        const publisher = await this.publisherService.findByPublisherPayload(paload)
-        if(publisher){
+    async validatePublisher(payload:publisherJwtPayload):Promise<PublisherDto>{
+        const publisher = await this.publisherService.findByPublisherPayload(payload)
+        if(!publisher){
             throw new HttpException('Invalid Token',HttpStatus.UNAUTHORIZED);
         }
         return publisher;
@@ -113,9 +104,11 @@ export class AuthService {
         const publisher = await this.publisherService.findByLogin(otpDto);
  
             if(publisher.userName){
-                const token = this._createPublisherToken(publisher)
+                const payload:publisherJwtPayload = {phoneNumber:publisher.phoneNumber,id:publisher.publisherId}
+                const token = this.jwtService.sign(payload);
+                const expiresIn = '60s'
                 return{
-                    phoneNumber:publisher.phoneNumber,isNewUser:false,...token,
+                    phoneNumber:publisher.phoneNumber,isNewUser:false,expireIn:expiresIn,accessToken:token,
                 }
             }else{
                 return{
@@ -123,16 +116,6 @@ export class AuthService {
                 }
             }
 
-    }
-
-    private _createPublisherToken(publisherDto:PublisherDto):any{
-        const expiresIn = '60s';
-        // const publisher: publisherJwtPayload ={phoneNumber:phoneNumber}
-        const accessToken = this.jwtService.sign({userId:publisherDto.publisherId,userName:publisherDto.userName,phoneNumber:publisherDto.phoneNumber})
-        return{
-            expiresIn,
-            accessToken
-        }
     }
 
     async phone(publisherMobileDto:PublisherMobileNoDto):Promise<OtpSendingStatus>{

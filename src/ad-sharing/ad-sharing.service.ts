@@ -1,13 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import { creativeService } from 'src/creative/creative.service';
+import { CreativeShareData } from './interfaces/share.interface';
 
 @Injectable()
 export class AdSharingService {
-    getOGdata(){
+  constructor(private readonly creativeService:creativeService){}
+
+    async getOGdata(creativeId:number):Promise<CreativeShareData>{
+      const creative = await this.creativeService.getCreativeById(creativeId);
         const data ={
-          url:'https://socially-admin.herokuapp.com/navi',
-          title: 'Hurry up! grab your discount soon',
-          description:'sample description about the advertisements',
-          image:'https://iili.io/XbGhEg.jpg" alt="XbGhEg.jpg" border="0"'
+          destinationURL:creative.destinationURL,
+          creativeHeading: creative.creativeHeading,
+          creativeDescription:creative.creativeDescription,
+          CreativeImage:'https://iili.io/XbGhEg.jpg" alt="XbGhEg.jpg" border="0"'
         }
         return data;
 }}

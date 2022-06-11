@@ -17,33 +17,31 @@ export class campaignController {
                  
       ){}
 
-    @Get()
-    getAllCampaign(){
-         return this.campaignService.findAll();
-     }
+      @Get('AllCampaign')
+      getAllCampaign(){
+        return this.campaignService.findAll();
+       }
+  
      //get campaigns belong to one advertiser
-     @Get(':adveID')
-     async findAllCreatives(@Param('adveID') adveID:number){
-      
-          const camp = await getConnection()
-          .createQueryBuilder()
-          .select("Campaign")
-          .from(Campaign,"Campaign")
-          .where("Campaign.adveID = :adveID", { adveID: adveID })
-          .getMany();
-
-    return camp;
+     @UseGuards(JwtAuthGuard)
+     @Get()
+     async findAllCampaign(@Request() req:any){
+        console.log("userid",req.user.userId);
+        return await this.campaignService.findAllCampaign(req.user.userId);      
      }
+
 
     @Get(':campaignId')
     async getCampaignById(@Param('campaignId') campaignId:number){
           return this.campaignService.getCampaignById(campaignId);
     }
    // Create a new Campaign
-    @UseGuards(JwtAuthGuard)
+   @UseGuards(JwtAuthGuard)
     @Post('createCampaign')
     async createCampaign(@Body() campaignData: Campaign, @Request() req): Promise<any> {
-          console.log(req.user.userId)
+          
+          console.log("userid",req.user.userId);
+          campaignData.adveID = req.user.userId;
           return this.campaignService.createCampaign(req.user.userId,campaignData);
     }
      

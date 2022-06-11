@@ -7,7 +7,7 @@ import { campaignCreationDTO } from './campaignCreation.dto';
 import { updateCampaignDTO } from './updateCampaign.dto';
 import { Advertiser } from 'src/Advertiser/advertiser.entity';
 import { AdvertiserService } from 'src/advertiser/advertiser.service';
-
+import {getConnection} from "typeorm";
 
 @Injectable()
 export class campaignService {
@@ -30,11 +30,22 @@ export class campaignService {
         }    
     }
 
-   
-    async  createCampaign(Advertiser:Advertiser,campaignCreation: Campaign): Promise<any>{
-    campaignCreation.Advertiser=Advertiser;
-    return await this.campaignRepository.save(campaignCreation);
+   //Find all campaign belong to one advertiser
+   async findAllCampaign(adveID : number):Promise<any>{
         
+    const camp = await getConnection()
+    .createQueryBuilder()
+    .select("Campaign")
+    .from(Campaign,"Campaign")
+    .where("Campaign.adveID = :adveID", { adveID: adveID })
+    .getMany();
+
+     return camp;
+}
+
+async  createCampaign(Advertiser:Advertiser,campaignCreation: Campaign): Promise<any>{
+    campaignCreation.Advertiser=Advertiser;
+    return await this.campaignRepository.save(campaignCreation);       
     }
 
     async updateCampaign(updateCampaignDTO:updateCampaignDTO ): Promise<Campaign>{

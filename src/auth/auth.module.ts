@@ -21,7 +21,7 @@ AdvertiserModule,
         }),
         JwtModule.register({
             secret: jwtConstants.secret, signOptions: {
-                expiresIn: '1200s',
+                expiresIn: '1d',
             },
         }), MailModule,
         PublisherModule,

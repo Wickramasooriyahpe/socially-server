@@ -6,15 +6,12 @@ import { campaignCreationDTO } from './campaignCreation.dto';
 import { DeleteCampaignDTO } from './deleteCampaignDTO.dto';
 import { updateCampaignDTO } from './updateCampaign.dto';
 import { UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
-import { AdvertiserDto } from 'src/advertiser/advertiserDto';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import {getConnection} from "typeorm";
 
 @Controller('campaign')
 export class campaignController {
-    constructor(private readonly campaignService : campaignService,
-                 
+    constructor(private readonly campaignService : campaignService,                
       ){}
 
     @Get()
@@ -43,7 +40,7 @@ export class campaignController {
     @UseGuards(JwtAuthGuard)
     @Post('createCampaign')
     async createCampaign(@Body() campaignData: Campaign, @Request() req): Promise<any> {
-          console.log(req.user.userId)
+          console.log("user ID",req.user.userId)
           return this.campaignService.createCampaign(req.user.userId,campaignData);
     }
      

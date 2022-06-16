@@ -61,7 +61,7 @@ export class AuthService {
         // generate and sign token    
         const payload: JwtPayload = { email: advertiser.email, id: advertiser.id }
         const token = this.jwtService.sign(payload);
-        const expiresIn = '60s'
+        const expiresIn = '1d'
 
         return {
             userName: advertiser.name,

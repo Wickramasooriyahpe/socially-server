@@ -12,7 +12,6 @@ import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
 
 @Controller('creative')
-
 export class creativeController {
     constructor(private readonly creativeService : creativeService){}
 

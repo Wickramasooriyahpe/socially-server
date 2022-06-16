@@ -8,7 +8,6 @@ import { updateCampaignDTO } from './updateCampaign.dto';
 import { Advertiser } from 'src/Advertiser/advertiser.entity';
 import { AdvertiserService } from 'src/advertiser/advertiser.service';
 
-
 @Injectable()
 export class campaignService {
 
@@ -17,7 +16,6 @@ export class campaignService {
       
     ) { }
     
-
     async  findAll(): Promise<Campaign[]> {
         return await this.campaignRepository.find();
     }

@@ -7,10 +7,8 @@ import { CreativeCreationDTO } from './creativeCreation.dto';
 import { UpdateCreativeDTO } from './updateCreativeDTO.dto';
 //import {CategoryNotFoundException} from './exceptions/categoryNotFound.exception';
 
-
 @Injectable()
 export class creativeService {
-
     constructor(
         @InjectRepository(Creative)
         private creativeRepository: Repository<Creative>,

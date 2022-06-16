@@ -1,4 +1,4 @@
-export class PublisherUpdateDto{
+export class PublisherOtpDto{
     phoneNumber:string
     otp:string
 }

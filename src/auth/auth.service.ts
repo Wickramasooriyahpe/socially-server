@@ -21,121 +21,109 @@ import { verificationStatus } from './interfaces/verificationStatus';
 var otpGenerator = require('otp-generator');
 @Injectable()
 export class AuthService {
-    constructor(private readonly publisherService:PublisherService,private readonly advertiserService : AdvertiserService,private readonly jwtService: JwtService,private readonly otpService:OtpService ) {}
+    constructor(private readonly publisherService: PublisherService, private readonly advertiserService: AdvertiserService, private readonly jwtService: JwtService, private readonly otpService: OtpService) { }
 
-    async register(advertiserDto: AdvertiserCreateDto): 
-    Promise<RegistrationStatus> {
-    let status: RegistrationStatus = {
-        success: true,   
-        message: 'user registered!',
-    };
-    try {
-        await this.advertiserService.createAdvertiser(advertiserDto);
-    } catch (err) {
-        status = {
-            success: false,        
-            message: err,
-        };    
+    async register(advertiserDto: AdvertiserCreateDto):
+        Promise<RegistrationStatus> {
+        let status: RegistrationStatus = {
+            success: true,
+            message: 'user registered!',
+        };
+        try {
+            await this.advertiserService.createAdvertiser(advertiserDto);
+        } catch (err) {
+            status = {
+                success: false,
+                message: err,
+            };
 
+        }
+        return status;
     }
-    return status;  
-}
 
-    async verify(advertiserverifyDto: AdvertiserVerifyDto):  Promise<verificationStatus> {
+    async verify(advertiserverifyDto: AdvertiserVerifyDto): Promise<verificationStatus> {
         let status: verificationStatus = {
-            success: true,   
+            success: true,
             message: 'confirmed registration',
         };
-    // find user in db    
+        // find user in db    
         await this.advertiserService.verifyOTP(advertiserverifyDto);
-            
-    // generate and sign token    
-    //const token = this._createToken(advertiser);
-    
-    return status;
+
+        // generate and sign token    
+        //const token = this._createToken(advertiser);
+
+        return status;
     }
 
-    async login(loginAdvertiserDto: AdvertiserLoginDto): Promise<LoginStatus> {    
+    async login(loginAdvertiserDto: AdvertiserLoginDto): Promise<LoginStatus> {
         // find user in db    
         const advertiser = await this.advertiserService.findByLogin(loginAdvertiserDto);
-        
         // generate and sign token    
-        const token = this._createToken(advertiser);
-        
-        return {
-             ...token,
-             
-        };  
-    }
+        const payload: JwtPayload = { email: advertiser.email, id: advertiser.id }
+        const token = this.jwtService.sign(payload);
+        const expiresIn = '1d'
 
-    private _createToken( AdvertiserDTO: AdvertiserDto): any {
-        const expiresIn = '1200s';
-
-       // const advertiser: JwtPayload = { email:email,id:id };    
-        const accessToken = this.jwtService.sign(AdvertiserDTO);    
         return {
-            //expiresIn,
-            accessToken,    
-        };  
+            userName: advertiser.name,
+            accessToken: token,
+            expiresIn: expiresIn
+        };
     }
 
     async validateAdvertiser(payload: JwtPayload): Promise<AdvertiserDto> {
-        const advertiser = await this.advertiserService.findByPayload(payload);    
-        if (!advertiser) {      
-            throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);    
-        }    
-        return advertiser;  
+        const advertiser = await this.advertiserService.findByPayload(payload);
+        if (!advertiser) {
+            throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
+        }
+        return advertiser;
     }
-    async validatePublisher(paload:JwtPayload):Promise<PublisherDto>{
-        const publisher = await this.publisherService.findByPublisherPayload(paload)
-        if(publisher){
-            throw new HttpException('Invalid Token',HttpStatus.UNAUTHORIZED);
+    async validatePublisher(payload: publisherJwtPayload): Promise<PublisherDto> {
+        const publisher = await this.publisherService.findByPublisherPayload(payload)
+        if (!publisher) {
+            throw new HttpException('Invalid Token', HttpStatus.UNAUTHORIZED);
         }
         return publisher;
     }
-    async publisherRegister(publisherCreateDto:PublisherCreateDto):Promise<PublisherRegisterStatus>{
-        let status:PublisherRegisterStatus={
-            success:true,
-            message:'publisher registered'
+    async publisherRegister(publisherCreateDto: PublisherCreateDto): Promise<PublisherRegisterStatus> {
+        let status: PublisherRegisterStatus = {
+            success: true,
+            message: 'publisher registered',
+            name: publisherCreateDto.userName
         };
-        try{
+        try {
             await this.publisherService.createVerifiedPublisher(publisherCreateDto)
-        }catch(err){
-            status={
-                success:false,
-                message:err
+        } catch (err) {
+            status = {
+                success: false,
+                message: err,
+                name: null
             }
         }
+
         return status;
 
     }
-    async publisherOtpCheck(otpDto:OtpDto):Promise<PublisherLoginStatus>{
+    async publisherOtpCheck(otpDto: OtpDto): Promise<PublisherLoginStatus> {
         const publisher = await this.publisherService.findByLogin(otpDto);
- 
-            if(publisher.userName){
-                const token = this._createPublisherToken(publisher)
-                return{
-                    phoneNumber:publisher.phoneNumber,isNewUser:false,...token,
-                }
-            }else{
-                return{
-                    phoneNumber:publisher.phoneNumber,isNewUser:true,accessToken:null, expireIn:null
-                }
+
+        if (publisher.userName) {
+            const payload: publisherJwtPayload = { phoneNumber: publisher.phoneNumber, id: publisher.publisherId }
+            const token = this.jwtService.sign(payload);
+            const expiresIn = '60s'
+            return {
+                phoneNumber: publisher.phoneNumber, isNewUser: false, expireIn: expiresIn, accessToken: token,
             }
-
-    }
-
-    private _createPublisherToken(publisherDto:PublisherDto):any{
-        const expiresIn = '60s';
-        // const publisher: publisherJwtPayload ={phoneNumber:phoneNumber}
-        const accessToken = this.jwtService.sign({userId:publisherDto.publisherId,userName:publisherDto.userName,phoneNumber:publisherDto.phoneNumber})
-        return{
-            expiresIn,
-            accessToken
+        } else {
+            const payload: publisherJwtPayload = { phoneNumber: publisher.phoneNumber, id: publisher.publisherId }
+            const token = this.jwtService.sign(payload);
+            const expiresIn = '60s'
+            return {
+                phoneNumber: publisher.phoneNumber, isNewUser: true, accessToken: token, expireIn: expiresIn
+            }
         }
     }
 
-    async phone(publisherMobileDto:PublisherMobileNoDto):Promise<OtpSendingStatus>{
+    async phone(publisherMobileDto: PublisherMobileNoDto): Promise<OtpSendingStatus> {
         let status = await this.publisherService.sendOtp(publisherMobileDto);
 
         return status;

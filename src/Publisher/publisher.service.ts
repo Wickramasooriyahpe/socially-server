@@ -8,7 +8,7 @@ import { Publisher } from 'src/Publisher/publisher.entity';
 import { PublisherMobileNoDto } from './publisherMobile.dto';
 import { OtpDto } from './../OTP/otp.dto';
 import { OtpSendingStatus } from 'src/auth/interfaces/regisration-status.interface';
-import { PublisherUpdateDto } from './publisherUpdate.dto';
+import { PublisherOtpDto } from './publisherUpdate.dto';
 import { PublisherCreateDto } from './publisherCreate.dto';
 import { OtpService } from './../OTP/otp.service';
 var otpGenerator = require('otp-generator');
@@ -19,6 +19,16 @@ export class PublisherService {
         @InjectRepository(Publisher)
         private publisherRepository: Repository<Publisher>, private readonly otpService:OtpService
     ){}
+
+    async findPublisherById(id:number):Promise<PublisherCreateDto>{
+        try{
+            const publisher = await this.publisherRepository.findOneOrFail(id);
+            return publisher;
+        }
+        catch(err){
+            throw err
+        }
+    }
 
     async findOne(options?: object):Promise<PublisherDto>{
         const publisher = await this.publisherRepository.findOne(options)
@@ -37,7 +47,7 @@ export class PublisherService {
                 otp
             }
             if(publisher){
-                await this.updatePublisher(newPublisher)
+                await this.setOtp(newPublisher)
                 status={
                     IsOtpSend:true
                 }  
@@ -79,7 +89,7 @@ export class PublisherService {
             return toPublisherDto(publisher);
     }
 
-    async updatePublisher(publisherUpdateDto:PublisherUpdateDto){
+    async setOtp(publisherUpdateDto:PublisherOtpDto){
         const{otp}=publisherUpdateDto
          const publisher = await this.findByPublisherPayload(publisherUpdateDto)
          publisher.otp = otp
@@ -93,5 +103,11 @@ export class PublisherService {
         publisher.userName = userName
         this.publisherRepository.save(publisher)
         return publisher;
+    }
+
+    async updatePublisher(userName:string,id:number){
+        const publisher = await this.findPublisherById(id);
+        publisher.userName = userName;
+        this.publisherRepository.save(publisher)
     }
 }

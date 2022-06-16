@@ -4,7 +4,6 @@ import { AdvertiserLoginDto } from 'src/advertiser/advertiserLogin.dto';
 import { AuthService } from './auth.service';
 import { LoginStatus, PublisherLoginStatus} from './interfaces/login-status.interface';
 import { PublisherRegisterStatus, OtpSendingStatus, RegistrationStatus } from './interfaces/regisration-status.interface';
-import { NewPublisherDto } from '../Publisher/newPublisher.dto';
 import { PublisherMobileNoDto } from './../Publisher/publisherMobile.dto';
 import { OtpDto } from 'src/OTP/otp.dto';
 import { PublisherCreateDto } from 'src/Publisher/publisherCreate.dto';
@@ -55,5 +54,4 @@ export class AuthController {
     public async phone(@Body() publisherMobileDto:PublisherMobileNoDto ):Promise<OtpSendingStatus> {
         return await this.authService.phone(publisherMobileDto);
     }
-
 }

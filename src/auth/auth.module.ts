@@ -11,9 +11,9 @@ import { OtpModule } from './../OTP/otp.module';
 import { MailModule } from 'src/mail/mail.module';
 
 @Module({
-    imports: [  
+    imports: [
 
-AdvertiserModule, 
+        AdvertiserModule,
         PassportModule.register({
             defaultStrategy: 'jwt',
             property: 'user',
@@ -26,13 +26,13 @@ AdvertiserModule,
         }), MailModule,
         PublisherModule,
         OtpModule
-    ], 
-    controllers: [AuthController],  
-    providers: [AuthService, JwtStrategy],  
+    ],
+    controllers: [AuthController],
+    providers: [AuthService, JwtStrategy],
     exports: [
-        PassportModule, 
+        PassportModule,
         JwtModule,
         AuthService
     ],
 })
-export class AuthModule {}
+export class AuthModule { }

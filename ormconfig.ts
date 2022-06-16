@@ -12,19 +12,19 @@ const config: MysqlConnectionOptions = {
   host: 'localhost',
   port: 3306,
   username: 'root',
-  password: 'Sk7*1997',
+  password: 'Ak@172855',
   database: 'socially',
-    entities: [
-        Campaign,
-        Creative,
-        Advertiser,
-        Publisher,
-        CreativeLibrary,
-        uploadMdata
-    ],
-    //entities: ['**/src/entity/*{.ts,.js}'],
+  entities: [
+    Campaign,
+    Creative,
+    Advertiser,
+    Publisher,
+    CreativeLibrary,
+    uploadMdata
+  ],
+  //entities: ['**/src/entity/*{.ts,.js}'],
   synchronize: true,
-    // dropSchema: true
+  // dropSchema: true
 }
 
 export default config;

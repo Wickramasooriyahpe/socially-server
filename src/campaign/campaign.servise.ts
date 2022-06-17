@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Campaign } from './campaign.entity';
 import { updateCampaignDTO } from './updateCampaign.dto';
-import { Advertiser } from '../Advertiser/advertiser.entity';
+import { Advertiser } from '../advertiser/advertiser.entity';
 import { getConnection } from "typeorm";
 
 @Injectable()

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Creative } from '../Creative/creative.entity';
+import { Creative } from '../creative/creative.entity';
 
 @Injectable()
 export class CreativePreviewService {

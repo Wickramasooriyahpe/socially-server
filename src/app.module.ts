@@ -9,7 +9,7 @@ import config from 'ormconfig';
 import { creativeModule } from './creative/creative.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { creativeLibraryModule } from './creativeLibrary/creativeLibrary.module';
-import { AdvertiserModule } from './Advertiser/advertiser.module';
+import { AdvertiserModule } from './advertiser/advertiser.module';
 import { AuthModule } from './auth/auth.module';
 import { MailModule } from './Mail/mail.module';
 import { ConfigModule } from '@nestjs/config';

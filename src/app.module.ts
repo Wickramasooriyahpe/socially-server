@@ -11,7 +11,7 @@ import { MulterModule } from '@nestjs/platform-express';
 import { creativeLibraryModule } from './creativeLibrary/creativeLibrary.module';
 import { AdvertiserModule } from './Advertiser/advertiser.module';
 import { AuthModule } from './auth/auth.module';
-import { MailModule } from './mail/mail.module';
+import { MailModule } from './Mail/mail.module';
 import { ConfigModule } from '@nestjs/config';
 import { CreativePreviewModule } from './creative-preview/creative-preview.module';
 import { AdSharingController } from './ad-sharing/ad-sharing.controller';
@@ -23,7 +23,7 @@ import { PublisherTransactionModule } from './publisher-transaction/publisher-tr
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal:true,
+      isGlobal: true,
     }),
     TypeOrmModule.forRoot(config),
     campaignModule,
@@ -43,5 +43,5 @@ import { PublisherTransactionModule } from './publisher-transaction/publisher-tr
   providers: [AppService, AdSharingService],
 })
 export class AppModule {
-  
+
 }

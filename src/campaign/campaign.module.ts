@@ -3,10 +3,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { campaignController } from './campaign.controller';
 import { campaignService } from './campaign.servise';
 import { Campaign } from './campaign.entity';
-import { Advertiser } from '../Advertiser/advertiser.entity';
+import { Advertiser } from '../advertiser/advertiser.entity';
 import { AuthModule } from '../auth/auth.module';
-import { AdvertiserModule } from '../Advertiser/advertiser.module';
-import { AdvertiserService } from '../Advertiser/advertiser.service';
+import { AdvertiserModule } from '../advertiser/advertiser.module';
+import { AdvertiserService } from '../advertiser/advertiser.service';
 import { MailModule } from '../Mail/mail.module';
 
 @Module({

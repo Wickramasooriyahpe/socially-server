@@ -4,7 +4,7 @@ import { Creative } from "src/creative/creative.entity";
 // import { CreativeType } from "src/creative/creativeType.entity";
 import { CreativeLibrary } from "src/creativeLibrary/creativeLibrary.entity";
 import { uploadMdata } from "src/UploadMedia/metaData.entity";
-import { Advertiser } from "./src/Advertiser/advertiser.entity";
+import { Advertiser } from "./src/advertiser/advertiser.entity";
 import { Publisher } from './src/Publisher/publisher.entity';
 import { PublisherTransaction } from './src/publisher-transaction/publisher-transaction.entity';
 

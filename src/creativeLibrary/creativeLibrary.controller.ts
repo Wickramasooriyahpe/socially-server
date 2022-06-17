@@ -35,7 +35,6 @@ export const imageFileFilter = (req, file, callback) => {
 };
 
 @Controller('UploadMedia')
-
 export class creativeLibraryController {
     constructor(private readonly creativeLibraryService : creativeLibraryService,
       private AdvertiserService :AdvertiserService,){}

@@ -17,7 +17,6 @@ export class campaignService {
       
     ) { }
     
-
     async  findAll(): Promise<Campaign[]> {
         return await this.campaignRepository.find();
     }

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
-import { Advertiser } from '../Advertiser/advertiser.entity';
+import { Advertiser } from '../advertiser/advertiser.entity';
 
 @Injectable()
 export class MailService {

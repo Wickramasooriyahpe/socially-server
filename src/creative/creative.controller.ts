@@ -11,7 +11,6 @@ import { CreativeDTO } from './creativeDTO';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
 
 @Controller('creative')
-
 export class creativeController {
     constructor(private readonly creativeService : creativeService){}
 

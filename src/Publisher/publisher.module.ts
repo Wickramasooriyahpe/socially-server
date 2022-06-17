@@ -7,7 +7,7 @@ import { OtpService } from 'src/OTP/otp.service';
 
 @Module({
     imports:[TypeOrmModule.forFeature([Publisher])],
-controllers: [PublisherController],
+    controllers: [PublisherController],
     providers:[PublisherService,OtpService],
     exports : [PublisherService]
 })

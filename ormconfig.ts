@@ -26,7 +26,7 @@ const config: MysqlConnectionOptions = {
     ],
     //entities: ['**/src/entity/*{.ts,.js}'],
   synchronize: true,
-    // dropSchema: true
+  // dropSchema: true
 }
 
 export default config;

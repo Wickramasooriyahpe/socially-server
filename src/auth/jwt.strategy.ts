@@ -16,7 +16,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     async validate(payload: any) { //payload is decoded jwt
-        console.log(payload)
         if (payload.phoneNumber) {
             const publisher = await this.authService.validatePublisher(payload);
             if (!publisher) {

@@ -1,17 +1,17 @@
-import { IsNotEmpty, MaxLength } from "class-validator"
+import { IsNotEmpty } from "class-validator"
 
-export class PublisherTransactionDTO{
-
-    @IsNotEmpty()
-    amount :number
+export class PublisherTransactionDTO {
 
     @IsNotEmpty()
-    date :string
+    amount: number
 
     @IsNotEmpty()
-    time :string
+    date: string
 
     @IsNotEmpty()
-    type :string
-    
+    time: string
+
+    @IsNotEmpty()
+    type: string
+
 }

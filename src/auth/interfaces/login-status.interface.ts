@@ -1,4 +1,3 @@
-import { AdvertiserDto } from './../../advertiser/advertiserDto';
 
 export interface LoginStatus {
   userName: string;

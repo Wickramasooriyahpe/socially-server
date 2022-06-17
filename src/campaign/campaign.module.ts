@@ -3,18 +3,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { campaignController } from './campaign.controller';
 import { campaignService } from './campaign.servise';
 import { Campaign } from './campaign.entity';
-import { Advertiser } from 'src/Advertiser/advertiser.entity';
-import { AuthModule } from 'src/auth/auth.module';
-import { AdvertiserModule } from 'src/Advertiser/advertiser.module';
-import { AdvertiserService } from 'src/Advertiser/advertiser.service';
-import { AuthService } from 'src/auth/auth.service';
-import { JwtService } from '@nestjs/jwt';
-import { MailModule } from 'src/mail/mail.module';
+import { Advertiser } from '../Advertiser/advertiser.entity';
+import { AuthModule } from '../auth/auth.module';
+import { AdvertiserModule } from '../Advertiser/advertiser.module';
+import { AdvertiserService } from '../Advertiser/advertiser.service';
+import { MailModule } from '../Mail/mail.module';
 
 @Module({
-    imports : [MailModule,AdvertiserModule,TypeOrmModule.forFeature([Campaign,Advertiser]),AuthModule],
+    imports: [MailModule, AdvertiserModule, TypeOrmModule.forFeature([Campaign, Advertiser]), AuthModule],
     controllers: [campaignController],
-    providers: [campaignService,AdvertiserService],
-    exports:[campaignService]
+    providers: [campaignService, AdvertiserService],
+    exports: [campaignService]
 })
-export class campaignModule {}
+export class campaignModule { }

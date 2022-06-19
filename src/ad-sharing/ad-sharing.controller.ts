@@ -1,4 +1,4 @@
-import { Query, Controller, Get, Render, UseGuards, Request, } from '@nestjs/common';
+import { Query, Controller, Get, Render, UseGuards, Request, Req, Headers } from '@nestjs/common';
 import { AdSharingService } from './ad-sharing.service';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
 
@@ -8,11 +8,14 @@ export class AdSharingController {
     @Get()
     // @UseGuards(JwtAuthGuard)
     @Render('index')
-    public async getHTMLPage(@Query() query: { creative_id: number },) {
-
+    public async getHTMLPage(@Query() query: { creative_id: number }, @Req() req: Request, @Headers() headers) {
+        const host = headers.host
+        const url = req.url;
+        const fullUrl = (`http://${host}${url}`)
         const data = await this.adSharingService.getOGdata(query.creative_id);
         const { creativeHeading, creativeDescription, CreativeImage, destinationURL } = data
-        return { creativeHeading, creativeDescription, CreativeImage, destinationURL }
+        console.log(destinationURL)
+        return { creativeHeading, creativeDescription, CreativeImage, destinationURL, fullUrl }
     }
 }
 // @Request() req

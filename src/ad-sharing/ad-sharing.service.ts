@@ -12,7 +12,7 @@ export class AdSharingService {
       destinationURL: creative.destinationURL,
       creativeHeading: creative.creativeHeading,
       creativeDescription: creative.creativeDescription,
-      CreativeImage: 'https://iili.io/XbGhEg.jpg" alt="XbGhEg.jpg" border="0"'
+      CreativeImage: 'https://arpicosupercentre.com/pub/media/catalog/product/cache/926507dc7f93631a094422215b778fe0/h/t/http18.140.132.70productsimport719715.jpg'
     }
     return data;
   }

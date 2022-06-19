@@ -17,7 +17,7 @@ export class PublisherController {
 
     @Put('update')
     @UseGuards(JwtAuthGuard)
-    updateAdvertiser(@Body() publisherUpdateDto: PublisherUpdateDto, @Request() req) {
+    updateAdvertiser(@Body() publisherUpdateDto: PublisherUpdateDto, @Request() req): Promise<{ userName: string }> {
         const userName = publisherUpdateDto.userName;
         const userId = req.user.userId
         return this.publisherService.updatePublisher(userName, userId);

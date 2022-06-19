@@ -10,11 +10,11 @@ import { PublisherTransaction } from './src/publisher-transaction/publisher-tran
 
 const config: MysqlConnectionOptions = {
   type: 'mysql',
-  host: 'localhost',
+  host: 'us-cdbr-east-05.cleardb.net',
   port: 3306,
-  username: 'root',
-  password: 'Ak@172855',
-  database: 'socially',
+  username: 'b17b4699060175',
+  password: 'c3cdad1f',
+  database: 'heroku_7a6e5d946234c04',
   entities: [
     Campaign,
     Creative,

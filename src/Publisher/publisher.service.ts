@@ -104,9 +104,10 @@ export class PublisherService {
         return publisher;
     }
 
-    async updatePublisher(userName: string, id: number) {
+    async updatePublisher(userName: string, id: number): Promise<{ userName: string }> {
         const publisher = await this.findPublisherById(id);
         publisher.userName = userName;
         this.publisherRepository.save(publisher)
+        return { userName: publisher.userName };
     }
 }

@@ -8,10 +8,12 @@ export class AdSharingController {
     @Get()
     // @UseGuards(JwtAuthGuard)
     @Render('index')
-    public async getHTMLPage(@Query() query: { creative_id: number }, @Request() req) {
-        console.log(req.user.userId)
+    public async getHTMLPage(@Query() query: { creative_id: number },) {
+
         const data = await this.adSharingService.getOGdata(query.creative_id);
         const { creativeHeading, creativeDescription, CreativeImage, destinationURL } = data
         return { creativeHeading, creativeDescription, CreativeImage, destinationURL }
     }
 }
+// @Request() req
+// console.log(req.user.userId)

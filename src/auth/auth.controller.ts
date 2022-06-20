@@ -1,13 +1,13 @@
 import { Body, Controller, HttpException, HttpStatus, Post } from '@nestjs/common';
-import { AdvertiserCreateDto } from 'src/advertiser/AdvertiserCreate.dto';
-import { AdvertiserLoginDto } from 'src/advertiser/advertiserLogin.dto';
+import { AdvertiserCreateDto } from 'src/advertiser/dto/advertiser-create.dto';
+import { AdvertiserLoginDto } from 'src/advertiser/dto/advertiserLogin.dto';
 import { AuthService } from './auth.service';
 import { LoginStatus, PublisherLoginStatus} from './interfaces/login-status.interface';
 import { PublisherRegisterStatus, OtpSendingStatus, RegistrationStatus } from './interfaces/regisration-status.interface';
 import { PublisherMobileNoDto } from './../Publisher/publisherMobile.dto';
 import { OtpDto } from 'src/OTP/otp.dto';
 import { PublisherCreateDto } from 'src/Publisher/publisherCreate.dto';
-import { AdvertiserVerifyDto } from 'src/Advertiser/AdvertiserVerifyDto';
+import { AdvertiserVerifyDto } from 'src/advertiser/dto/AdvertiserVerifyDto';
 import { verificationStatus } from './interfaces/verificationStatus';
 
 

@@ -4,7 +4,7 @@ import { Creative } from "src/creative/creative.entity";
 // import { CreativeType } from "src/creative/creativeType.entity";
 import { CreativeLibrary } from "src/creativeLibrary/creativeLibrary.entity";
 import { uploadMdata } from "src/UploadMedia/metaData.entity";
-import { Advertiser } from "src/Advertiser/advertiser.entity";
+import { Advertiser } from "src/advertiser/entities/advertiser.entity";
 import { Publisher } from './src/Publisher/publisher.entity';
 
 const config: MysqlConnectionOptions = {
@@ -12,7 +12,7 @@ const config: MysqlConnectionOptions = {
   host: 'localhost',
   port: 3306,
   username: 'root',
-  password: 'Sk7*1997',
+  password: 'Tashini@1998',
   database: 'socially',
     entities: [
         Campaign,

@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post, Put, Query, Req, Request, UsePipes, ValidationPipe } from '@nestjs/common';
-import { Advertiser } from 'src/Advertiser/advertiser.entity';
+import { Advertiser } from 'src/advertiser/entities/advertiser.entity';
 import { Campaign } from './campaign.entity';
 import { campaignService } from './campaign.servise';
 import { campaignCreationDTO } from './campaignCreation.dto';

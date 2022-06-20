@@ -1,12 +1,13 @@
-import { Advertiser } from './../advertiser/advertiser.entity';
-import { AdvertiserDto } from './../advertiser/advertiserDto';
+import { AdvertiserPasswordChangeDto } from './../advertiser/dto/advertiserPasswordChange.dto';
+import { Advertiser } from '../advertiser/entities/advertiser.entity';
+import { AdvertiserDto } from '../advertiser/dto/advertiserDto';
 import { Publisher } from './../Publisher/publisher.entity';
 import { PublisherDto } from '../Publisher/Publisher.dto';
 import { PublisherMobileNoDto } from './../Publisher/publisherMobile.dto';
 
 export const toAdvertiserDto = (data: Advertiser):AdvertiserDto  =>  {  
-    const { id, name, email,password,generatedOTP,otpSentTime ,isActive } = data;
-    let advertiserDto: AdvertiserDto = { id, name, email,password,generatedOTP,otpSentTime,isActive};
+    const { id, name, email,role,password,generatedOTP,otpSentTime ,isActive } = data;
+    let advertiserDto: AdvertiserDto = { id, name, email,role,password,generatedOTP,otpSentTime,isActive};
     return advertiserDto;
 };
 
@@ -15,6 +16,12 @@ export const toPublisherDto = (data:Publisher): PublisherDto =>{
     let publisherDto : PublisherDto = {publisherId, userName, phoneNumber,otp}
     return publisherDto;
 }
+
+// export const toAdvertiserPasswordDto = (data: AdvertiserPasswordChangeDto):AdvertiserPasswordChangeDto => {
+//     const {password} = data;
+//     let AdvertiserPasswordChangeDto: AdvertiserPasswordChangeDto = {password};
+//     return AdvertiserPasswordChangeDto;
+// }
 
 
 // export const toPublisherMobileDto = (data:Publisher):PublisherMobileDto=>{

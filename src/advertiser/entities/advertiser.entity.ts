@@ -5,16 +5,31 @@ import { Campaign } from "src/campaign/campaign.entity";
 @Entity()
 export class Advertiser {
     @PrimaryGeneratedColumn()
-    id: number;
+    id: number
 
     @Column()
-    name : string
+    name: string
 
     @Column()
-  email: string;
+    email: string
+
+    @Column({nullable:true})
+    role: string;
+
+    @Column({nullable:true})
+    lname: string
+
+    @Column({nullable:true})
+    company: string
+
+    @Column({nullable:true})
+    address: string
+
+    @Column({nullable:true})
+    phone: string
 
     @Column()
-    password : string
+    password: string
 
     @BeforeInsert()
     async hashPassword(){

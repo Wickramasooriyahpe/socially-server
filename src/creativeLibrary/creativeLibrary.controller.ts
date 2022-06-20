@@ -4,7 +4,7 @@ import { creativeLibraryService } from './creativeLibrary.service';
 import { FileInterceptor,FilesInterceptor} from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
-import { Advertiser } from 'src/Advertiser/advertiser.entity';
+import { Advertiser } from 'src/advertiser/entities/advertiser.entity';
 import { Campaign } from 'src/campaign/campaign.entity';
 import { Creative } from 'src/creative/creative.entity';
 import { AuthService } from 'src/auth/auth.service';

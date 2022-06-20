@@ -1,11 +1,11 @@
 import { HttpException, HttpStatus, Injectable,NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AdvertiserDto } from 'src/advertiser/advertiserDto';
+import { AdvertiserDto } from 'src/advertiser/dto/advertiserDto';
 import { Repository } from 'typeorm';
 import { Campaign } from './campaign.entity';
 import { campaignCreationDTO } from './campaignCreation.dto';
 import { updateCampaignDTO } from './updateCampaign.dto';
-import { Advertiser } from 'src/Advertiser/advertiser.entity';
+import { Advertiser } from 'src/advertiser/entities/advertiser.entity';
 import { AdvertiserService } from 'src/advertiser/advertiser.service';
 import {getConnection} from "typeorm";
 

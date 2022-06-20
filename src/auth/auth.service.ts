@@ -1,8 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { AdvertiserCreateDto } from '../advertiser/AdvertiserCreate.dto';
-import { AdvertiserDto } from '../advertiser/advertiserDto';
-import { AdvertiserLoginDto } from '../advertiser/advertiserLogin.dto';
+import { identity } from 'rxjs';
+import { AdvertiserCreateDto } from 'src/advertiser/dto/advertiser-create.dto';
+import { AdvertiserDto } from 'src/advertiser/dto/advertiserDto';
+import { AdvertiserLoginDto } from 'src/advertiser/dto/advertiserLogin.dto';
 import { AdvertiserService } from './../advertiser/advertiser.service';
 import { LoginStatus, PublisherLoginStatus } from './interfaces/login-status.interface';
 import { JwtPayload, publisherJwtPayload } from './interfaces/payload.interface';
@@ -13,7 +14,9 @@ import { OtpService } from './../OTP/otp.service';
 import { PublisherMobileNoDto } from './../Publisher/publisherMobile.dto';
 import { OtpDto } from './../OTP/otp.dto';
 import { PublisherCreateDto } from './../Publisher/publisherCreate.dto';
-import { AdvertiserVerifyDto } from '../advertiser/AdvertiserVerifyDto';
+import { AdvertiserVerifyDto } from 'src/advertiser/dto/AdvertiserVerifyDto';
+import { MailService } from 'src/mail/mail.service';
+//import { AdvertiserVerifyDto } from '../advertiser/AdvertiserVerifyDto';
 import { verificationStatus } from './interfaces/verificationStatus';
 
 var otpGenerator = require('otp-generator');
@@ -63,8 +66,12 @@ export class AuthService {
 
         return {
             userName: advertiser.name,
+            userId: advertiser.id, 
+            userRole: advertiser.role,          
             accessToken: token,
             expiresIn: expiresIn
+        
+            
         };
     }
 

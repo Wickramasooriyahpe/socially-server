@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
-import { Advertiser } from '../advertiser/advertiser.entity';
+import { Advertiser } from 'src/advertiser/entities/advertiser.entity';
+import { Repository } from 'typeorm';
+import { AdvertiserDto } from 'src/advertiser/dto/advertiserDto';
 
 @Injectable()
 export class MailService {

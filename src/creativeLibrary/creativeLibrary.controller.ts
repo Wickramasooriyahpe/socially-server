@@ -1,20 +1,10 @@
-import {Request, Body, Controller, Delete, Get,Req, HttpCode, NotFoundException, Param, Post, Put,UseInterceptors,UploadedFile, Bind,UploadedFiles, Res, StreamableFile, Response, UseGuards } from '@nestjs/common';
-import path, { join } from 'path/posix';
+import { Controller, Get, Param, Post, UseInterceptors, UploadedFile, UploadedFiles, Res, UseGuards } from '@nestjs/common';
 import { creativeLibraryService } from './creativeLibrary.service';
-import { FileInterceptor,FilesInterceptor} from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
-import { Advertiser } from 'src/Advertiser/advertiser.entity';
-import { Campaign } from 'src/campaign/campaign.entity';
-import { Creative } from 'src/creative/creative.entity';
-import { AuthService } from 'src/auth/auth.service';
-import { JwtAuthGuard } from 'src/auth/jwt.guard';
-import { Observable } from 'rxjs';
-import { updateCreativeLibraryDTO } from './updateCreativeLibraryDTO.dto';
-import { AdvertiserService } from 'src/advertiser/advertiser.service';
-import { request } from 'http';
-import { CreativeLibrary } from './creativeLibrary.entity';
-import { creativeLibraryDTO } from './creativeLibraryDTO.dto';
+import { JwtAuthGuard } from '../auth/jwt.guard';
+import { AdvertiserService } from '../advertiser/advertiser.service';
 
 //Genarate Uniqe File name
 export const editFileName = (req, file, callback) => {
@@ -36,62 +26,62 @@ export const imageFileFilter = (req, file, callback) => {
 
 @Controller('UploadMedia')
 export class creativeLibraryController {
-    constructor(private readonly creativeLibraryService : creativeLibraryService,
-      private AdvertiserService :AdvertiserService,){}
-   
-   //Upload a single image (thumbnail)
-    @Post()
-   // @UseGuards(JwtAuthGuard) 
-    @UseInterceptors(FileInterceptor('file', {
-      storage: diskStorage({
-        destination:'./file1',
-        filename: editFileName
-      }),
-      fileFilter: imageFileFilter,
+  constructor(private readonly creativeLibraryService: creativeLibraryService,
+    private AdvertiserService: AdvertiserService,) { }
 
-    }))
-    
-    async uploadFile( @UploadedFile() file) {
-      
-      const response = {
-       // originalname: file.originalname,
-        filename: file.filename,
-        //filepath:file.path,
-        
-      };
-     return response;
-      
-    }
-   
-    //Upload Multiple Images/Files
-    @Post('multiple')
-    @UseGuards(JwtAuthGuard) 
-    @UseInterceptors(
-    FilesInterceptor('files', 20, {
+  //Upload a single image (thumbnail)
+  @Post()
+  // @UseGuards(JwtAuthGuard) 
+  @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({
-      destination: './files2',
-      filename: editFileName,
+      destination: './file1',
+      filename: editFileName
     }),
-  
-  }),
-  )
-    
-    async uploadMultipleFile(@UploadedFiles() files) {
-      const response = [];
-      files.forEach(file => {
-        const fileReponse = {
-         // originalname: file.originalname,
-          filename: file.filename,
-        };
-        response.push(fileReponse);
-      });
-      return response;
-}
+    fileFilter: imageFileFilter,
 
-@Get('image/:filename')
-seeUploadedFile(@Param('filename') image, @Res() res) { 
-  return res.sendFile(image, { root: './file1' });
-}
+  }))
+
+  async uploadFile(@UploadedFile() file) {
+
+    const response = {
+      // originalname: file.originalname,
+      filename: file.filename,
+      //filepath:file.path,
+
+    };
+    return response;
+
+  }
+
+  //Upload Multiple Images/Files
+  @Post('multiple')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(
+    FilesInterceptor('files', 20, {
+      storage: diskStorage({
+        destination: './files2',
+        filename: editFileName,
+      }),
+
+    }),
+  )
+
+  async uploadMultipleFile(@UploadedFiles() files) {
+    const response = [];
+    files.forEach(file => {
+      const fileReponse = {
+        // originalname: file.originalname,
+        filename: file.filename,
+      };
+      response.push(fileReponse);
+    });
+    return response;
+  }
+
+  @Get('image/:filename')
+  seeUploadedFile(@Param('filename') image, @Res() res) {
+    return res.sendFile(image, { root: './file1' });
+  }
 
 }
 

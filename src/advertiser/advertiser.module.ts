@@ -3,12 +3,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdvertiserController } from './advertiser.controller';
 import { Advertiser } from './advertiser.entity';
 import { AdvertiserService } from './advertiser.service';
-import { MailModule } from 'src/mail/mail.module';
+import { MailModule } from '../Mail/mail.module';
 
 @Module({
-    imports : [MailModule,TypeOrmModule.forFeature([Advertiser])],
+    imports: [MailModule, TypeOrmModule.forFeature([Advertiser])],
     controllers: [AdvertiserController],
     providers: [AdvertiserService],
-    exports:[AdvertiserService]
+    exports: [AdvertiserService]
 })
-export class AdvertiserModule {}
+export class AdvertiserModule { }

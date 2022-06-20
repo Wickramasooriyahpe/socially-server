@@ -1,13 +1,10 @@
 import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post, Put, Query, Req, Request, UsePipes, ValidationPipe } from '@nestjs/common';
-import { Advertiser } from 'src/Advertiser/advertiser.entity';
 import { Campaign } from './campaign.entity';
 import { campaignService } from './campaign.servise';
-import { campaignCreationDTO } from './campaignCreation.dto';
 import { DeleteCampaignDTO } from './deleteCampaignDTO.dto';
 import { updateCampaignDTO } from './updateCampaign.dto';
 import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/jwt.guard';
-import { getConnection } from "typeorm";
+import { JwtAuthGuard } from '../auth/jwt.guard';
 
 @Controller('campaign')
 export class campaignController {

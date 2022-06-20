@@ -3,7 +3,7 @@ import { Campaign } from "src/campaign/campaign.entity";
 import { Creative } from "src/creative/creative.entity";
 // import { CreativeType } from "src/creative/creativeType.entity";
 import { CreativeLibrary } from "src/creativeLibrary/creativeLibrary.entity";
-import { uploadMdata } from "src/UploadMedia/metaData.entity";
+import { avatar } from "src/UploadMedia/profileImage";
 import { Advertiser } from "src/Advertiser/advertiser.entity";
 import { Publisher } from './src/Publisher/publisher.entity';
 
@@ -20,7 +20,7 @@ const config: MysqlConnectionOptions = {
         Advertiser,
         Publisher,
         CreativeLibrary,
-        uploadMdata
+        avatar
     ],
     //entities: ['**/src/entity/*{.ts,.js}'],
   synchronize: true,

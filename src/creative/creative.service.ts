@@ -5,6 +5,8 @@ import { Repository } from 'typeorm';
 import { Creative } from './creative.entity';
 import { CreativeCreationDTO } from './creativeCreation.dto';
 import { UpdateCreativeDTO } from './updateCreativeDTO.dto';
+import {getConnection} from "typeorm";
+
 //import {CategoryNotFoundException} from './exceptions/categoryNotFound.exception';
 
 
@@ -21,6 +23,18 @@ export class creativeService {
     async  findAll(): Promise<Creative[]> {
         return await this.creativeRepository.find();
     }
+
+    async findallcreatives(campID : number):Promise<any>{
+        
+      const AD = await getConnection()
+      .createQueryBuilder()
+      .select("Creative")
+      .from(Creative,"Creative")
+      .where("Creative.campID = :campID", { campID: campID })
+      .getMany();
+  
+       return AD;
+  }
    //get a creative by id
   
     async getCreativeById(creativeId: number): Promise<Creative> {
@@ -38,8 +52,7 @@ export class creativeService {
       }
 
     //Create a creative
-    async  createCreative(creativeCreation: Creative): Promise<Creative> {
-        
+    async  createCreative(creativeCreation: Creative): Promise<Creative> {  
     return await this.creativeRepository.save(creativeCreation);
     }
     
@@ -79,4 +92,5 @@ export class creativeService {
         }
         return this.creativeRepository.softDelete(deleteRecord);
       } 
+      
       }

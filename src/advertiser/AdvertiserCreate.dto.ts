@@ -12,6 +12,7 @@ export class AdvertiserCreateDto{
     @IsNotEmpty()
     password:string
 
+    avatar:string
     generatedOTP:number
     otpSentTime : Date
     isActive:boolean

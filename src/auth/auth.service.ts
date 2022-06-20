@@ -65,6 +65,7 @@ export class AuthService {
 
         return {
             userName:advertiser.name,
+            id: advertiser.id,
             accessToken:token,
             expiresIn:expiresIn           
         };  

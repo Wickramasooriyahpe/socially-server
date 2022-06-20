@@ -15,35 +15,31 @@ import { JwtAuthGuard } from 'src/auth/jwt.guard';
 export class creativeController {
     constructor(private readonly creativeService : creativeService){}
 
-    @Get()
-    getAllCreatives(){
-         return this.creativeService.findAll();
-     }
+    // @Get()
+    // getAllCreatives(){
+    //      return this.creativeService.findAll();
+    //  }
 
-     @Get(':creativeId')
+     @Get('get-one-creative/:creativeId')
      async getCreativeById(@Param('creativeId') creativeId:number){
        return this.creativeService.getCreativeById(creativeId);
      }
 
-//Get all creatives for a particuler campaign
+    //Get all creatives for a particuler campaign
      @Get(':campID')
      async findAllCreatives(@Param('campID') campID:number){
       
-      const AD = await getConnection()
-    .createQueryBuilder()
-    .select("Creative")
-    .from(Creative,"Creative")
-    .where("Creative.campID = :campID", { campID: campID })
-    .getMany();
+       return await this.creativeService.findallcreatives(campID);
 
-    return AD;
+   
      }
 
    // Create Creative 
-     @Post('createCreative')
+     @Post(':campID')
      @UseGuards(JwtAuthGuard)
-     async createCreative(@Body() creativeData: Creative): Promise<any> {
-     
+     async createCreative(@Body() creativeData: Creative,@Param('campID') campaignId:number,@Request() req): Promise<any> {
+     // console.log("campaign ID = ",campaignId)
+     creativeData.campID= campaignId;
       return this.creativeService.createCreative(creativeData);
     }  
     

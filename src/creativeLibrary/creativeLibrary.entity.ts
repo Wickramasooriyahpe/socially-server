@@ -13,7 +13,9 @@ export class CreativeLibrary {
     @Column({nullable: true})
       public thumbnailImagePath: string;
 
-
+      @Column({nullable: true})
+      public  realImage: string;
+     
     /* relationships*/
       
     @JoinColumn({name:'creID'})

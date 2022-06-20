@@ -64,7 +64,7 @@ async  createCampaign(Advertiser:Advertiser,campaignCreation: Campaign): Promise
     async softDeleteCampaign(campaignId: number){
         const deleteRecord = await this.campaignRepository.findOne(campaignId);
         if(! deleteRecord){
-          throw new NotFoundException('not found creative');
+          throw new NotFoundException('not found campaign');
         }
         return this.campaignRepository.softDelete(deleteRecord);
       }

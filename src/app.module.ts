@@ -17,7 +17,7 @@ import { CreativePreviewModule } from './creative-preview/creative-preview.modul
 import { AdSharingController } from './ad-sharing/ad-sharing.controller';
 import { AdSharingService } from './ad-sharing/ad-sharing.service';
 import { AdSharingModule } from './ad-sharing/ad-sharing.module';
-
+import { uploadMediaModule } from './UploadMedia/media.module';
 @Dependencies(Connection)
 @Module({
   imports: [
@@ -36,6 +36,7 @@ import { AdSharingModule } from './ad-sharing/ad-sharing.module';
     MailModule,
     CreativePreviewModule,
     AdSharingModule,
+    uploadMediaModule,
   ],
   controllers: [AppController, AdSharingController],
   providers: [AppService, AdSharingService],

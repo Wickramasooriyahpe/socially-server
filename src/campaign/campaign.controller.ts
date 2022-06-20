@@ -36,7 +36,7 @@ export class campaignController {
           return this.campaignService.getCampaignById(campaignId);
     }
    // Create a new Campaign
-   @UseGuards(JwtAuthGuard)
+     @UseGuards(JwtAuthGuard)
     @Post('createCampaign')
     async createCampaign(@Body() campaignData: Campaign, @Request() req): Promise<any> {
           
@@ -45,15 +45,16 @@ export class campaignController {
           return this.campaignService.createCampaign(req.user.userId,campaignData);
     }
      
-    @Put(':campaignId')
+    @Put('editcamp/:campaignId')
     @UseGuards(JwtAuthGuard)
     async updateCampaign(@Param('campaignId') campaignId:number, @Body() updateCampaignDTO:updateCampaignDTO){
-          console.log()
+        
         updateCampaignDTO.campaignId= campaignId;
         return this.campaignService.updateCampaign(updateCampaignDTO);
      }
     
      @Delete(':campaignId')
+     @UseGuards(JwtAuthGuard)
      async softDeleteCampaign(@Param('campaignId' ) campaignId:number , @Body() DeletecampaignDTO:DeleteCampaignDTO)
      {
          DeletecampaignDTO.campaignId=campaignId;

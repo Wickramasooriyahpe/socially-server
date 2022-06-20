@@ -3,7 +3,6 @@ import { Advertiser } from '../advertiser/entities/advertiser.entity';
 import { AdvertiserDto } from '../advertiser/dto/advertiserDto';
 import { Publisher } from './../Publisher/publisher.entity';
 import { PublisherDto } from '../Publisher/Publisher.dto';
-import { PublisherMobileNoDto } from './../Publisher/publisherMobile.dto';
 
 export const toAdvertiserDto = (data: Advertiser):AdvertiserDto  =>  {  
     const { id, name, email,role,password,generatedOTP,otpSentTime ,isActive } = data;
@@ -11,9 +10,9 @@ export const toAdvertiserDto = (data: Advertiser):AdvertiserDto  =>  {
     return advertiserDto;
 };
 
-export const toPublisherDto = (data:Publisher): PublisherDto =>{
-    const {publisherId, userName, phoneNumber,otp} = data;
-    let publisherDto : PublisherDto = {publisherId, userName, phoneNumber,otp}
+export const toPublisherDto = (data: Publisher): PublisherDto => {
+    const { publisherId, userName, phoneNumber, otp } = data;
+    let publisherDto: PublisherDto = { publisherId, userName, phoneNumber, otp }
     return publisherDto;
 }
 

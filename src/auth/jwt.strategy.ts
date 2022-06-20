@@ -3,7 +3,6 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { AuthService } from './auth.service';
 import { jwtConstants } from './constants';
-import { JwtPayload, publisherJwtPayload } from './interfaces/payload.interface';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -16,7 +15,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     async validate(payload: any) { //payload is decoded jwt
-        console.log(payload)
         if (payload.phoneNumber) {
             const publisher = await this.authService.validatePublisher(payload);
             if (!publisher) {

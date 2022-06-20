@@ -1,6 +1,6 @@
 import { BeforeInsert, Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import * as bcrypt from 'bcrypt';
-import { Campaign } from "src/campaign/campaign.entity";
+import { Campaign } from "../../campaign/campaign.entity";
 
 @Entity()
 export class Advertiser {
@@ -31,19 +31,19 @@ export class Advertiser {
     @Column()
     password: string
 
-    @BeforeInsert()
-    async hashPassword(){
-        this.password = await bcrypt.hash(this.password, 10)
-    }
-    @Column()
-    generatedOTP : number
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 10)
+  }
+  @Column()
+  generatedOTP: number
 
-    @Column()
-    otpSentTime : Date
+  @Column()
+  otpSentTime: Date
 
-    @Column()
-    isActive:boolean
+  @Column()
+  isActive: boolean
 
-    @OneToMany(() => Campaign, Campaign => Campaign.Advertiser)
-    public Campaign: Campaign[];
+  @OneToMany(() => Campaign, Campaign => Campaign.Advertiser)
+  public Campaign: Campaign[];
 }

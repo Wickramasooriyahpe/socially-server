@@ -12,7 +12,7 @@ import { AdvertiserUpdateDto } from './dto/AdvertiserUpdate.dto';
 
 @Controller('advertiser')
 export class AdvertiserController {
-    constructor(private readonly advertiserService : AdvertiserService){}
+    constructor(private readonly advertiserService: AdvertiserService) { }
 
     // @Get()
     // getAllAdvertisers(){
@@ -20,7 +20,7 @@ export class AdvertiserController {
     // }
 
     @Get(':id')
-    getAdvertiserById(@Param('id') id:number){
+    getAdvertiserById(@Param('id') id: number) {
         return this.advertiserService.getAdvertiserById(id);
     }
 

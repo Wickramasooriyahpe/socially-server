@@ -71,3 +71,11 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+
+
+database url - mysql://b17b4699060175:c3cdad1f@us-cdbr-east-05.cleardb.net/heroku_7a6e5d946234c04?reconnect=true
+
+backend url - https://uom-socially-api.herokuapp.com/
+
+ad share url example = https://uom-socially-api.herokuapp.com/share?creative_id=1&user_id=2&cookie_id=1

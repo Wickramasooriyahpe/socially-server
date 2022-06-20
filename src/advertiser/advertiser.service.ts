@@ -1,3 +1,4 @@
+//import { async } from 'rxjs';
 import { ChangePasswordStatus } from './../auth/interfaces/ChangePassword-Status';
 import { AdvertiserPasswordChangeDto } from './dto/advertiserPasswordChange.dto';
 //import { Advertiser } from 'src/Advertiser/advertiser.entity';
@@ -16,112 +17,152 @@ import { MailService } from 'src/mail/mail.service';
 import { AdvertiserVerifyDto } from './dto/AdvertiserVerifyDto';
 import * as bcrypt from 'bcrypt';
 
+
 @Injectable()
 export class AdvertiserService {
     constructor(
-        @InjectRepository(Advertiser) private advertiserRepository : Repository<Advertiser>, private mailService: MailService
-        ){}
+        @InjectRepository(Advertiser) private advertiserRepository: Repository<Advertiser>, private mailService: MailService
+    ) { }
 
-        // getAll():Promise<Advertiser[]>{
-        //     return this.advertiserRepository.find(); // SELECT * FROM Advertiser
-        // }
+    // getAll():Promise<Advertiser[]>{
+    //     return this.advertiserRepository.find(); // SELECT * FROM Advertiser
+    // }
 
-        async getAdvertiserById(id:number):Promise<Advertiser>{
-            try{
-                const advertiser = await this.advertiserRepository.findOneOrFail(id);  // SELECT * FROM Advertiser WHERE Advertiser.id = id
-                
-                return advertiser; 
-            }catch(err){
-                throw err;
-            }    
+    async getAdvertiserById(id: number): Promise<Advertiser> {
+        try {
+            const advertiser = await this.advertiserRepository.findOneOrFail(id);  // SELECT * FROM Advertiser WHERE Advertiser.id = id
+
+            return advertiser;
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    // async updateAdvertiser(advertiserUpdateDto:AdvertiserUpdateDto):Promise<Advertiser>{
+    //     const{id,name} = advertiserUpdateDto;
+    //     const advertiser = await this.getAdvertiserById(id)
+    //     advertiser.name = name;
+    //     return this.advertiserRepository.save(advertiser);//INSERT
+    // }
+
+    // async deleteAdvertiser(id:number):Promise<Advertiser>{
+    //     const advertiser = await this.getAdvertiserById(id);
+
+    //     return this.advertiserRepository.remove(advertiser);
+    // }
+
+    //............................Advertiser Login..................................
+
+    async findOne(options?: object): Promise<AdvertiserDto> {
+        const advertiser = await this.advertiserRepository.findOne(options);
+        return toAdvertiserDto(advertiser)
+    }
+
+    async findByLogin({ email, password }: AdvertiserLoginDto): Promise<AdvertiserDto> {
+        const advertiser = await this.advertiserRepository.findOne({ where: { email } });
+
+        if (!advertiser) {
+            throw new HttpException('Advertiser Not Found', HttpStatus.UNAUTHORIZED);
         }
 
-        // async updateAdvertiser(advertiserUpdateDto:AdvertiserUpdateDto):Promise<Advertiser>{
-        //     const{id,name} = advertiserUpdateDto;
-        //     const advertiser = await this.getAdvertiserById(id)
-        //     advertiser.name = name;
-        //     return this.advertiserRepository.save(advertiser);//INSERT
-        // }
+        //compare password
+        const areEqual = await comparePasswords(advertiser.password, password);
 
-        // async deleteAdvertiser(id:number):Promise<Advertiser>{
-        //     const advertiser = await this.getAdvertiserById(id);
-
-        //     return this.advertiserRepository.remove(advertiser);
-        // }
-
-        //............................Advertiser Login..................................
-
-        async findOne(options?: object): Promise<AdvertiserDto>{
-            const advertiser = await this.advertiserRepository.findOne(options);
-            return toAdvertiserDto(advertiser)
+        if (!areEqual) {
+            throw new HttpException('Invalid Password', HttpStatus.UNAUTHORIZED);
         }
 
-        async findByLogin({email,password}: AdvertiserLoginDto):Promise<AdvertiserDto>{
-            const advertiser = await this.advertiserRepository.findOne({where:  {email}});
+        return toAdvertiserDto(advertiser)
+    }
 
-            if(!advertiser){
-                throw new HttpException('Advertiser Not Found', HttpStatus.UNAUTHORIZED);
-            }
+    async findByPayload({ email }: any): Promise<AdvertiserDto> {
+        return await this.findOne({
+            where: { email }
+        });
+    }
 
-            //compare password
-            const areEqual = await comparePasswords(advertiser.password, password);
-            
-            if(!areEqual){
-                throw new HttpException('Invalid Password', HttpStatus.UNAUTHORIZED);
-            }
 
-            return toAdvertiserDto(advertiser)
+
+
+    //............................Advertiser register.................................. 
+
+    //create Advertiser Temporary
+    async createAdvertiser(advertiserDto: AdvertiserCreateDto): Promise<AdvertiserDto> {
+        const { name, email, password } = advertiserDto;
+
+        //Check if user already registered
+        const searchAdvertiser = await this.advertiserRepository.findOne({ where: { email } });
+        if (searchAdvertiser) {
+            throw new HttpException('Advertiser already exists', HttpStatus.BAD_REQUEST);
         }
 
-        async findByPayload({ email }: any): Promise<AdvertiserDto> {
-            return await this.findOne({ 
-                where:  { email } });  
+        //Genarate OTP
+        const generatedOTP = (Math.floor(Math.random() * (9 * Math.pow(10, 3))) + Math.pow(10, 3));
+        const advertiser: Advertiser = await this.advertiserRepository.create({ name, email, password, generatedOTP, otpSentTime: new Date(), isActive: false });
+
+        //send Email
+        await this.mailService.sendUserConfirmation(advertiser, generatedOTP);
+
+
+        await this.advertiserRepository.save(advertiser);
+        return toAdvertiserDto(advertiser);
+    }
+
+    async verifyOTP({ email, enteredOTP }: AdvertiserVerifyDto): Promise<AdvertiserDto> {
+        // const{enteredOTP} =AdvertiserVerifyDto;
+        const advertiser = await this.advertiserRepository.findOne({ where: { email } });
+
+        const areEqual = advertiser.generatedOTP == enteredOTP;
+        if (!areEqual) {
+            throw new HttpException('Invalid OTP', HttpStatus.UNAUTHORIZED);
         }
 
+        await this.advertiserRepository.update({ isActive: false }, { isActive: true });
+        return toAdvertiserDto(advertiser);
 
-
+    }
         
         //............................Advertiser register.................................. 
 
         //create Advertiser Temporary
-        async createAdvertiser(advertiserDto:AdvertiserCreateDto):Promise<AdvertiserDto>{
-            const{name,email,password} =advertiserDto;
+        // async createAdvertiser(advertiserDto:AdvertiserCreateDto):Promise<AdvertiserDto>{
+        //     const{name,email,password} =advertiserDto;
 
-            //Check if user already registered
-            const searchAdvertiser = await this.advertiserRepository.findOne({where: {email}});
-            if(searchAdvertiser){
-                throw new HttpException('Advertiser already exists', HttpStatus.BAD_REQUEST);
-            }
+        //     //Check if user already registered
+        //     const searchAdvertiser = await this.advertiserRepository.findOne({where: {email}});
+        //     if(searchAdvertiser){
+        //         throw new HttpException('Advertiser already exists', HttpStatus.BAD_REQUEST);
+        //     }
 
-            //Genarate OTP
-            const generatedOTP=(Math.floor(Math.random() * (9 * Math.pow(10, 3))) + Math.pow(10, 3));
-            const advertiser: Advertiser = await this.advertiserRepository.create({ name,email,password, generatedOTP, otpSentTime: new Date(), isActive: false});
+        //     //Genarate OTP
+        //     const generatedOTP=(Math.floor(Math.random() * (9 * Math.pow(10, 3))) + Math.pow(10, 3));
+        //     const advertiser: Advertiser = await this.advertiserRepository.create({ name,email,password, generatedOTP, otpSentTime: new Date(), isActive: false});
 
-            //send Email
-            await this.mailService.sendUserConfirmation(advertiser, generatedOTP);
+        //     //send Email
+        //     await this.mailService.sendUserConfirmation(advertiser, generatedOTP);
 
             
-            await this.advertiserRepository.save(advertiser);
-            return toAdvertiserDto(advertiser);  
-        }
+        //     await this.advertiserRepository.save(advertiser);
+        //     return toAdvertiserDto(advertiser);  
+        // }
 
-        async verifyOTP({email, enteredOTP}: AdvertiserVerifyDto):Promise<AdvertiserDto>{
-           // const{enteredOTP} =AdvertiserVerifyDto;
-            const advertiser = await this.advertiserRepository.findOne({where:  {email}});
+        // async verifyOTP({email, enteredOTP}: AdvertiserVerifyDto):Promise<AdvertiserDto>{
+        //    // const{enteredOTP} =AdvertiserVerifyDto;
+        //     const advertiser = await this.advertiserRepository.findOne({where:  {email}});
             
-            const areEqual = advertiser.generatedOTP == enteredOTP;
-            if(!areEqual){
-                throw new HttpException('Invalid OTP', HttpStatus.UNAUTHORIZED);
-            }
+        //     const areEqual = advertiser.generatedOTP == enteredOTP;
+        //     if(!areEqual){
+        //         throw new HttpException('Invalid OTP', HttpStatus.UNAUTHORIZED);
+        //     }
         
-                await this.advertiserRepository.update({isActive: false},{isActive: true});
-            return toAdvertiserDto(advertiser); 
+        //         await this.advertiserRepository.update({isActive: false},{isActive: true});
+        //     return toAdvertiserDto(advertiser); 
             
-        }
+        // }
 
-        /*****************Profile Update*************** */
-        findAll(): Promise<AdvertiserDto[]> {
-            return this.advertiserRepository.find();
+//  /*****************Profile Update*************** */
+        async findAll(): Promise<AdvertiserDto[]> {
+            return await this.advertiserRepository.find();
          }
 
          findOneadvertiser(id: number): Promise<AdvertiserUpdateDto>{
@@ -168,7 +209,7 @@ export class AdvertiserService {
         //     await this.advertiserRepository.delete(id);
         // }
 
-        /***Change Password */
+       // /***Change Password */
 
         async changePassword(id: number, advertiserPasswordChangeDto : AdvertiserPasswordChangeDto){
             const Advertiser = await this.advertiserRepository.findOne({where: {id:id}});
@@ -196,5 +237,5 @@ export class AdvertiserService {
         }
 
 
-}
 
+}

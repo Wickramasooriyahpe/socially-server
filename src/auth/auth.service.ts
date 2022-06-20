@@ -16,6 +16,7 @@ import { OtpDto } from './../OTP/otp.dto';
 import { PublisherCreateDto } from './../Publisher/publisherCreate.dto';
 import { AdvertiserVerifyDto } from 'src/advertiser/dto/AdvertiserVerifyDto';
 import { MailService } from 'src/mail/mail.service';
+//import { AdvertiserVerifyDto } from '../advertiser/AdvertiserVerifyDto';
 import { verificationStatus } from './interfaces/verificationStatus';
 
 var otpGenerator = require('otp-generator');
@@ -115,14 +116,14 @@ export class AuthService {
             const token = this.jwtService.sign(payload);
             const expiresIn = '60s'
             return {
-                phoneNumber: publisher.phoneNumber, isNewUser: false, expireIn: expiresIn, accessToken: token,
+                phoneNumber: publisher.phoneNumber, isNewUser: false, expireIn: expiresIn, accessToken: token, id: publisher.publisherId
             }
         } else {
             const payload: publisherJwtPayload = { phoneNumber: publisher.phoneNumber, id: publisher.publisherId }
             const token = this.jwtService.sign(payload);
             const expiresIn = '60s'
             return {
-                phoneNumber: publisher.phoneNumber, isNewUser: true, accessToken: token, expireIn: expiresIn
+                phoneNumber: publisher.phoneNumber, isNewUser: true, accessToken: token, expireIn: expiresIn, id: publisher.publisherId
             }
         }
     }

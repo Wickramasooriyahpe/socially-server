@@ -8,11 +8,12 @@ export interface LoginStatus {
   expiresIn: any;
 }
 
-export interface PublisherLoginStatus{
+export interface PublisherLoginStatus {
+  id: number
   phoneNumber: string
-  accessToken:any
-  expireIn:any
-  isNewUser:boolean
+  accessToken: any
+  expireIn: any
+  isNewUser: boolean
 }
 
 

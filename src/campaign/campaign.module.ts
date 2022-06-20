@@ -17,4 +17,4 @@ import { MailModule } from 'src/mail/mail.module';
     providers: [campaignService],
     exports:[campaignService]
 })
-export class campaignModule {}
+export class campaignModule { }

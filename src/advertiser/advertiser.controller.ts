@@ -5,7 +5,7 @@ import { AdvertiserPasswordChangeDto } from './dto/advertiserPasswordChange.dto'
 import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Patch, Post, Put, Query, UsePipes, ValidationPipe, UseGuards } from '@nestjs/common';
 //import { JwtAuthGuard } from 'src/auth/jwt.guard';
 //import { UseGuards } from '@nestjs/common';
-import { Advertiser } from './entities/advertiser.entity';
+import { Advertiser } from './advertiser.entity';
 import { AdvertiserService } from './advertiser.service';
 import { AdvertiserCreateDto } from './dto/advertiser-create.dto';
 import { AdvertiserUpdateDto } from './dto/AdvertiserUpdate.dto';

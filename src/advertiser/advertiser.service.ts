@@ -5,7 +5,7 @@ import { AdvertiserPasswordChangeDto } from './dto/advertiserPasswordChange.dto'
 import { HttpException, HttpStatus, Injectable, Options } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Advertiser } from './entities/advertiser.entity';
+import { Advertiser } from './advertiser.entity';
 import { AdvertiserCreateDto } from './dto/advertiser-create.dto';
 import { AdvertiserUpdateDto } from './dto/AdvertiserUpdate.dto';
 import { toAdvertiserDto } from './../shared/mapper';

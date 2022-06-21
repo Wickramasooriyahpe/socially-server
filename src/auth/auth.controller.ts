@@ -24,6 +24,16 @@ export class AuthController {
         return result;
     }
 
+    @Post('verify')
+    public async verify(@Body() AdvertiserVerifyDto: AdvertiserVerifyDto,): Promise<verificationStatus> {
+        const result: verificationStatus = await this.authService.verify(AdvertiserVerifyDto,);
+        if (!result.success) {
+            throw new HttpException(result.message, HttpStatus.BAD_REQUEST);
+        }
+        return result;
+    }
+
+
     //resend OTP
     @Post('reSendOTP')  
     public async reSendOTP(@Body() advertiserCreateDto: AdvertiserCreateDto,  ): Promise<RegistrationStatus> 
@@ -34,6 +44,8 @@ export class AuthController {
     }
     return result;  
     }
+
+
 
     //send forgotPasswordEmail
     @Post('forgotPasswordEmail')  

@@ -4,9 +4,11 @@ import { Creative } from "src/creative/creative.entity";
 // import { CreativeType } from "src/creative/creativeType.entity";
 import { CreativeLibrary } from "src/creativeLibrary/creativeLibrary.entity";
 import { uploadMdata } from "src/UploadMedia/metaData.entity";
-import {Adver}
+//import { Advertiser } from "src/advertiser/advertiser.entity";
 import { Publisher } from './src/Publisher/publisher.entity';
 import { PublisherTransaction } from './src/publisher-transaction/publisher-transaction.entity';
+//import { Advertiser } from "./src/advertiser/advertiser.entity";
+import {Advertiser} from "./src/advertiser/advertiser.entity";
 
 const config: MysqlConnectionOptions = {
     type: 'mysql',

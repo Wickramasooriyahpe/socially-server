@@ -2,7 +2,7 @@ import { Controller ,Body , Post, Req, UseGuards} from "@nestjs/common";
 import { JwtAuthGuard } from "src/auth/jwt.guard";
 import { StripeService } from "./stripe.service";
 import CreatePaymentDto from "./createPayment.dto";
-import { Advertiser } from "src/Advertiser/advertiser.entity";
+import { Advertiser } from "src/advertiser/advertiser.entity";
 import { Request } from 'express';
 
 @Controller('payments')

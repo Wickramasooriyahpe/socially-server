@@ -1,5 +1,5 @@
 import { AdvertiserPasswordChangeDto } from './../advertiser/dto/advertiserPasswordChange.dto';
-import { Advertiser } from '../advertiser/entities/advertiser.entity';
+import { Advertiser } from '../advertiser/advertiser.entity';
 import { AdvertiserDto } from '../advertiser/dto/advertiserDto';
 import { Publisher } from './../Publisher/publisher.entity';
 import { PublisherDto } from '../Publisher/Publisher.dto';

@@ -2,7 +2,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdvertiserController } from './advertiser.controller';
-import { Advertiser } from './entities/advertiser.entity';
+import { Advertiser } from './advertiser.entity';
 import { AdvertiserService } from './advertiser.service';
 import { MailModule } from 'src/mail/mail.module';
 import { ConfigService } from '@nestjs/config';

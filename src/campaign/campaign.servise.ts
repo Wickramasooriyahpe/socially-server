@@ -4,7 +4,7 @@ import { AdvertiserDto } from 'src/advertiser/dto/advertiserDto';
 import { Repository } from 'typeorm';
 import { Campaign } from './campaign.entity';
 import { updateCampaignDTO } from './updateCampaign.dto';
-import { Advertiser } from 'src/advertiser/entities/advertiser.entity';
+import { Advertiser } from 'src/advertiser/advertiser.entity';
 import { AdvertiserService } from 'src/advertiser/advertiser.service';
 import {getConnection} from "typeorm";
 

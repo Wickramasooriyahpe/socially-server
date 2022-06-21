@@ -21,16 +21,20 @@ import { verificationStatus } from './interfaces/verificationStatus';
 var otpGenerator = require('otp-generator');
 @Injectable()
 export class AuthService {
-    constructor(private readonly publisherService:PublisherService,private readonly advertiserService : AdvertiserService,private readonly jwtService: JwtService,private readonly otpService:OtpService ) {}
+    constructor(private readonly publisherService:PublisherService,
+        private readonly advertiserService : AdvertiserService,
+        private readonly jwtService: JwtService,
+        private readonly otpService:OtpService ) {}
 
     async register(advertiserDto: AdvertiserCreateDto): 
     Promise<RegistrationStatus> {
     let status: RegistrationStatus = {
         success: true,   
-        message: 'user registered!',
+        message: 'Verification otp email sent',
     };
     try {
         await this.advertiserService.createAdvertiser(advertiserDto);
+       //await this.advertiserService.create(advertiserDto);
     } catch (err) {
         status = {
             success: false,        
@@ -41,19 +45,85 @@ export class AuthService {
     return status;  
 }
 
-    async verify(advertiserverifyDto: AdvertiserVerifyDto):  Promise<verificationStatus> {
+    async verify(advertiserverifyDto: AdvertiserVerifyDto) : Promise<verificationStatus>{
         let status: verificationStatus = {
             success: true,   
-            message: 'confirmed registration',
+            message: 'User Registered',
         };
-    // find user in db    
-        await this.advertiserService.verifyOTP(advertiserverifyDto);
-            
+    
+        try {
+           await this.advertiserService.verifyOTP(advertiserverifyDto);
+           //await this.advertiserService.create(advertiserDto);
+        } catch (err) {
+            status = {
+                success: false,        
+                message: err,
+            };    
+    
+        }      
     // generate and sign token    
     //const token = this._createToken(advertiser);
     
     return status;
     }
+
+
+    async resendOTP(advertiserDto: AdvertiserCreateDto): 
+    Promise<RegistrationStatus> {
+    let status: RegistrationStatus = {
+        success: true,   
+        message: 'Verification otp email sent again',
+    };
+    try {
+        await this.advertiserService.resendOTPEmail(advertiserDto);
+       //await this.advertiserService.create(advertiserDto);
+    } catch (err) {
+        status = {
+            success: false,        
+            message: err,
+        };    
+
+    }
+    return status;  
+}
+
+        async forgotPassword(advertiserDto: AdvertiserCreateDto): 
+        Promise<RegistrationStatus> {
+        let status: RegistrationStatus = {
+            success: true,   
+            message: 'Please check your email',
+        };
+        try {
+            await this.advertiserService.sendforgotPasswordEmail(advertiserDto);
+        //await this.advertiserService.create(advertiserDto);
+        } catch (err) {
+            status = {
+                success: false,        
+                message: err,
+            };    
+
+        }
+        return status;  
+        }
+
+        async resetPassword(advertiserDto: AdvertiserCreateDto): 
+        Promise<RegistrationStatus> {
+        let status: RegistrationStatus = {
+            success: true,   
+            message: 'Succes',
+        };
+        try {
+            await this.advertiserService.saveResetPassword(advertiserDto);
+        //await this.advertiserService.create(advertiserDto);
+        } catch (err) {
+            status = {
+                success: false,        
+                message: err,
+            };    
+
+        }
+        return status;  
+        }
 
     async login(loginAdvertiserDto: AdvertiserLoginDto): Promise<LoginStatus> {    
         // find user in db    

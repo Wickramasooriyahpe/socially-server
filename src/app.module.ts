@@ -13,6 +13,7 @@ import { AdvertiserModule } from './Advertiser/advertiser.module';
 import { AuthModule } from './auth/auth.module';
 import { MailModule } from './mail/mail.module';
 import { ConfigModule } from '@nestjs/config';
+import { StripeModule } from './Payments-stripe/stripe.module';
 
 @Dependencies(Connection)
 @Module({
@@ -30,6 +31,7 @@ import { ConfigModule } from '@nestjs/config';
       dest: './files',
     }),
     MailModule,
+    StripeModule
   ],
   controllers: [AppController],
   providers: [AppService],

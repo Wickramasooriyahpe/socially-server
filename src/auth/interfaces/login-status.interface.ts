@@ -1,6 +1,8 @@
 import { AdvertiserDto } from './../../advertiser/advertiserDto';
 
 export interface LoginStatus {
+  success: boolean;  
+  message: string;
   email: string;
   accessToken: any;
   expiresIn: any;

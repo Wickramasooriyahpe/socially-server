@@ -16,5 +16,6 @@ export class AdvertiserDto{
     generatedOTP:number
     otpSentTime : Date
     isActive:boolean
+    stripeCustomerId: string;
 
 }

@@ -9,6 +9,7 @@ import { jwtConstants } from './constants';
 import { PublisherModule } from './../Publisher/publisher.module';
 import { OtpModule } from './../OTP/otp.module';
 import { MailModule } from 'src/mail/mail.module';
+import { StripeModule } from 'src/Payments-stripe/stripe.module';
 
 @Module({
     imports: [  
@@ -21,9 +22,10 @@ AdvertiserModule,
         }),
         JwtModule.register({
             secret: jwtConstants.secret, signOptions: {
-                expiresIn: '60s',
+                expiresIn: '1d',
             },
         }), MailModule,
+        StripeModule,
         PublisherModule,
         OtpModule
     ], 

@@ -1,19 +1,14 @@
-import { Controller, Get, Param, Post, UseInterceptors, UploadedFile, UploadedFiles, Res, UseGuards } from '@nestjs/common';
+import { Request, Body, Controller, Delete, Get, Req, HttpCode, NotFoundException, Param, Post, Put, UseInterceptors, UploadedFile, Bind, UploadedFiles, Res, StreamableFile, Response, UseGuards } from '@nestjs/common';
 import { creativeLibraryService } from './creativeLibrary.service';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
-import { Advertiser } from 'src/advertiser/advertiser.entity';
-import { Campaign } from 'src/campaign/campaign.entity';
-import { Creative } from 'src/creative/creative.entity';
-import { AuthService } from 'src/auth/auth.service';
-import { JwtAuthGuard } from 'src/auth/jwt.guard';
-import { Observable } from 'rxjs';
+import { JwtAuthGuard } from '../auth/jwt.guard';
 import { updateCreativeLibraryDTO } from './updateCreativeLibraryDTO.dto';
 import { AdvertiserService } from 'src/advertiser/advertiser.service';
 import { request } from 'http';
 import { CreativeLibrary } from './creativeLibrary.entity';
-import { creativeLibraryDTO } from './creativeLibraryDTO.dto';
+
 
 //Genarate Uniqe File name
 export const editFileName = (req, file, callback) => {
@@ -38,7 +33,7 @@ export class creativeLibraryController {
   constructor(private readonly creativeLibraryService: creativeLibraryService,
     private AdvertiserService: AdvertiserService,) { }
 
-  //Upload a single image (thumbnail)
+  //Upload a single image 
   @Post()
   // @UseGuards(JwtAuthGuard) 
   @UseInterceptors(FileInterceptor('file', {
@@ -63,7 +58,7 @@ export class creativeLibraryController {
   }
 
   //Upload Multiple Images/Files
-  @Post('multiple')
+  @Post('multiple/:creID')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(
     FilesInterceptor('files', 20, {
@@ -75,22 +70,28 @@ export class creativeLibraryController {
     }),
   )
 
-  async uploadMultipleFile(@UploadedFiles() files) {
+  async uploadMultipleFile(@UploadedFiles() files,@Param('creID') creID: number, @Request() req, @Body() creativeLibrary: CreativeLibrary) {
     const response = [];
-    files.forEach(file => {
-      const fileReponse = {
-        // originalname: file.originalname,
-        filename: file.filename,
-      };
-      response.push(fileReponse);
-    });
-    return response;
+  
+    console.log(files);
+    //console.log(files[0].path);
+    //console.log(files[1].path);
+
+    creativeLibrary.creID = creID;
+    creativeLibrary.thumbnailImagePath = files[0].path;
+    creativeLibrary.realImage = files[1].path;
+ 
+    return this.creativeLibraryService.createCreativeLibrary(creativeLibrary)
   }
 
   @Get('image/:filename')
   seeUploadedFile(@Param('filename') image, @Res() res) {
     return res.sendFile(image, { root: './file1' });
   }
-
+  // @Put(':creativeLibraryId') 
+  // async updateCreativeLibrary (@Param('creativeLibraryId') creativeLibraryId:number,@Body() updateCreativeLibraryDTO:updateCreativeLibraryDTO){
+  // updateCreativeLibraryDTO.creativeLibraryId =creativeLibraryId;
+  // return this.creativeLibraryService.updateCreativeLibrary(updateCreativeLibraryDTO)
+  // }
 }
 

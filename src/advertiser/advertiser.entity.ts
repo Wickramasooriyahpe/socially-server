@@ -1,6 +1,7 @@
 import { BeforeInsert, Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import * as bcrypt from 'bcrypt';
-import { Campaign } from "../campaign/campaign.entity";
+import { Campaign } from "src/campaign/campaign.entity";
+import { avatar } from "src/UploadMedia/profileImage.entity";
 
 @Entity()
 export class Advertiser {
@@ -11,7 +12,21 @@ export class Advertiser {
     name: string
 
     @Column()
-    email: string
+    email: string;
+
+    @Column()
+    password : string
+    
+    @BeforeInsert()
+    async hashPassword(){
+        this.password = await bcrypt.hash(this.password, 10)
+    }
+    @Column({nullable:true})
+    avatarid:number;
+    
+    @Column()
+    generatedOTP : number
+   
 
     @Column({nullable:true})
     role: string;
@@ -28,16 +43,6 @@ export class Advertiser {
     @Column({nullable:true})
     phone: string
 
-    @Column()
-    password: string
-
-  @BeforeInsert()
-  async hashPassword() {
-    this.password = await bcrypt.hash(this.password, 10)
-  }
-  @Column()
-  generatedOTP: number
-
   @Column()
   otpSentTime: Date
 
@@ -47,6 +52,9 @@ export class Advertiser {
   @Column()
   stripeCustomerId: string;
 
-  @OneToMany(() => Campaign, Campaign => Campaign.Advertiser)
-  public Campaign: Campaign[];
+    @OneToMany(() => Campaign, Campaign => Campaign.Advertiser)
+    public Campaign: Campaign[];
+
+    @OneToOne(()=>avatar,avatar=> avatar.avatarid)
+    public avatar: avatar;
 }

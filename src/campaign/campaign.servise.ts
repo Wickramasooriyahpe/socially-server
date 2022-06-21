@@ -61,8 +61,8 @@ export class campaignService {
 
     async softDeleteCampaign(campaignId: number) {
         const deleteRecord = await this.campaignRepository.findOne(campaignId);
-        if (!deleteRecord) {
-            throw new NotFoundException('not found creative');
+        if(! deleteRecord){
+          throw new NotFoundException('not found campaign');
         }
         return this.campaignRepository.softDelete(deleteRecord);
     }

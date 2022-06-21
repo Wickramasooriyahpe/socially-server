@@ -18,6 +18,7 @@ import { CreativePreviewModule } from './creative-preview/creative-preview.modul
 import { AdSharingController } from './ad-sharing/ad-sharing.controller';
 import { AdSharingService } from './ad-sharing/ad-sharing.service';
 import { AdSharingModule } from './ad-sharing/ad-sharing.module';
+import { uploadMediaModule } from './UploadMedia/media.module';
 import { PublisherTransactionModule } from './publisher-transaction/publisher-transaction.module';
 
 @Dependencies(Connection)
@@ -39,6 +40,7 @@ import { PublisherTransactionModule } from './publisher-transaction/publisher-tr
     StripeModule,
     CreativePreviewModule,
     AdSharingModule,
+    uploadMediaModule,
     PublisherTransactionModule
   ],
   controllers: [AppController, AdSharingController],

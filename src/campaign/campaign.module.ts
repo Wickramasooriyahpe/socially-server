@@ -14,7 +14,7 @@ import { StripeModule } from 'src/Payments-stripe/stripe.module';
 import { StripeService } from 'src/Payments-stripe/stripe.service';
 
 @Module({
-    imports : [MailModule, StripeModule,TypeOrmModule.forFeature([Campaign]),AuthModule],
+    imports : [MailModule,StripeModule,TypeOrmModule.forFeature([Campaign,Advertiser]),AuthModule],
     controllers: [campaignController],
     providers: [campaignService, StripeService],
     exports:[campaignService]

@@ -1,3 +1,4 @@
+import { Conversion } from './src/ad-sharing/conversion.entity';
 import { MysqlConnectionOptions } from "typeorm/driver/mysql/MysqlConnectionOptions";
 import { Campaign } from "src/campaign/campaign.entity";
 import { Creative } from "src/creative/creative.entity";
@@ -7,7 +8,6 @@ import { uploadMdata } from "src/UploadMedia/metaData.entity";
 import { Advertiser } from "./src/advertiser/advertiser.entity";
 import { Publisher } from './src/Publisher/publisher.entity';
 import { PublisherTransaction } from './src/publisher-transaction/publisher-transaction.entity';
-
 const config: MysqlConnectionOptions = {
   type: 'mysql',
   host: 'us-cdbr-east-05.cleardb.net',
@@ -22,7 +22,8 @@ const config: MysqlConnectionOptions = {
     Publisher,
     CreativeLibrary,
     uploadMdata,
-    PublisherTransaction
+    PublisherTransaction,
+    Conversion
   ],
   //entities: ['**/src/entity/*{.ts,.js}'],
   synchronize: true,

@@ -14,9 +14,8 @@ import { AuthModule } from './auth/auth.module';
 import { MailModule } from './Mail/mail.module';
 import { ConfigModule } from '@nestjs/config';
 import { CreativePreviewModule } from './creative-preview/creative-preview.module';
-import { AdSharingController } from './ad-sharing/ad-sharing.controller';
-import { AdSharingService } from './ad-sharing/ad-sharing.service';
-import { AdSharingModule } from './ad-sharing/ad-sharing.module';
+import { ConversionController } from './ad-sharing/conversion.controller';
+import { ConversionModule } from './ad-sharing/conversion.module';
 import { PublisherTransactionModule } from './publisher-transaction/publisher-transaction.module';
 
 @Dependencies(Connection)
@@ -36,11 +35,11 @@ import { PublisherTransactionModule } from './publisher-transaction/publisher-tr
     }),
     MailModule,
     CreativePreviewModule,
-    AdSharingModule,
-    PublisherTransactionModule
+    ConversionModule,
+    PublisherTransactionModule,
   ],
-  controllers: [AppController, AdSharingController],
-  providers: [AppService, AdSharingService],
+  controllers: [AppController, ConversionController],
+  providers: [AppService],
 })
 export class AppModule {
 

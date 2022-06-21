@@ -41,7 +41,10 @@ export class PublisherService {
         let status: OtpSendingStatus = {
             IsOtpSend: false,
         }
-        const otp = otpGenerator.generate(6, { alphabets: false, upperCase: false, lowerCase: false, specialChars: false })
+        // const otp = otpGenerator.generate(6, { alphabets: false, upperCase: false, lowerCase: false, specialChars: false })
+
+        const GeneratedOtp = Math.floor(100000 + Math.random() * 900000)
+        const otp = GeneratedOtp.toString();
         const newPublisher: NewPublisherDto = {
             phoneNumber: publisherMobileNoDto.phoneNumber,
             otp

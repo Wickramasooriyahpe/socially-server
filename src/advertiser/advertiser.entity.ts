@@ -6,10 +6,10 @@ import { avatar } from "src/UploadMedia/profileImage";
 @Entity()
 export class Advertiser {
     @PrimaryGeneratedColumn()
-    id: number;
+    id: number
 
     @Column()
-    name : string
+    name: string
 
     @Column()
     email: string;
@@ -26,12 +26,31 @@ export class Advertiser {
     
     @Column()
     generatedOTP : number
+   
 
-    @Column()
-    otpSentTime : Date
+    @Column({nullable:true})
+    role: string;
 
-    @Column()
-    isActive:boolean
+    @Column({nullable:true})
+    lname: string
+
+    @Column({nullable:true})
+    company: string
+
+    @Column({nullable:true})
+    address: string
+
+    @Column({nullable:true})
+    phone: string
+
+  @Column()
+  otpSentTime: Date
+
+  @Column()
+  isActive: boolean
+
+  @Column()
+  stripeCustomerId: string;
 
     @OneToMany(() => Campaign, Campaign => Campaign.Advertiser)
     public Campaign: Campaign[];

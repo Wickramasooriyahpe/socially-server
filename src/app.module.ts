@@ -9,20 +9,23 @@ import config from 'ormconfig';
 import { creativeModule } from './creative/creative.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { creativeLibraryModule } from './creativeLibrary/creativeLibrary.module';
-import { AdvertiserModule } from './Advertiser/advertiser.module';
+import { AdvertiserModule } from './advertiser/advertiser.module';
 import { AuthModule } from './auth/auth.module';
-import { MailModule } from './mail/mail.module';
+import { MailModule } from './Mail/mail.module';
 import { ConfigModule } from '@nestjs/config';
+import { StripeModule } from './Payments-stripe/stripe.module';
 import { CreativePreviewModule } from './creative-preview/creative-preview.module';
 import { AdSharingController } from './ad-sharing/ad-sharing.controller';
 import { AdSharingService } from './ad-sharing/ad-sharing.service';
 import { AdSharingModule } from './ad-sharing/ad-sharing.module';
 import { uploadMediaModule } from './UploadMedia/media.module';
+import { PublisherTransactionModule } from './publisher-transaction/publisher-transaction.module';
+
 @Dependencies(Connection)
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal:true,
+      isGlobal: true,
     }),
     TypeOrmModule.forRoot(config),
     campaignModule,
@@ -34,13 +37,15 @@ import { uploadMediaModule } from './UploadMedia/media.module';
       dest: './files',
     }),
     MailModule,
+    StripeModule,
     CreativePreviewModule,
     AdSharingModule,
     uploadMediaModule,
+    PublisherTransactionModule
   ],
   controllers: [AppController, AdSharingController],
   providers: [AppService, AdSharingService],
 })
 export class AppModule {
-  
+
 }

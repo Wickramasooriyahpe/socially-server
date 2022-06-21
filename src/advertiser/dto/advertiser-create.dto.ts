@@ -17,5 +17,8 @@ export class AdvertiserCreateDto{
     otpSentTime : Date
     isActive:boolean
 
-   Campaign: number[];
+
+    stripeCustomerId: string;
+
+  // Campaign: number[];
 }

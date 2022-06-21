@@ -1,15 +1,18 @@
+import { JwtAuthGuard } from './../auth/jwt.guard';
+import { AdvertiserPasswordChangeDto } from './dto/advertiserPasswordChange.dto';
 
 
-import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Patch, Post, Put, Query, UsePipes, ValidationPipe, UseGuards } from '@nestjs/common';
+//import { JwtAuthGuard } from 'src/auth/jwt.guard';
+//import { UseGuards } from '@nestjs/common';
 import { Advertiser } from './advertiser.entity';
 import { AdvertiserService } from './advertiser.service';
-import { AdvertiserCreateDto } from './AdvertiserCreate.dto';
-import { AdvertiserSearchDto } from './AdvertiserSearch.dto';
-import { AdvertiserUpdateDto } from './AdvertiserUpdate.dto';
+import { AdvertiserCreateDto } from './dto/advertiser-create.dto';
+import { AdvertiserUpdateDto } from './dto/AdvertiserUpdate.dto';
 
 @Controller('advertiser')
 export class AdvertiserController {
-    constructor(private readonly advertiserService : AdvertiserService){}
+    constructor(private readonly advertiserService: AdvertiserService) { }
 
     // @Get()
     // getAllAdvertisers(){
@@ -17,7 +20,7 @@ export class AdvertiserController {
     // }
 
     @Get(':id')
-    getAdvertiserById(@Param('id') id:number){
+    getAdvertiserById(@Param('id') id: number) {
         return this.advertiserService.getAdvertiserById(id);
     }
 
@@ -27,10 +30,11 @@ export class AdvertiserController {
     //     return this.advertiserService.createAdvertiser(advertiserCreateDto);
     // }
 
-    // @Put(':id')
-    // updateAdvertiser(@Param('id') id:number, @Body() advertiserUpdateDto:AdvertiserUpdateDto){
+    // @Put()
+    // @UseGuards(JwtAuthGuard)
+    // update(@Param() id:number, @Body() advertiserUpdateDto:AdvertiserUpdateDto){
     //     advertiserUpdateDto.id = id;
-    //     return this.advertiserService.updateAdvertiser(advertiserUpdateDto);
+    //     return this.advertiserService.update(id, advertiserUpdateDto);
     // }
 
     // @Delete(':id')
@@ -41,6 +45,45 @@ export class AdvertiserController {
     //     //     throw new NotFoundException('Advertiser does not exist')
     //     // }
     // }
+
+    /*********************Profile update */
+    @Get()
+    async findAll(){
+        const response = await this.advertiserService.findAll();
+        return response;
+    }
+ 
+    // @Get(":id")
+    // async findOneadvertiser(@Param() id:number){
+    //     const response = await this.advertiserService.findOneadvertiser(id);
+    //     return response;
+    // }
+
+    // @Put()
+    // @UseGuards(JwtAuthGuard)
+    //  async updat(@Param() id: number, @Body() createProfileDto: AdvertiserUpdateDto){
+    //      const response = await this.advertiserService.update(id, createProfileDto);
+    //      return response;
+    //  }
+
+    @Patch(":id")
+    //@UseGuards(JwtAuthGuard)
+    async updateData(@Param('id') id:number, @Body() advertiserUpdateDto:AdvertiserUpdateDto) {
+        
+        return this.advertiserService.updateData(id,advertiserUpdateDto);
+    }
+ 
+    // @Delete()
+    // async Delete (@Body() id: number){
+    //     const response = await this.advertiserService.remove(id);
+    //     return response;
+    // }
+
+    @Put(":id")
+    
+    public async changePassword(@Param('id') id:number, @Body() AdvertiserPasswordChangeDto: AdvertiserPasswordChangeDto){
+        return await this.advertiserService.changePassword(id,AdvertiserPasswordChangeDto);
+    }
 
 
 }

@@ -1,15 +1,19 @@
-import { AdvertiserDto } from './../../advertiser/advertiserDto';
+import { AdvertiserDto } from '../../advertiser/dto/advertiserDto';
 
 export interface LoginStatus {
   userName: string;
-  id:number
+  userId: number;
+  userRole: string;
   accessToken: any;
   expiresIn: any;
 }
 
-export interface PublisherLoginStatus{
+export interface PublisherLoginStatus {
+  id: number
   phoneNumber: string
-  accessToken:any
-  expireIn:any
-  isNewUser:boolean
+  accessToken: any
+  expireIn: any
+  isNewUser: boolean
 }
+
+

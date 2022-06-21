@@ -1,4 +1,4 @@
 export class PublisherOtpDto {
     phoneNumber: string
-    otp: number
+    otp: string
 }

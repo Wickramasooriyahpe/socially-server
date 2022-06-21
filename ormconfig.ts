@@ -8,7 +8,6 @@ import { uploadMdata } from "src/UploadMedia/metaData.entity";
 import { Advertiser } from "./src/advertiser/advertiser.entity";
 import { Publisher } from './src/Publisher/publisher.entity';
 import { PublisherTransaction } from './src/publisher-transaction/publisher-transaction.entity';
-
 const config: MysqlConnectionOptions = {
   type: 'mysql',
   host: 'us-cdbr-east-05.cleardb.net',

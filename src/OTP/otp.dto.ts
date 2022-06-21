@@ -6,5 +6,5 @@ export class OtpDto {
     phoneNumber: string
 
     @IsNotEmpty()
-    otp: number
+    otp: string
 }

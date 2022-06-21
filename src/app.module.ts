@@ -15,7 +15,6 @@ import { MailModule } from './Mail/mail.module';
 import { ConfigModule } from '@nestjs/config';
 import { CreativePreviewModule } from './creative-preview/creative-preview.module';
 import { ConversionController } from './ad-sharing/conversion.controller';
-import { ConversionService } from './ad-sharing/conversion.service';
 import { ConversionModule } from './ad-sharing/conversion.module';
 import { PublisherTransactionModule } from './publisher-transaction/publisher-transaction.module';
 

@@ -13,7 +13,7 @@ export class Publisher {
     phoneNumber: string
 
     @Column()
-    otp: number
+    otp: string
 
     @OneToMany(() => Conversion, Conversion => Conversion.publisher)
     public conversion: Conversion[]

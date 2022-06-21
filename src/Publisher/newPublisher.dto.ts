@@ -7,5 +7,5 @@ export class NewPublisherDto {
 
     @IsNotEmpty()
     @MaxLength(6)
-    otp: number
+    otp: string
 }

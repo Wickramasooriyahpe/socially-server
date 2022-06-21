@@ -8,5 +8,5 @@ export class PublisherDto {
     @IsNotEmpty()
     phoneNumber: string;
 
-    otp: number
+    otp: string
 }

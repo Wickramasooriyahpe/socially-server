@@ -1,7 +1,7 @@
 import { BeforeInsert, Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import { Campaign } from "src/campaign/campaign.entity";
-import { avatar } from "src/UploadMedia/profileImage";
+import { avatar } from "src/UploadMedia/profileImage.entity";
 
 @Entity()
 export class Advertiser {

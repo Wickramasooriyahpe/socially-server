@@ -20,5 +20,5 @@ export class AdvertiserCreateDto{
 
     stripeCustomerId: string;
 
-  // Campaign: number[];
+  Campaign: number[];
 }

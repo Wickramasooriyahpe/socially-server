@@ -1,6 +1,6 @@
 
 
-import { Advertiser } from 'src/Advertiser/advertiser.entity';
+import { Advertiser } from '../advertiser/advertiser.entity';
 import { Creative } from 'src/creative/creative.entity';
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()

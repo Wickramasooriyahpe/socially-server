@@ -5,7 +5,7 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { AdvertiserService } from 'src/advertiser/advertiser.service';
 import { JwtAuthGuard } from '../auth/jwt.guard';
-import { avatar } from './profileImage';
+import { avatar } from './profileImage.entity';
 import { DeleteAvatarDTO } from './deleteAvatarDTO';
 
 

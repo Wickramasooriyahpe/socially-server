@@ -1,19 +1,16 @@
-
-
-import { Creative } from 'src/creative/creative.entity';
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
-export class uploadMdata{
+export class uploadMdata {
 
     @PrimaryGeneratedColumn()
     public uploadid: number;
-   
+
     @Column()
     filename: string;
-   
+
     @Column()
     path: string;
-   
+
     @Column()
     mimetype: string;
 

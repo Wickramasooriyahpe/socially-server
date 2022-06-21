@@ -4,8 +4,9 @@ import { Creative } from "src/creative/creative.entity";
 // import { CreativeType } from "src/creative/creativeType.entity";
 import { CreativeLibrary } from "src/creativeLibrary/creativeLibrary.entity";
 import { uploadMdata } from "src/UploadMedia/metaData.entity";
-import { Advertiser } from "src/Advertiser/advertiser.entity";
+import {Adver}
 import { Publisher } from './src/Publisher/publisher.entity';
+import { PublisherTransaction } from './src/publisher-transaction/publisher-transaction.entity';
 
 const config: MysqlConnectionOptions = {
     type: 'mysql',
@@ -21,11 +22,11 @@ const config: MysqlConnectionOptions = {
         Publisher,
         CreativeLibrary,
         uploadMdata,
-        
+        PublisherTransaction
     ],
     //entities: ['**/src/entity/*{.ts,.js}'],
   synchronize: true,
-    // dropSchema: true
+  // dropSchema: true
 }
 
 export default config;

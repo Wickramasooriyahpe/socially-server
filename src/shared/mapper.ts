@@ -1,20 +1,26 @@
-import { Advertiser } from './../advertiser/advertiser.entity';
-import { AdvertiserDto } from './../advertiser/advertiserDto';
+import { AdvertiserPasswordChangeDto } from './../advertiser/dto/advertiserPasswordChange.dto';
+import { Advertiser } from '../advertiser/entities/advertiser.entity';
+import { AdvertiserDto } from '../advertiser/dto/advertiserDto';
 import { Publisher } from './../Publisher/publisher.entity';
 import { PublisherDto } from '../Publisher/Publisher.dto';
-import { PublisherMobileNoDto } from './../Publisher/publisherMobile.dto';
 
 export const toAdvertiserDto = (data: Advertiser):AdvertiserDto  =>  {  
-    const { id, name, email,password,generatedOTP,otpSentTime ,isActive, stripeCustomerId } = data;
-    let advertiserDto: AdvertiserDto = { id, name, email,password,generatedOTP,otpSentTime,isActive, stripeCustomerId};
+    const { id, name, email,role,password,generatedOTP,otpSentTime ,isActive ,stripeCustomerId} = data;
+    let advertiserDto: AdvertiserDto = { id, name, email,role,password,generatedOTP,otpSentTime,isActive,stripeCustomerId};
     return advertiserDto;
 };
 
-export const toPublisherDto = (data:Publisher): PublisherDto =>{
-    const {publisherId, userName, phoneNumber,otp} = data;
-    let publisherDto : PublisherDto = {publisherId, userName, phoneNumber,otp}
+export const toPublisherDto = (data: Publisher): PublisherDto => {
+    const { publisherId, userName, phoneNumber, otp } = data;
+    let publisherDto: PublisherDto = { publisherId, userName, phoneNumber, otp }
     return publisherDto;
 }
+
+// export const toAdvertiserPasswordDto = (data: AdvertiserPasswordChangeDto):AdvertiserPasswordChangeDto => {
+//     const {password} = data;
+//     let AdvertiserPasswordChangeDto: AdvertiserPasswordChangeDto = {password};
+//     return AdvertiserPasswordChangeDto;
+// }
 
 
 // export const toPublisherMobileDto = (data:Publisher):PublisherMobileDto=>{

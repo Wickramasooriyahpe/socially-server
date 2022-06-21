@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { campaignController } from './campaign.controller';
 import { campaignService } from './campaign.servise';
 import { Campaign } from './campaign.entity';
-import { Advertiser } from 'src/Advertiser/advertiser.entity';
+import { Advertiser } from 'src/advertiser/entities/advertiser.entity';
 import { AuthModule } from 'src/auth/auth.module';
 import { AdvertiserModule } from 'src/Advertiser/advertiser.module';
 import { AdvertiserService } from 'src/Advertiser/advertiser.service';
@@ -19,4 +19,4 @@ import { StripeService } from 'src/Payments-stripe/stripe.service';
     providers: [campaignService,AdvertiserService, StripeService],
     exports:[campaignService]
 })
-export class campaignModule {}
+export class campaignModule { }

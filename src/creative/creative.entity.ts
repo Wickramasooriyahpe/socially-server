@@ -1,11 +1,11 @@
-import { BeforeInsert, Column,JoinColumn, OneToOne,ManyToOne, Entity, PrimaryGeneratedColumn ,DeleteDateColumn} from "typeorm";
-import { Campaign } from "src/campaign/campaign.entity";
-import { CreativeLibrary } from "src/creativeLibrary/creativeLibrary.entity";
+import { Column, JoinColumn, OneToOne, ManyToOne, Entity, PrimaryGeneratedColumn, DeleteDateColumn } from "typeorm";
+import { Campaign } from "../campaign/campaign.entity";
+import { CreativeLibrary } from "../creativeLibrary/creativeLibrary.entity";
 @Entity()
 export class Creative {
 
     @PrimaryGeneratedColumn()
-     public creativeId: number;
+    public creativeId: number;
 
     @Column()
     public creativeHeading: String;
@@ -13,7 +13,7 @@ export class Creative {
     @Column()
     public destinationURL: String;
 
-    @Column({nullable : true})
+    @Column({ nullable: true })
     public creativeDescription: String;
 
     @Column()
@@ -25,15 +25,15 @@ export class Creative {
     @DeleteDateColumn()
     public deletedAt?: Date;
 
-    @JoinColumn({name: 'campID'})
-    @ManyToOne (() => Campaign,Campaign => Campaign.creative)
+    @JoinColumn({ name: 'campID' })
+    @ManyToOne(() => Campaign, Campaign => Campaign.creative)
     public campaign: Campaign;
 
-    @OneToOne(()=>CreativeLibrary,CreativeLibrary=> CreativeLibrary.creativeLibraryId)
+    @OneToOne(() => CreativeLibrary, CreativeLibrary => CreativeLibrary.creativeLibraryId)
     public CreativeLibrary: CreativeLibrary;
 
     @Column()
-    public campID? :number;
-   
+    public campID?: number;
+
 
 }

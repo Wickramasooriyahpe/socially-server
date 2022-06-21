@@ -10,6 +10,8 @@ export class AdvertiserDto{
     @IsEmail()
     email:string
 
+    role:string
+
     @IsNotEmpty()
     password:string
 

@@ -1,7 +1,9 @@
 export interface JwtPayload {
-    email: string,
-  }
+  email: string,
+  id: number
+}
 
-  export interface publisherJwtPayload{
-    phoneNumber : string
-  }
+export interface publisherJwtPayload {
+  phoneNumber: string
+  id: number,
+}

@@ -1,4 +1,5 @@
-import { Column, JoinColumn, OneToOne, ManyToOne, Entity, PrimaryGeneratedColumn, DeleteDateColumn } from "typeorm";
+import { Conversion } from './../ad-sharing/conversion.entity';
+import { Column, JoinColumn, OneToOne, ManyToOne, Entity, PrimaryGeneratedColumn, DeleteDateColumn, OneToMany } from "typeorm";
 import { Campaign } from "../campaign/campaign.entity";
 import { CreativeLibrary } from "../creativeLibrary/creativeLibrary.entity";
 @Entity()
@@ -31,6 +32,9 @@ export class Creative {
 
     @OneToOne(() => CreativeLibrary, CreativeLibrary => CreativeLibrary.creativeLibraryId)
     public CreativeLibrary: CreativeLibrary;
+
+    @OneToMany(() => Conversion, Conversion => Conversion.creative)
+    public conversion: Conversion[]
 
     @Column()
     public campID?: number;

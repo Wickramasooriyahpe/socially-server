@@ -1,9 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Conversion } from "../ad-sharing/conversion.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class Publisher{
+export class Publisher {
     @PrimaryGeneratedColumn()
-    publisherId : number
+    publisherId: number
 
     @Column()
     userName: string
@@ -12,5 +13,8 @@ export class Publisher{
     phoneNumber: string
 
     @Column()
-    otp:string
+    otp: number
+
+    @OneToMany(() => Conversion, Conversion => Conversion.publisher)
+    public conversion: Conversion[]
 }

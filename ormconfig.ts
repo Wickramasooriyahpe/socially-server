@@ -1,3 +1,4 @@
+import { Conversion } from './src/ad-sharing/conversion.entity';
 import { MysqlConnectionOptions } from "typeorm/driver/mysql/MysqlConnectionOptions";
 import { Campaign } from "src/campaign/campaign.entity";
 import { Creative } from "src/creative/creative.entity";
@@ -22,7 +23,8 @@ const config: MysqlConnectionOptions = {
     Publisher,
     CreativeLibrary,
     uploadMdata,
-    PublisherTransaction
+    PublisherTransaction,
+    Conversion
   ],
   //entities: ['**/src/entity/*{.ts,.js}'],
   synchronize: true,

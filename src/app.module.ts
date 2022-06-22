@@ -15,11 +15,10 @@ import { MailModule } from './Mail/mail.module';
 import { ConfigModule } from '@nestjs/config';
 import { StripeModule } from './Payments-stripe/stripe.module';
 import { CreativePreviewModule } from './creative-preview/creative-preview.module';
-import { AdSharingController } from './ad-sharing/ad-sharing.controller';
-import { AdSharingService } from './ad-sharing/ad-sharing.service';
-import { AdSharingModule } from './ad-sharing/ad-sharing.module';
-import { uploadMediaModule } from './UploadMedia/media.module';
+import { ConversionController } from './ad-sharing/conversion.controller';
+import { ConversionModule } from './ad-sharing/conversion.module';
 import { PublisherTransactionModule } from './publisher-transaction/publisher-transaction.module';
+import { uploadMediaModule } from './UploadMedia/media.module';
 
 @Dependencies(Connection)
 @Module({
@@ -39,12 +38,12 @@ import { PublisherTransactionModule } from './publisher-transaction/publisher-tr
     MailModule,
     StripeModule,
     CreativePreviewModule,
-    AdSharingModule,
     uploadMediaModule,
-    PublisherTransactionModule
+    ConversionModule,
+    PublisherTransactionModule,
   ],
-  controllers: [AppController, AdSharingController],
-  providers: [AppService, AdSharingService],
+  controllers: [AppController, ConversionController],
+  providers: [AppService],
 })
 export class AppModule {
 

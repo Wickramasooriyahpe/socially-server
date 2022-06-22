@@ -1,4 +1,4 @@
-export class PublisherOtpDto{
-    phoneNumber:string
-    otp:string
+export class PublisherOtpDto {
+    phoneNumber: string
+    otp: string
 }

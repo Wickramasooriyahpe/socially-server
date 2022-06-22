@@ -1,12 +1,12 @@
 import { IsNotEmpty } from "class-validator";
 
-export class PublisherDto{
-    publisherId : number
+export class PublisherDto {
+    publisherId: number
 
-    userName:string
+    userName: string
 
     @IsNotEmpty()
-    phoneNumber:string;
+    phoneNumber: string;
 
-    otp:string
+    otp: string
 }

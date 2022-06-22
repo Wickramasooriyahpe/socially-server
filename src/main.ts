@@ -2,16 +2,19 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { join } from 'path';
+import * as cookieParser from 'cookie-parser';
 import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configService = app.get(ConfigService);
   app.enableCors();
-  // const __dirname = './file1'
+  app.use(cookieParser());
 
-  // app.useStaticAssets(join(__dirname, '..', 'public'));
-  // app.useStaticAssets(join(__dirname, '..', 'avatar'));
+  const __dirname = './file1'
+  app.useStaticAssets(join(__dirname, '..', 'public'));
+  app.useStaticAssets(join(__dirname, '..', 'avatar'));
+
   app.useStaticAssets('./avatar', {
     prefix: '/avatar/',
   });
@@ -22,10 +25,10 @@ async function bootstrap() {
   app.setViewEngine('hbs');
 
   const port = process.env.PORT || 3000;
-  await app.listen(port); 
-    
+  await app.listen(port);
+
   //const port = configService.get('PORT');
 
-  
+
 }
 bootstrap();

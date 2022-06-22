@@ -1,6 +1,6 @@
-import { BeforeInsert, DeleteDateColumn, Column, Entity, PrimaryGeneratedColumn, JoinColumn, OneToMany, OneToOne, ManyToOne } from "typeorm";
-import { Creative } from "../creative/creative.entity";
-import { Advertiser } from "../advertiser/advertiser.entity";
+import { BeforeInsert,DeleteDateColumn, Column, Entity,  PrimaryGeneratedColumn, JoinColumn, OneToMany, OneToOne,ManyToOne } from "typeorm";
+import { Creative } from "src/creative/creative.entity";
+import { Advertiser } from "src/advertiser/advertiser.entity";
 
 @Entity()
 export class Campaign {

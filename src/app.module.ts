@@ -13,10 +13,12 @@ import { AdvertiserModule } from './advertiser/advertiser.module';
 import { AuthModule } from './auth/auth.module';
 import { MailModule } from './Mail/mail.module';
 import { ConfigModule } from '@nestjs/config';
+import { StripeModule } from './Payments-stripe/stripe.module';
 import { CreativePreviewModule } from './creative-preview/creative-preview.module';
 import { ConversionController } from './ad-sharing/conversion.controller';
 import { ConversionModule } from './ad-sharing/conversion.module';
 import { PublisherTransactionModule } from './publisher-transaction/publisher-transaction.module';
+import { uploadMediaModule } from './UploadMedia/media.module';
 
 @Dependencies(Connection)
 @Module({
@@ -34,7 +36,9 @@ import { PublisherTransactionModule } from './publisher-transaction/publisher-tr
       dest: './files',
     }),
     MailModule,
+    StripeModule,
     CreativePreviewModule,
+    uploadMediaModule,
     ConversionModule,
     PublisherTransactionModule,
   ],

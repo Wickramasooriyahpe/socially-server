@@ -1,10 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AdvertiserDto } from 'src/advertiser/dto/advertiserDto';
 import { Repository } from 'typeorm';
 import { Campaign } from './campaign.entity';
 import { updateCampaignDTO } from './updateCampaign.dto';
-import { Advertiser } from '../advertiser/advertiser.entity';
-import { getConnection } from "typeorm";
+import { Advertiser } from 'src/advertiser/advertiser.entity';
+import { AdvertiserService } from 'src/advertiser/advertiser.service';
+import {getConnection} from "typeorm";
 
 @Injectable()
 export class campaignService {
@@ -59,8 +61,8 @@ export class campaignService {
 
     async softDeleteCampaign(campaignId: number) {
         const deleteRecord = await this.campaignRepository.findOne(campaignId);
-        if (!deleteRecord) {
-            throw new NotFoundException('not found creative');
+        if(! deleteRecord){
+          throw new NotFoundException('not found campaign');
         }
         return this.campaignRepository.softDelete(deleteRecord);
     }

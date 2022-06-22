@@ -20,6 +20,11 @@ export class CreativeLibrary {
   @OneToOne(() => Creative, Creative => Creative.creativeId)
   public Creative: Creative;
 
-
+      @Column({nullable: true})
+      public  realImage: string;
+     
+  
+ 
+ 
 
 }

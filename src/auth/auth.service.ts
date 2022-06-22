@@ -1,8 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { AdvertiserCreateDto } from '../advertiser/AdvertiserCreate.dto';
-import { AdvertiserDto } from '../advertiser/advertiserDto';
-import { AdvertiserLoginDto } from '../advertiser/advertiserLogin.dto';
+import { identity } from 'rxjs';
+import { AdvertiserCreateDto } from 'src/advertiser/dto/advertiser-create.dto';
+import { AdvertiserDto } from 'src/advertiser/dto/advertiserDto';
+import { AdvertiserLoginDto } from 'src/advertiser/dto/advertiserLogin.dto';
 import { AdvertiserService } from './../advertiser/advertiser.service';
 import { LoginStatus, PublisherLoginStatus } from './interfaces/login-status.interface';
 import { JwtPayload, publisherJwtPayload } from './interfaces/payload.interface';
@@ -13,47 +14,119 @@ import { OtpService } from './../OTP/otp.service';
 import { PublisherMobileNoDto } from './../Publisher/publisherMobile.dto';
 import { OtpDto } from './../OTP/otp.dto';
 import { PublisherCreateDto } from './../Publisher/publisherCreate.dto';
-import { AdvertiserVerifyDto } from '../advertiser/AdvertiserVerifyDto';
+import { AdvertiserVerifyDto } from 'src/advertiser/dto/AdvertiserVerifyDto';
+import { MailService } from 'src/mail/mail.service';
+//import { AdvertiserVerifyDto } from '../advertiser/AdvertiserVerifyDto';
 import { verificationStatus } from './interfaces/verificationStatus';
 
 var otpGenerator = require('otp-generator');
 @Injectable()
 export class AuthService {
-    constructor(private readonly publisherService: PublisherService, private readonly advertiserService: AdvertiserService, private readonly jwtService: JwtService, private readonly otpService: OtpService) { }
+    constructor(private readonly publisherService:PublisherService,
+        private readonly advertiserService : AdvertiserService,
+        private readonly jwtService: JwtService,
+        private readonly otpService:OtpService ) {}
 
-    async register(advertiserDto: AdvertiserCreateDto):
-        Promise<RegistrationStatus> {
-        let status: RegistrationStatus = {
-            success: true,
-            message: 'user registered!',
-        };
-        try {
-            await this.advertiserService.createAdvertiser(advertiserDto);
-        } catch (err) {
-            status = {
-                success: false,
-                message: err,
-            };
+    async register(advertiserDto: AdvertiserCreateDto): 
+    Promise<RegistrationStatus> {
+    let status: RegistrationStatus = {
+        success: true,   
+        message: 'Verification otp email sent',
+    };
+    try {
+        await this.advertiserService.createAdvertiser(advertiserDto);
+       //await this.advertiserService.create(advertiserDto);
+    } catch (err) {
+        status = {
+            success: false,        
+            message: err,
+        };    
 
         }
         return status;
     }
 
-    async verify(advertiserverifyDto: AdvertiserVerifyDto): Promise<verificationStatus> {
+    async verify(advertiserverifyDto: AdvertiserVerifyDto) : Promise<verificationStatus>{
         let status: verificationStatus = {
-            success: true,
-            message: 'confirmed registration',
+            success: true,   
+            message: 'User Registered',
         };
-        // find user in db    
-        await this.advertiserService.verifyOTP(advertiserverifyDto);
-
-        // generate and sign token    
-        //const token = this._createToken(advertiser);
-
-        return status;
+    
+        try {
+           await this.advertiserService.verifyOTP(advertiserverifyDto);
+           //await this.advertiserService.create(advertiserDto);
+        } catch (err) {
+            status = {
+                success: false,        
+                message: err,
+            };    
+    
+        }      
+    // generate and sign token    
+    //const token = this._createToken(advertiser);
+    
+    return status;
     }
 
-    async login(loginAdvertiserDto: AdvertiserLoginDto): Promise<LoginStatus> {
+
+    async resendOTP(advertiserDto: AdvertiserCreateDto): 
+    Promise<RegistrationStatus> {
+    let status: RegistrationStatus = {
+        success: true,   
+        message: 'Verification otp email sent again',
+    };
+    try {
+        await this.advertiserService.resendOTPEmail(advertiserDto);
+       //await this.advertiserService.create(advertiserDto);
+    } catch (err) {
+        status = {
+            success: false,        
+            message: err,
+        };    
+
+    }
+    return status;  
+}
+
+        async forgotPassword(advertiserDto: AdvertiserCreateDto): 
+        Promise<RegistrationStatus> {
+        let status: RegistrationStatus = {
+            success: true,   
+            message: 'Please check your email',
+        };
+        try {
+            await this.advertiserService.sendforgotPasswordEmail(advertiserDto);
+        //await this.advertiserService.create(advertiserDto);
+        } catch (err) {
+            status = {
+                success: false,        
+                message: err,
+            };    
+
+        }
+        return status;  
+        }
+
+        async resetPassword(advertiserDto: AdvertiserCreateDto): 
+        Promise<RegistrationStatus> {
+        let status: RegistrationStatus = {
+            success: true,   
+            message: 'Succes',
+        };
+        try {
+            await this.advertiserService.saveResetPassword(advertiserDto);
+        //await this.advertiserService.create(advertiserDto);
+        } catch (err) {
+            status = {
+                success: false,        
+                message: err,
+            };    
+
+        }
+        return status;  
+        }
+
+    async login(loginAdvertiserDto: AdvertiserLoginDto): Promise<LoginStatus> {    
         // find user in db    
         const advertiser = await this.advertiserService.findByLogin(loginAdvertiserDto);
         // generate and sign token    
@@ -63,8 +136,12 @@ export class AuthService {
 
         return {
             userName: advertiser.name,
+            userId: advertiser.id, 
+            userRole: advertiser.role,          
             accessToken: token,
             expiresIn: expiresIn
+        
+            
         };
     }
 

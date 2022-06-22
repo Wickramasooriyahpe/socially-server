@@ -10,11 +10,15 @@ export class AdvertiserDto{
     @IsEmail()
     email:string
 
+    role:string
+
     @IsNotEmpty()
     password:string
 
+   // avatar:string
     generatedOTP:number
     otpSentTime : Date
     isActive:boolean
+    stripeCustomerId: string;
 
 }

@@ -8,7 +8,8 @@ import { JwtStrategy } from './jwt.strategy';
 import { jwtConstants } from './constants';
 import { PublisherModule } from './../Publisher/publisher.module';
 import { OtpModule } from './../OTP/otp.module';
-import { MailModule } from '../Mail/mail.module';
+import { MailModule } from 'src/mail/mail.module';
+import { StripeModule } from 'src/Payments-stripe/stripe.module';
 
 @Module({
     imports: [
@@ -24,6 +25,7 @@ import { MailModule } from '../Mail/mail.module';
                 expiresIn: '1d',
             },
         }), MailModule,
+        StripeModule,
         PublisherModule,
         OtpModule
     ],

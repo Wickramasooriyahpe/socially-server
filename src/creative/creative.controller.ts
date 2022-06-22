@@ -39,7 +39,7 @@ export class creativeController {
      @UseGuards(JwtAuthGuard)
      async createCreative(@Body() creativeData: Creative,@Param('campID') campaignId:number,@Request() req): Promise<any> {
      // console.log("campaign ID = ",campaignId)
-     creativeData.campID= campaignId;
+     creativeData.campaign.campaignId= campaignId;
       return this.creativeService.createCreative(creativeData);
     }  
     

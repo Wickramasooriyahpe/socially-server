@@ -2,6 +2,8 @@ import { BeforeInsert, Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColu
 import * as bcrypt from 'bcrypt';
 import { Campaign } from "src/campaign/campaign.entity";
 import { avatar } from "src/UploadMedia/profileImage.entity";
+import { Transactions } from "src/transaction/entities/transactions.entity";
+import { Feedback } from "src/feedbacks/entities/feedback.entity";
 
 @Entity()
 export class Advertiser {
@@ -52,9 +54,15 @@ export class Advertiser {
   @Column()
   stripeCustomerId: string;
 
-    @OneToMany(() => Campaign, Campaign => Campaign.Advertiser)
+ @OneToMany(() => Campaign, Campaign => Campaign.Advertiser)
     public Campaign: Campaign[];
 
     @OneToOne(()=>avatar,avatar=> avatar.avatarid)
     public avatar: avatar;
+
+  @OneToMany(() => Transactions, (transaction) => transaction.advertiser)
+  transaction: Transactions[];
+
+  @OneToMany(() => Feedback, (feedback) => feedback.advertiser)
+  feedback: Feedback[];
 }

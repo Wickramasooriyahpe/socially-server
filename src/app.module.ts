@@ -19,6 +19,10 @@ import { ConversionController } from './ad-sharing/conversion.controller';
 import { ConversionModule } from './ad-sharing/conversion.module';
 import { PublisherTransactionModule } from './publisher-transaction/publisher-transaction.module';
 import { uploadMediaModule } from './UploadMedia/media.module';
+import { DashboardModule } from './dashboard/dashboard.module';
+import { TransactionModule } from './transaction/transaction.module';
+import { FeedbacksModule } from './feedbacks/feedbacks.module';
+import { PublisherModule } from './Publisher/publisher.module';
 
 @Dependencies(Connection)
 @Module({
@@ -41,6 +45,10 @@ import { uploadMediaModule } from './UploadMedia/media.module';
     uploadMediaModule,
     ConversionModule,
     PublisherTransactionModule,
+    PublisherModule,
+    DashboardModule,
+    TransactionModule,
+    FeedbacksModule,
   ],
   controllers: [AppController, ConversionController],
   providers: [AppService],

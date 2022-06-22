@@ -1,6 +1,7 @@
 import { BeforeInsert,DeleteDateColumn, Column, Entity,  PrimaryGeneratedColumn, JoinColumn, OneToMany, OneToOne,ManyToOne } from "typeorm";
 import { Creative } from "src/creative/creative.entity";
 import { Advertiser } from "src/advertiser/advertiser.entity";
+import { Feedback } from "src/feedbacks/entities/feedback.entity";
 
 @Entity()
 export class Campaign {
@@ -35,6 +36,9 @@ export class Campaign {
     @JoinColumn({ name: 'adveID' })
     @ManyToOne(() => Advertiser, Advertiser => Advertiser.Campaign)
     public Advertiser: Advertiser;
+
+    @OneToMany(() => Feedback, (feedback) => feedback.advertiser)
+    feedback: Feedback[];
 
 }
 

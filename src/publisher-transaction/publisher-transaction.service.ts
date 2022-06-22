@@ -9,7 +9,8 @@ import { PublisherTransactionDTO } from './publisher-transaction.dto';
 export class PublisherTransactionService {
     constructor(
         @InjectRepository(PublisherTransaction)
-        private publisherTransactionRepository: Repository<PublisherTransaction>, private readonly creativeService: creativeService
+        private publisherTransactionRepository: Repository<PublisherTransaction>,
+         private readonly creativeService: creativeService
     ) { }
 
     async findAll(): Promise<PublisherTransaction[]> {

@@ -18,9 +18,6 @@ export class PublisherTransaction {
     @Column()
     type: string
 
-    @Column()
-    publisherId: number
-
     @JoinColumn({ name: 'publisherId' })
     @ManyToOne(() => Publisher, Publisher => Publisher.publisherId)
     public publisherID: Publisher;

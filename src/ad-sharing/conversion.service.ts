@@ -8,7 +8,9 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class ConversionService {
-  constructor(@InjectRepository(Conversion) private conversionRepository: Repository<Conversion>, private readonly creativeService: creativeService, private readonly publisherTransactionService: PublisherTransactionService) { }
+  constructor(@InjectRepository(Conversion) private conversionRepository: Repository<Conversion>, 
+  private readonly creativeService: creativeService,
+  private readonly publisherTransactionService: PublisherTransactionService) { }
 
   async getOGdata(creativeId: number): Promise<CreativeShareData> {
     const creative = await this.creativeService.getCreativeById(creativeId);

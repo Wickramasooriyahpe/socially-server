@@ -1,3 +1,5 @@
+import { Feedback } from './src/feedbacks/entities/feedback.entity';
+import { Transactions } from './src/transaction/entities/transactions.entity';
 import { Conversion } from './src/ad-sharing/conversion.entity';
 import { MysqlConnectionOptions } from "typeorm/driver/mysql/MysqlConnectionOptions";
 import { Campaign } from "./src/campaign/campaign.entity"
@@ -19,14 +21,17 @@ const config: MysqlConnectionOptions = {
     Campaign,
     Creative,
     Advertiser,
-    Publisher,
+  
     CreativeLibrary,
     avatar,
     PublisherTransaction,
-    Conversion
+    Conversion,
+    Transactions,
+    Feedback,
+    Publisher
   ],
   //entities: ['**/src/entity/*{.ts,.js}'],
-  synchronize: true,
+  synchronize: false,
   // dropSchema: true
 }
 

@@ -2,6 +2,7 @@ import { Conversion } from './../ad-sharing/conversion.entity';
 import { Column, JoinColumn, OneToOne, ManyToOne, Entity, PrimaryGeneratedColumn, DeleteDateColumn, OneToMany } from "typeorm";
 import { Campaign } from "../campaign/campaign.entity";
 import { CreativeLibrary } from "../creativeLibrary/creativeLibrary.entity";
+import { Feedback } from 'src/feedbacks/entities/feedback.entity';
 @Entity()
 export class Creative {
 
@@ -26,7 +27,7 @@ export class Creative {
     @DeleteDateColumn()
     public deletedAt?: Date;
 
-    @JoinColumn({ name: 'campID' })
+    @JoinColumn({ name: 'campaignId' })
     @ManyToOne(() => Campaign, Campaign => Campaign.creative)
     public campaign: Campaign;
 
@@ -36,8 +37,9 @@ export class Creative {
     @OneToMany(() => Conversion, Conversion => Conversion.creative)
     public conversion: Conversion[]
 
-    @Column()
-    public campID?: number;
+
+    @OneToMany(() => Feedback, (feedback) => feedback.advertiser)
+  feedback: Feedback[];
 
 
 }

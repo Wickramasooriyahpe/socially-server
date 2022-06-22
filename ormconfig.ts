@@ -10,11 +10,11 @@ import { PublisherTransaction } from './src/publisher-transaction/publisher-tran
 import { Advertiser } from './src/advertiser/advertiser.entity';
 const config: MysqlConnectionOptions = {
   type: 'mysql',
-  host: 'us-cdbr-east-05.cleardb.net',
+  host: 'localhost',
   port: 3306,
-  username: 'b17b4699060175',
-  password: 'c3cdad1f',
-  database: 'heroku_7a6e5d946234c04',
+  username: 'root',
+  password: 'Tashini@1998',
+  database: 'socially',
   entities: [
     Campaign,
     Creative,

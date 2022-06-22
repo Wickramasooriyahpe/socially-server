@@ -10,14 +10,14 @@ export class DashboardController {
     return this.dashboardService.getAdminDashboardValues();
   }
 
-  @Get('/admin/campaigns')
-  getAllCampaign() {
-    return this.dashboardService.getAllCampaign();
+  @Get('/admin/campaigns/:id')
+  getAllCampaign(@Param('id') id: number) {
+    return this.dashboardService.getAllCampaign(id);
   }
 
-  @Get('/admin/creatives')
-  getAllCreatives() {
-    return this.dashboardService.getAllCreatives();
+  @Get('/admin/creatives/:id')
+  getAllCreatives(@Param('id') id: number) {
+    return this.dashboardService.getAllCreatives(id);
   }
 
   @Get('/user/:id')

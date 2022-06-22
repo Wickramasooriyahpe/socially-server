@@ -31,7 +31,7 @@ const config: MysqlConnectionOptions = {
     Publisher
   ],
   //entities: ['**/src/entity/*{.ts,.js}'],
-  synchronize: false,
+  synchronize: true,
   // dropSchema: true
 }
 

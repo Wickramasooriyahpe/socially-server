@@ -26,7 +26,7 @@ export class creativeService {
       .createQueryBuilder()
       .select("Creative")
       .from(Creative,"Creative")
-      .where("Creative.campID = :campID", { campID: campID })
+      .where("Creative.campaign = :campaignId", { campaignId: campID })
       .getMany();
   
        return AD;

@@ -57,10 +57,16 @@ export class DashboardService {
     };
   }
 
-  async getAllCampaign() {
+  async getAllCampaign(id:number) {
     const response = [];
 
-    const campaigns = await this.campaignsRepository.find();
+    
+    const campaigns = await this.campaignsRepository
+      .createQueryBuilder()
+      .where('Campaign.Advertiser = :advertiserId', {
+        advertiserId: id,
+      })
+      .getMany();
 
     await Promise.all(
       campaigns.map(async (campaign) => {
@@ -93,17 +99,23 @@ export class DashboardService {
     return response;
   }
 
-  async getAllCreatives() {
+  async getAllCreatives(id:number) {
     const response = [];
 
-    const creatives = await this.creativesRepository.find();
+    const creatives = await this.creativesRepository
+    .createQueryBuilder()
+    .leftJoinAndSelect('Creative.campaign', 'campaign')
+    .where('campaign.Advertiser = :advertiserId', {
+      advertiserId: id,
+    })
+    .getMany();
 
     await Promise.all(
       creatives.map(async (creative) => {
         const feedbacks = await this.feedbackRepository
           .createQueryBuilder()
-          .where('Feedback.campaign = :campaignId', {
-            campaignId: creative.creativeId,
+          .where('Feedback.creative = :creativeId', {
+            creativeId: creative.creativeId,
           })
           .getMany();
 
@@ -116,7 +128,7 @@ export class DashboardService {
           .getMany();
 
         const res = {
-          campaign: creative.creativeHeading,
+          creativeHeading: creative.creativeHeading,
           impressions: feedbacks.length,
           conversion: conversionQuery.length ?? 0,
           costPerSale: creative.costPerSale,
@@ -160,7 +172,7 @@ export class DashboardService {
       .createQueryBuilder()
       .leftJoinAndSelect('Conversion.creative', 'creative')
       .leftJoinAndSelect('creative.campaign', 'campaign')
-      .leftJoinAndSelect('campaign.advertiser', 'advertiser')
+      .leftJoinAndSelect('campaign.Advertiser', 'advertiser')
       .where('advertiser.id = :advertiserId', { advertiserId: id })
       .getMany();
 

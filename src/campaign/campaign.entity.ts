@@ -33,7 +33,7 @@ export class Campaign {
     @OneToMany(() => Creative, Creative => Creative.campaign)
     public creative: Creative[];
 
-    @JoinColumn({ name: 'adveID' })
+    @JoinColumn({ name: 'advertiserId' })
     @ManyToOne(() => Advertiser, Advertiser => Advertiser.Campaign)
     public Advertiser: Advertiser;
 

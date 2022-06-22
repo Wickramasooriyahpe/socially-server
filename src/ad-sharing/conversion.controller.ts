@@ -18,6 +18,7 @@ export class ConversionController {
         const id: string = uuid();
         response.cookie('id', id, {
             maxAge: 360000,
+            httpOnly: true
         })
         console.log('welcome ', id)
         await this.adSharingService.conversionData(query.creative_id, query.user_id, id)

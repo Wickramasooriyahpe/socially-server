@@ -1,3 +1,4 @@
+import { PublisherTransactionService } from '../publisher-transaction/publisher-transaction.service';
 import { Conversion } from './conversion.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -7,7 +8,7 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class ConversionService {
-  constructor(@InjectRepository(Conversion) private conversionRepository: Repository<Conversion>, private readonly creativeService: creativeService) { }
+  constructor(@InjectRepository(Conversion) private conversionRepository: Repository<Conversion>, private readonly creativeService: creativeService, private readonly publisherTransactionService: PublisherTransactionService) { }
 
   async getOGdata(creativeId: number): Promise<CreativeShareData> {
     const creative = await this.creativeService.getCreativeById(creativeId);
@@ -23,5 +24,6 @@ export class ConversionService {
   async conversionData(creativeId: number, publisherId: number, visitorId: string) {
     const date = new Date().toLocaleString()
     await this.conversionRepository.save({ creativeId, publisherId, visitorId, date })
+    await this.publisherTransactionService.earning(publisherId, creativeId, date)
   }
 }

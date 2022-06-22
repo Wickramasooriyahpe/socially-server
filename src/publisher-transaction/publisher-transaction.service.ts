@@ -1,3 +1,4 @@
+import { creativeService } from './../creative/creative.service';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -8,14 +9,14 @@ import { PublisherTransactionDTO } from './publisher-transaction.dto';
 export class PublisherTransactionService {
     constructor(
         @InjectRepository(PublisherTransaction)
-        private publisherTransactionRepository: Repository<PublisherTransaction>
-    ) {}
+        private publisherTransactionRepository: Repository<PublisherTransaction>, private readonly creativeService: creativeService
+    ) { }
 
     async findAll(): Promise<PublisherTransaction[]> {
         return await this.publisherTransactionRepository.find();
     }
 
-    async create(publisherTransaction: PublisherTransaction , publisherID : string ): Promise<PublisherTransaction> {
+    async create(publisherTransaction: PublisherTransaction, publisherID: string): Promise<PublisherTransaction> {
         return await this.publisherTransactionRepository.save(publisherTransaction);
     }
 
@@ -25,7 +26,12 @@ export class PublisherTransactionService {
         });
     }
 
-   
+    async earning(publisherId: number, creativeId: number, date: string) {
+        const creative = await this.creativeService.getCreativeById(creativeId)
+        const amountPerClick = creative.costPerSale;
+        await this.publisherTransactionRepository.save({ amount: amountPerClick, date, time: date, type: 'earning', publisherId: publisherId })
+    }
+
 
     // async findOne(id: number): Promise<PublisherTransaction> {
     //     return await this.publisherTransactionRepository.findOne(id);

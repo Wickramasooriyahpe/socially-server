@@ -1,3 +1,5 @@
+import { Creative } from '../creative/creative.entity';
+import { creativeService } from '../creative/creative.service';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PublisherTransactionService } from './publisher-transaction.service';
@@ -5,8 +7,9 @@ import { PublisherTransactionController } from './publisher-transaction.controll
 import { PublisherTransaction } from './publisher-transaction.entity';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([PublisherTransaction])],
+  imports: [TypeOrmModule.forFeature([PublisherTransaction, Creative])],
   controllers: [PublisherTransactionController],
-  providers: [PublisherTransactionService]
+  providers: [PublisherTransactionService, creativeService],
+  exports: [PublisherTransactionService]
 })
-export class PublisherTransactionModule {}
+export class PublisherTransactionModule { }

@@ -45,7 +45,7 @@ export class campaignService {
     }
 
     async createCampaign(Advertiser: Advertiser, campaignCreation: Campaign): Promise<any> {
-        campaignCreation.Advertiser = Advertiser;
+        campaignCreation.Advertiser = Advertiser.id;
         return await this.campaignRepository.save(campaignCreation);
     }
 

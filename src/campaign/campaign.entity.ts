@@ -1,4 +1,4 @@
-import { BeforeInsert,DeleteDateColumn, Column, Entity,  PrimaryGeneratedColumn, JoinColumn, OneToMany, OneToOne,ManyToOne } from "typeorm";
+import { BeforeInsert,DeleteDateColumn, Column, Entity,  PrimaryGeneratedColumn, JoinColumn, OneToMany, OneToOne,ManyToOne, CreateDateColumn } from "typeorm";
 import { Creative } from "src/creative/creative.entity";
 import { Advertiser } from "src/advertiser/advertiser.entity";
 import { Feedback } from "src/feedbacks/entities/feedback.entity";
@@ -27,21 +27,19 @@ export class Campaign {
     @Column({ nullable: true })
     public endDate: Date;
 
+    @CreateDateColumn()
+    public createdDate?:Date
+    
     @DeleteDateColumn()
     public deletedAt?: Date;
 
-    @Column()
-    public advertiserId?: number;
-
-    @Column()
-    public adveID?: number;
-
+   
     @OneToMany(() => Creative, Creative => Creative.campaign)
     public creative: Creative[];
 
     @JoinColumn({ name: 'advertiserId' })
     @ManyToOne(() => Advertiser, Advertiser => Advertiser.Campaign)
-    public Advertiser: Advertiser;
+    public Advertiser: number;
 
     @OneToMany(() => Feedback, (feedback) => feedback.advertiser)
     feedback: Feedback[];

@@ -42,7 +42,7 @@ export class campaignController {
     async createCampaign(@Body() campaignData: Campaign, @Request() req): Promise<any> {
           
           console.log("userid",req.user.userId);
-          campaignData.advertiserId = req.user.userId;
+          campaignData.Advertiser = req.user.userId;
           return this.campaignService.createCampaign(req.user.userId,campaignData);
     }
      

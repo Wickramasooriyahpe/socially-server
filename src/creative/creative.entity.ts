@@ -1,5 +1,5 @@
 import { Conversion } from './../ad-sharing/conversion.entity';
-import { Column, JoinColumn, OneToOne, ManyToOne, Entity, PrimaryGeneratedColumn, DeleteDateColumn, OneToMany } from "typeorm";
+import { Column, JoinColumn, OneToOne, ManyToOne, Entity, PrimaryGeneratedColumn, DeleteDateColumn, OneToMany, CreateDateColumn } from "typeorm";
 import { Campaign } from "../campaign/campaign.entity";
 import { CreativeLibrary } from "../creativeLibrary/creativeLibrary.entity";
 import { Feedback } from 'src/feedbacks/entities/feedback.entity';
@@ -27,16 +27,17 @@ export class Creative {
     @Column()
     public creativeType: String;
 
+    @CreateDateColumn()
+    public createdDate?:Date
+
+
     @DeleteDateColumn()
     public deletedAt?: Date;
-
-    @Column({name:"campaignId"})
-    public campaignId: number;
 
 
     @JoinColumn({ name: 'campaignId' })
     @ManyToOne(() => Campaign, Campaign => Campaign.creative)
-    public campaign: Campaign;
+    public campaign: number;
 
     @OneToOne(() => CreativeLibrary, CreativeLibrary => CreativeLibrary.creativeLibraryId)
     public CreativeLibrary: CreativeLibrary;

@@ -46,9 +46,8 @@ export class creativeController {
      async createCreative(@Body() creativeData: Creative,@Param('campID') campaignId:number,@Request() req): Promise<any> {
      // console.log("campaign ID = ",campaignId)
 
-     console.log(creativeData);
-      creativeData.campaignId= campaignId;
-      return this.creativeService.createCreative(creativeData);
+    
+      return this.creativeService.createCreative(campaignId,creativeData);
     }  
     
     @Put(':creativeId')

@@ -143,7 +143,7 @@ export class DashboardService {
         };
 
         response.push(res);
-        
+
           }
 
         
@@ -225,6 +225,8 @@ export class DashboardService {
 
 
   async getUserGraphValues(id: number) {
+
+    console.log("COMMING>>>>>>>>>>>>>>>>>>>>.");
     const response = [];
     const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0);
@@ -237,12 +239,31 @@ export class DashboardService {
 
       lastDate2.setDate(lastDate.getDate() - 1);
 
+
+      const campaignQuery=await this.campaignsRepository.createQueryBuilder()
+      .where('Campaign.advertiserId = :advertiserId',{advertiserId:id})
+      .andWhere('Campaign.createdDate between :lastDate2 AND :lastDate', {
+        lastDate2,
+        lastDate,
+      })
+      .getMany();
+
+
+      const creativeQuery=await this.creativesRepository.createQueryBuilder()
+      .leftJoinAndSelect('Creative.campaign', 'Campaign')
+      .where('Campaign.advertiserId = :advertiserId',{advertiserId:id})
+      .andWhere('Campaign.createdDate between :lastDate2 AND :lastDate', {
+        lastDate2,
+        lastDate,
+      })
+      .getMany();
+
       const conversionQuery = await this.conversionRepository
         .createQueryBuilder()
 
         .leftJoinAndSelect('Conversion.creative', 'creative')
         .leftJoinAndSelect('creative.campaign', 'campaign')
-        .leftJoinAndSelect('campaign.advertiser', 'advertiser')
+        .leftJoinAndSelect('campaign.Advertiser', 'advertiser')
         .where('advertiser.id = :advertiserId', { advertiserId: id })
         .andWhere('Conversion.date between :lastDate2 AND :lastDate', {
           lastDate2,
@@ -252,7 +273,9 @@ export class DashboardService {
 
       response.push({
         startDate: lastDate,
-        count: conversionQuery.length,
+        campaignCount: campaignQuery.length ?? 0,
+        conversionCount:conversionQuery.length ?? 0,
+        creativeCount:creativeQuery.length ?? 0
       });
     }
 

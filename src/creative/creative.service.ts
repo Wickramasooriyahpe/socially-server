@@ -54,7 +54,9 @@ export class creativeService {
   //Create a creative
 
     //Create a creative
-  async  createCreative(creativeCreation: Creative): Promise<Creative> {  
+  async  createCreative(id:number,creativeCreation: Creative): Promise<Creative> { 
+    
+    creativeCreation.campaign=id;
     return await this.creativeRepository.save(creativeCreation);
     }
 

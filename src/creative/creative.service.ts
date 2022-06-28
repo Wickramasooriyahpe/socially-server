@@ -94,4 +94,11 @@ export class creativeService {
     }
     return this.creativeRepository.softDelete(deleteRecord);
   }
+
+  async changeStatus(creativeId: number){
+    const campaign = await this.creativeRepository.findOne(creativeId);
+    if(campaign){
+        await this.creativeRepository.update(creativeId,{status:1})
+    }
+}
 }

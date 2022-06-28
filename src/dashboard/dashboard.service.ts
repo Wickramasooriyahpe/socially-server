@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { Creative } from '../creative/creative.entity';
 import { Campaign } from '../campaign/campaign.entity';
 import { Publisher } from '../publisher/publisher.entity';
@@ -60,11 +60,11 @@ export class DashboardService {
   async getAllCampaign(id:number) {
     const response = [];
 
-    
     const campaigns = await this.campaignsRepository
       .createQueryBuilder()
       .where('Campaign.Advertiser = :advertiserId', {
         advertiserId: id,
+        
       })
       .getMany();
 
@@ -77,23 +77,28 @@ export class DashboardService {
           })
           .getMany();
 
-        const conversionQuery = await this.conversionRepository
-          .createQueryBuilder()
-          .leftJoinAndSelect('Conversion.creative', 'creative')
-          .leftJoinAndSelect('creative.campaign', 'campaign')
-          .where('campaign.campaignId = :campaignId', {
-            campaignId: campaign.campaignId,
-          })
-          .getMany();
+        
+          if(feedbacks.length!==0){
+            const conversionQuery = await this.conversionRepository
+            .createQueryBuilder()
+            .leftJoinAndSelect('Conversion.creative', 'creative')
+            .leftJoinAndSelect('creative.campaign', 'campaign')
+            .where('campaign.campaignId = :campaignId', {
+              campaignId: campaign.campaignId,
+            })
+            .getMany();
+  
+          const res = {
+            campaign: campaign.campaignName,
+            impressions: feedbacks.length,
+            conversion: conversionQuery.length ?? 0,
+            budget: campaign.budget,
+          };
+  
+          response.push(res);
+          }
 
-        const res = {
-          campaign: campaign.campaignName,
-          impressions: feedbacks.length,
-          conversion: conversionQuery.length ?? 0,
-          budget: campaign.budget,
-        };
-
-        response.push(res);
+        
       }),
     );
     return response;
@@ -112,6 +117,7 @@ export class DashboardService {
 
     await Promise.all(
       creatives.map(async (creative) => {
+
         const feedbacks = await this.feedbackRepository
           .createQueryBuilder()
           .where('Feedback.creative = :creativeId', {
@@ -119,7 +125,9 @@ export class DashboardService {
           })
           .getMany();
 
-        const conversionQuery = await this.conversionRepository
+          if(feedbacks.length!==0){
+
+            const conversionQuery = await this.conversionRepository
           .createQueryBuilder()
           .leftJoinAndSelect('Conversion.creative', 'creative')
           .where('creative.creativeId = :creativeId', {
@@ -135,17 +143,16 @@ export class DashboardService {
         };
 
         response.push(res);
+        
+          }
+
+        
       }),
     );
     return response;
   }
 
-  async getUserGraphValues(id: number) {
-    const response = [];
 
-    return response;
-
-  }
 
   async getUserDashboardValues(id: number) {
     let earnings = 0;
@@ -171,11 +178,31 @@ export class DashboardService {
     const conversionQuery = await this.conversionRepository
       .createQueryBuilder()
       .leftJoinAndSelect('Conversion.creative', 'creative')
+
       .leftJoinAndSelect('creative.campaign', 'campaign')
       .leftJoinAndSelect('campaign.Advertiser', 'advertiser')
       .where('advertiser.id = :advertiserId', { advertiserId: id })
       .getMany();
 
+      // const list=await Promise.all(conversionQuery.map(async (convertions)=>{
+
+      //   const l= await this.creativesRepository.createQueryBuilder()
+      //   .where('Creative.campaignId = :campaignId', { campaignId: convertions.creative.campaignId })
+      //   .getMany();
+
+
+      //   await Promise.all(l.map(async (creative)=>{
+
+      //      const d=await this.campaignsRepository.createQueryBuilder()
+      //     .where('Campaign.Advertiser = :advertiserId', { advertiserId: id })
+      //     .getMany();
+
+      //     console.log(d);
+      //   }));
+    
+      // }));
+
+   
     for (const t of earningTransactions) {
       if (t.amount) {
         earnings = earnings + t.amount;
@@ -194,5 +221,66 @@ export class DashboardService {
       clicks: conversionQuery.length ?? 0,
       spend: spends,
     };
+  }
+
+
+  async getUserGraphValues(id: number) {
+    const response = [];
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+
+    for (let i = 0; i < 7; i++) {
+      const lastDate = new Date(currentDate);
+      const lastDate2 = new Date(currentDate);
+
+      lastDate.setDate(lastDate.getDate() - i);
+
+      lastDate2.setDate(lastDate.getDate() - 1);
+
+      const conversionQuery = await this.conversionRepository
+        .createQueryBuilder()
+
+        .leftJoinAndSelect('Conversion.creative', 'creative')
+        .leftJoinAndSelect('creative.campaign', 'campaign')
+        .leftJoinAndSelect('campaign.advertiser', 'advertiser')
+        .where('advertiser.id = :advertiserId', { advertiserId: id })
+        .andWhere('Conversion.date between :lastDate2 AND :lastDate', {
+          lastDate2,
+          lastDate,
+        })
+        .getMany();
+
+      response.push({
+        startDate: lastDate,
+        count: conversionQuery.length,
+      });
+    }
+
+    return response;
+  }
+
+  async getAdminGraphValues() {
+    const response = [];
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+
+    for (let i = 0; i < 7; i++) {
+      const lastDate = new Date(currentDate);
+      const lastDate2 = new Date(currentDate);
+
+      lastDate.setDate(lastDate.getDate() - i);
+
+      lastDate2.setDate(lastDate.getDate() - 1);
+
+      const result = await this.conversionRepository.find({
+        where: { date: Between(lastDate2, lastDate) },
+      });
+
+      response.push({
+        startDate: lastDate,
+        count: result.length,
+      });
+    }
+    return response;
   }
 }

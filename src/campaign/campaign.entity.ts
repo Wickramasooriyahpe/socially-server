@@ -18,6 +18,9 @@ export class Campaign {
     @Column()
     public adCategory: String;
 
+    @Column({default:0})
+    public status: number;
+
     @Column({ nullable: true })
     public startDate: Date;
 
@@ -26,6 +29,9 @@ export class Campaign {
 
     @DeleteDateColumn()
     public deletedAt?: Date;
+
+    @Column()
+    public advertiserId?: number;
 
     @Column()
     public adveID?: number;

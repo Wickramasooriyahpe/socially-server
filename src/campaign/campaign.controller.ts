@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post, Put, Query, Req, Request, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Patch, Post, Put, Query, Req, Request, UsePipes, ValidationPipe } from '@nestjs/common';
 import { Advertiser } from 'src/advertiser/advertiser.entity';
 import { Campaign } from './campaign.entity';
 import { campaignService } from './campaign.servise';
@@ -26,6 +26,11 @@ export class campaignController {
         return await this.campaignService.findAllCampaign(req.user.userId);      
      }
 
+     @Patch(':campaignId')
+     async changeStatus(@Param('campaignId') campaignId:number){
+           return this.campaignService.changeStatus(campaignId);
+     }
+
 
     @Get(':campaignId')
     async getCampaignById(@Param('campaignId') campaignId:number){
@@ -37,7 +42,7 @@ export class campaignController {
     async createCampaign(@Body() campaignData: Campaign, @Request() req): Promise<any> {
           
           console.log("userid",req.user.userId);
-          campaignData.adveID = req.user.userId;
+          campaignData.advertiserId = req.user.userId;
           return this.campaignService.createCampaign(req.user.userId,campaignData);
     }
      

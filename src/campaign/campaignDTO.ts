@@ -12,6 +12,8 @@ export class campaignDTO{
    @IsNotEmpty() 
     adCategory : String;
 
+    status : number;
+
     @IsNotEmpty()
     startDate: Date;
 

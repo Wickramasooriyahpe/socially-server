@@ -21,11 +21,18 @@ export class Creative {
     @Column()
     public costPerSale: number;
 
+    @Column({default:0})
+    public status: number;
+
     @Column()
     public creativeType: String;
 
     @DeleteDateColumn()
     public deletedAt?: Date;
+
+    @Column({name:"campaignId"})
+    public campaignId: number;
+
 
     @JoinColumn({ name: 'campaignId' })
     @ManyToOne(() => Campaign, Campaign => Campaign.creative)
@@ -39,7 +46,7 @@ export class Creative {
 
 
     @OneToMany(() => Feedback, (feedback) => feedback.advertiser)
-  feedback: Feedback[];
+    feedback: Feedback[];
 
 
 }

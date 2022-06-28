@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards,Request } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards,Request, Patch } from '@nestjs/common';
 import { Creative } from './creative.entity';
 import { creativeService } from './creative.service';
 import { DeleteCreativeDTO } from './deleteCreativeDTO.dto';
@@ -14,6 +14,12 @@ export class creativeController {
   getAllCreatives() {
     return this.creativeService.findAll();
   }
+
+  @Patch(':creativeId')
+  async changeStatus(@Param('creativeId') creativeId:number){
+        return this.creativeService.changeStatus(creativeId);
+  }
+
 
     // @Get()
     // getAllCreatives(){
@@ -39,7 +45,9 @@ export class creativeController {
      @UseGuards(JwtAuthGuard)
      async createCreative(@Body() creativeData: Creative,@Param('campID') campaignId:number,@Request() req): Promise<any> {
      // console.log("campaign ID = ",campaignId)
-     creativeData.campaign.campaignId= campaignId;
+
+     console.log(creativeData);
+      creativeData.campaignId= campaignId;
       return this.creativeService.createCreative(creativeData);
     }  
     

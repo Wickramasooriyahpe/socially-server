@@ -26,8 +26,14 @@ export class DashboardController {
   }
 
 
-  @Get('/graph/:id')
+
+  @Get('/graph/user/:id')
   getUserGraphsValues(@Param('id') id: number) {
     return this.dashboardService.getUserGraphValues(id);
+  }
+
+  @Get('/graph/admin')
+  getAdminGraphsValues() {
+    return this.dashboardService.getAdminGraphValues();
   }
 }

@@ -23,6 +23,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { FeedbacksModule } from './feedbacks/feedbacks.module';
 import { PublisherModule } from './Publisher/publisher.module';
+import { AdvertiserTransactionModule } from './advertiser-transaction/advertiser-transaction.module';
 
 @Dependencies(Connection)
 @Module({
@@ -42,13 +43,13 @@ import { PublisherModule } from './Publisher/publisher.module';
     MailModule,
     StripeModule,
     CreativePreviewModule,
-    uploadMediaModule,
     ConversionModule,
     PublisherTransactionModule,
     PublisherModule,
     DashboardModule,
     TransactionModule,
     FeedbacksModule,
+    AdvertiserTransactionModule,
   ],
   controllers: [AppController, ConversionController],
   providers: [AppService],

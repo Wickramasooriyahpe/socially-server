@@ -9,7 +9,10 @@ import { CreativeLibrary } from "src/creativeLibrary/creativeLibrary.entity";
 import { avatar } from "./src/UploadMedia/profileImage.entity"
 import { Publisher } from './src/Publisher/publisher.entity';
 import { PublisherTransaction } from './src/publisher-transaction/publisher-transaction.entity';
-import { Advertiser } from './src/advertiser/advertiser.entity';
+//import { Advertiser } from "./src/advertiser/advertiser.entity";
+import {Advertiser} from "./src/advertiser/advertiser.entity";
+import { AdvertiserTransaction } from "src/advertiser-transaction/advertiser-transaction.entity";
+
 const config: MysqlConnectionOptions = {
   type: 'mysql',
   host: 'localhost',
@@ -21,7 +24,7 @@ const config: MysqlConnectionOptions = {
     Campaign,
     Creative,
     Advertiser,
-  
+    AdvertiserTransaction,
     CreativeLibrary,
     avatar,
     PublisherTransaction,

@@ -18,12 +18,16 @@ import { AdvertiserVerifyDto } from 'src/advertiser/dto/AdvertiserVerifyDto';
 import { MailService } from 'src/mail/mail.service';
 //import { AdvertiserVerifyDto } from '../advertiser/AdvertiserVerifyDto';
 import { verificationStatus } from './interfaces/verificationStatus';
+import { AdvertiserTopupDto } from 'src/advertiser/dto/adwertiserTopup.dto';
+import { AdvertiserTransactionService } from 'src/advertiser-transaction/advertiser-transaction.service';
 
 var otpGenerator = require('otp-generator');
 @Injectable()
 export class AuthService {
+    //advertiserTransactionService: any;
     constructor(private readonly publisherService:PublisherService,
         private readonly advertiserService : AdvertiserService,
+       private readonly advertiserTransactionService: AdvertiserTransactionService,
         private readonly jwtService: JwtService,
         private readonly otpService:OtpService ) {}
 
@@ -126,21 +130,47 @@ export class AuthService {
         return status;  
         }
 
+    //     async topUpBalance(advertiserDto: AdvertiserTopupDto): 
+    //     Promise<TopupStatus> {
+
+    //     let status: RegistrationStatus = {
+    //         success: true,   
+    //         message: 'Succes',
+            
+    //     };
+    //     try {
+    //         await this.advertiserService.topUpAccount(advertiserDto);
+    //     //await this.advertiserService.create(advertiserDto);
+    //     } catch (err) {
+    //         status = {
+    //             success: false,        
+    //             message: err,
+    //         };    
+
+    //     }
+    //     return status;  
+       
+    // }
+
+
+
     async login(loginAdvertiserDto: AdvertiserLoginDto): Promise<LoginStatus> {    
         // find user in db    
         const advertiser = await this.advertiserService.findByLogin(loginAdvertiserDto);
         // generate and sign token    
         const payload: JwtPayload = { email: advertiser.email, id: advertiser.id }
         const token = this.jwtService.sign(payload);
-        const expiresIn = '1d'
+        const expiresIn = '1d';
+
+        const balance = await this.advertiserTransactionService.findSum(advertiser.id);
 
         return {
             userName: advertiser.name,
             userId: advertiser.id, 
             userRole: advertiser.role,          
             accessToken: token,
-            expiresIn: expiresIn
-        
+            expiresIn: expiresIn,
+           balance: balance,
             
         };
     }

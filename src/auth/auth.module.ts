@@ -10,6 +10,7 @@ import { PublisherModule } from './../Publisher/publisher.module';
 import { OtpModule } from './../OTP/otp.module';
 import { MailModule } from 'src/mail/mail.module';
 import { StripeModule } from 'src/Payments-stripe/stripe.module';
+import { AdvertiserTransactionModule } from 'src/advertiser-transaction/advertiser-transaction.module';
 
 @Module({
     imports: [
@@ -27,6 +28,7 @@ import { StripeModule } from 'src/Payments-stripe/stripe.module';
         }), MailModule,
         StripeModule,
         PublisherModule,
+        AdvertiserTransactionModule,
         OtpModule
     ],
     controllers: [AuthController],

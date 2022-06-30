@@ -4,7 +4,7 @@ import { Campaign } from "src/campaign/campaign.entity";
 import { avatar } from "src/UploadMedia/profileImage.entity";
 import { Transactions } from "src/transaction/entities/transactions.entity";
 import { Feedback } from "src/feedbacks/entities/feedback.entity";
-
+import { AdvertiserTransaction } from "src/advertiser-transaction/advertiser-transaction.entity";
 @Entity()
 export class Advertiser {
     @PrimaryGeneratedColumn()
@@ -45,6 +45,11 @@ export class Advertiser {
     @Column({nullable:true})
     phone: string
 
+   
+  static stripeCustomerId: string;
+
+  
+
   @Column()
   otpSentTime: Date
 
@@ -65,4 +70,7 @@ export class Advertiser {
 
   @OneToMany(() => Feedback, (feedback) => feedback.advertiser)
   feedback: Feedback[];
+
+  @OneToMany(() => AdvertiserTransaction, AdvertiserTransaction => AdvertiserTransaction.Advertiser)
+  public AdvertiserTransaction: AdvertiserTransaction[];
 }

@@ -18,6 +18,8 @@ export class CreativeDTO {
     @IsNotEmpty()
     public costPerSale: number;
 
+    status : number;
+
    
   
 }

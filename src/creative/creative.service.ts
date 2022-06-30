@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Creative } from './creative.entity';
 import { UpdateCreativeDTO } from './updateCreativeDTO.dto';
+import {getConnection} from "typeorm";
+
 //import {CategoryNotFoundException} from './exceptions/categoryNotFound.exception';
 
 @Injectable()
@@ -13,31 +15,50 @@ export class creativeService {
 
   ) { }
 
-  //gett all creatives
-  async findAll(): Promise<Creative[]> {
-    return await this.creativeRepository.find();
-  }
-  //get a creative by id
-
-  async getCreativeById(creativeId: number): Promise<Creative> {
-    const creative = await this.creativeRepository.findOne(
-      creativeId,
-      {
-
-        withDeleted: true
-      }
-    );
-    if (creative) {
-      return creative;
+    //gett all creatives
+    async  findAll(): Promise<Creative[]> {
+        return await this.creativeRepository.find();
     }
-    //throw new CategoryNotFoundException(id);
+
+    async findallcreatives(campID : number):Promise<any>{
+        
+      const AD = await getConnection()
+      .createQueryBuilder()
+      .select("Creative")
+      .from(Creative,"Creative")
+      .where("Creative.campaign = :campaignId", { campaignId: campID })
+      .getMany();
+  
+       return AD;
   }
+   //get a creative by id
+  
+    async getCreativeById(creativeId: number): Promise<Creative> {
+        const creative = await this.creativeRepository.findOne(
+            creativeId, 
+          {
+           
+            withDeleted: true 
+          }
+        );
+        if (creative) {
+          return creative;
+        }
+        //throw new CategoryNotFoundException(id);
+      }
+    
+
+    //throw new CategoryNotFoundException(id);
+  
 
   //Create a creative
-  async createCreative(creativeCreation: Creative): Promise<Creative> {
 
+    //Create a creative
+  async  createCreative(id:number,creativeCreation: Creative): Promise<Creative> { 
+    
+    creativeCreation.campaign=id;
     return await this.creativeRepository.save(creativeCreation);
-  }
+    }
 
   //update a creative
   async UpdateCreative(updateCreativeDTO: UpdateCreativeDTO): Promise<Creative> {
@@ -75,4 +96,11 @@ export class creativeService {
     }
     return this.creativeRepository.softDelete(deleteRecord);
   }
+
+  async changeStatus(creativeId: number){
+    const campaign = await this.creativeRepository.findOne(creativeId);
+    if(campaign){
+        await this.creativeRepository.update(creativeId,{status:1})
+    }
+}
 }

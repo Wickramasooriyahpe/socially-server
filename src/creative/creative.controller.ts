@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards,Request, Patch } from '@nestjs/common';
 import { Creative } from './creative.entity';
 import { creativeService } from './creative.service';
 import { DeleteCreativeDTO } from './deleteCreativeDTO.dto';
@@ -15,39 +15,47 @@ export class creativeController {
     return this.creativeService.findAll();
   }
 
-  @Get(':creativeId')
-  async getCreativeById(@Param('creativeId') creativeId: number) {
-    return this.creativeService.getCreativeById(creativeId);
+  @Patch(':creativeId')
+  async changeStatus(@Param('creativeId') creativeId:number){
+        return this.creativeService.changeStatus(creativeId);
   }
 
-  //Get all creatives for a particuler campaign
-  @Get(':campID')
-  async findAllCreatives(@Param('campID') campID: number) {
 
-    const AD = await getConnection()
-      .createQueryBuilder()
-      .select("Creative")
-      .from(Creative, "Creative")
-      .where("Creative.campID = :campID", { campID: campID })
-      .getMany();
+    // @Get()
+    // getAllCreatives(){
+    //      return this.creativeService.findAll();
+    //  }
 
-    return AD;
-  }
+     @Get('get-one-creative/:creativeId')
+     async getCreativeById(@Param('creativeId') creativeId:number){
+       return this.creativeService.getCreativeById(creativeId);
+     }
 
-  // Create Creative 
-  @Post('createCreative')
-  @UseGuards(JwtAuthGuard)
-  async createCreative(@Body() creativeData: Creative): Promise<any> {
+    //Get all creatives for a particuler campaign
+     @Get(':campID')
+     async findAllCreatives(@Param('campID') campID:number){
+      
+       return await this.creativeService.findallcreatives(campID);
 
-    return this.creativeService.createCreative(creativeData);
-  }
+   
+     }
 
-  @Put(':creativeId')
-  @UseGuards(JwtAuthGuard)
-  async updateCreative(@Param('creativeId') creativeId: number, @Body() updateCreativeDTO: UpdateCreativeDTO) {
-    updateCreativeDTO.creativeId = creativeId;
-    return this.creativeService.UpdateCreative(updateCreativeDTO);
-  }
+   // Create Creative 
+     @Post(':campID')
+     @UseGuards(JwtAuthGuard)
+     async createCreative(@Body() creativeData: Creative,@Param('campID') campaignId:number,@Request() req): Promise<any> {
+     // console.log("campaign ID = ",campaignId)
+
+    
+      return this.creativeService.createCreative(campaignId,creativeData);
+    }  
+    
+    @Put(':creativeId')
+    @UseGuards(JwtAuthGuard)
+    async updateCreative(@Param('creativeId') creativeId:number, @Body() updateCreativeDTO:UpdateCreativeDTO){
+       updateCreativeDTO.creativeId= creativeId;
+       return this.creativeService.UpdateCreative(updateCreativeDTO);
+     }
 
   /* @Delete(':creativeId')
    @HttpCode(204)

@@ -15,10 +15,14 @@ import { MailModule } from './Mail/mail.module';
 import { ConfigModule } from '@nestjs/config';
 import { StripeModule } from './Payments-stripe/stripe.module';
 import { CreativePreviewModule } from './creative-preview/creative-preview.module';
-import { AdSharingController } from './ad-sharing/ad-sharing.controller';
-import { AdSharingService } from './ad-sharing/ad-sharing.service';
-import { AdSharingModule } from './ad-sharing/ad-sharing.module';
+import { ConversionController } from './ad-sharing/conversion.controller';
+import { ConversionModule } from './ad-sharing/conversion.module';
 import { PublisherTransactionModule } from './publisher-transaction/publisher-transaction.module';
+import { uploadMediaModule } from './UploadMedia/media.module';
+import { DashboardModule } from './dashboard/dashboard.module';
+import { TransactionModule } from './transaction/transaction.module';
+import { FeedbacksModule } from './feedbacks/feedbacks.module';
+import { PublisherModule } from './Publisher/publisher.module';
 import { AdvertiserTransactionModule } from './advertiser-transaction/advertiser-transaction.module';
 
 @Dependencies(Connection)
@@ -39,12 +43,16 @@ import { AdvertiserTransactionModule } from './advertiser-transaction/advertiser
     MailModule,
     StripeModule,
     CreativePreviewModule,
-    AdSharingModule,
+    ConversionModule,
     PublisherTransactionModule,
-    AdvertiserTransactionModule
+    PublisherModule,
+    DashboardModule,
+    TransactionModule,
+    FeedbacksModule,
+    AdvertiserTransactionModule,
   ],
-  controllers: [AppController, AdSharingController],
-  providers: [AppService, AdSharingService],
+  controllers: [AppController, ConversionController],
+  providers: [AppService],
 })
 export class AppModule {
 

@@ -12,6 +12,7 @@ export class AdvertiserCreateDto{
     @IsNotEmpty()
     password:string
 
+    avatar:string
     generatedOTP:number
     otpSentTime : Date
     isActive:boolean
@@ -19,5 +20,5 @@ export class AdvertiserCreateDto{
 
     stripeCustomerId: string;
 
-  // Campaign: number[];
+  Campaign: number[];
 }

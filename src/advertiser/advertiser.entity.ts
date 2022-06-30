@@ -1,8 +1,10 @@
 import { BeforeInsert, Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import * as bcrypt from 'bcrypt';
-import { Campaign } from "../campaign/campaign.entity";
+import { Campaign } from "src/campaign/campaign.entity";
+import { avatar } from "src/UploadMedia/profileImage.entity";
+import { Transactions } from "src/transaction/entities/transactions.entity";
+import { Feedback } from "src/feedbacks/entities/feedback.entity";
 import { AdvertiserTransaction } from "src/advertiser-transaction/advertiser-transaction.entity";
-
 @Entity()
 export class Advertiser {
     @PrimaryGeneratedColumn()
@@ -12,7 +14,21 @@ export class Advertiser {
     name: string
 
     @Column()
-    email: string
+    email: string;
+
+    @Column()
+    password : string
+    
+    @BeforeInsert()
+    async hashPassword(){
+        this.password = await bcrypt.hash(this.password, 10)
+    }
+    @Column({nullable:true})
+    avatarid:number;
+    
+    @Column()
+    generatedOTP : number
+   
 
     @Column({nullable:true})
     role: string;
@@ -29,16 +45,10 @@ export class Advertiser {
     @Column({nullable:true})
     phone: string
 
-    @Column()
-    password: string
+   
   static stripeCustomerId: string;
 
-  @BeforeInsert()
-  async hashPassword() {
-    this.password = await bcrypt.hash(this.password, 10)
-  }
-  @Column()
-  generatedOTP: number
+  
 
   @Column()
   otpSentTime: Date
@@ -49,11 +59,17 @@ export class Advertiser {
   @Column()
   stripeCustomerId: string;
 
-  // @Column()
-  // balance: number;
+ @OneToMany(() => Campaign, Campaign => Campaign.Advertiser)
+    public Campaign: Campaign[];
 
-  @OneToMany(() => Campaign, Campaign => Campaign.Advertiser)
-  public Campaign: Campaign[];
+    @OneToOne(()=>avatar,avatar=> avatar.avatarid)
+    public avatar: avatar;
+
+  @OneToMany(() => Transactions, (transaction) => transaction.advertiser)
+  transaction: Transactions[];
+
+  @OneToMany(() => Feedback, (feedback) => feedback.advertiser)
+  feedback: Feedback[];
 
   @OneToMany(() => AdvertiserTransaction, AdvertiserTransaction => AdvertiserTransaction.Advertiser)
   public AdvertiserTransaction: AdvertiserTransaction[];

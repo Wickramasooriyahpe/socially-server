@@ -1,28 +1,25 @@
 import { Publisher } from "src/Publisher/publisher.entity";
-import { Column , JoinColumn , ManyToOne , Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, JoinColumn, ManyToOne, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class PublisherTransaction{
+export class PublisherTransaction {
     @PrimaryGeneratedColumn()
-    id : number
+    id: number
 
     @Column()
-    amount : string
+    amount: number
 
     @Column()
-    date : string
+    date: string
 
     @Column()
-    time :string
+    time: string
 
     @Column()
-    type : string
+    type: string
 
-    @Column()
-    publisherId : number
-
-    @JoinColumn({name: 'publisherId'})
-    @ManyToOne(() =>Publisher,Publisher=> Publisher.publisherId)
-    public publisherID : Publisher;
+    @JoinColumn({ name: 'publisherId' })
+    @ManyToOne(() => Publisher, Publisher => Publisher.publisherId)
+    public publisherID: Publisher;
 
 }

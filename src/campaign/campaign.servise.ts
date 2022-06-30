@@ -17,7 +17,10 @@ export class campaignService {
     ) { }
 
     async findAll(): Promise<Campaign[]> {
-        return await this.campaignRepository.find();
+        const data= await this.campaignRepository.find();
+        console.log('DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd');
+        console.log(data);
+        return data;
     }
 
     async getCampaignById(campaignId: number): Promise<Campaign> {
@@ -35,14 +38,14 @@ export class campaignService {
             .createQueryBuilder()
             .select("Campaign")
             .from(Campaign, "Campaign")
-            .where("Campaign.adveID = :adveID", { adveID: adveID })
+            .where("Campaign.advertiserId = :advertiserId", { advertiserId: adveID })
             .getMany();
 
         return camp;
     }
 
     async createCampaign(Advertiser: Advertiser, campaignCreation: Campaign): Promise<any> {
-        campaignCreation.Advertiser = Advertiser;
+        campaignCreation.Advertiser = Advertiser.id;
         return await this.campaignRepository.save(campaignCreation);
     }
 
@@ -62,9 +65,16 @@ export class campaignService {
 
     async softDeleteCampaign(campaignId: number) {
         const deleteRecord = await this.campaignRepository.findOne(campaignId);
-        if (!deleteRecord) {
-            throw new NotFoundException('not found creative');
+        if(! deleteRecord){
+          throw new NotFoundException('not found campaign');
         }
         return this.campaignRepository.softDelete(deleteRecord);
+    }
+
+    async changeStatus(campaignId: number){
+        const campaign = await this.campaignRepository.findOne(campaignId);
+        if(campaign){
+            await this.campaignRepository.update(campaignId,{status:1})
+        }
     }
 }

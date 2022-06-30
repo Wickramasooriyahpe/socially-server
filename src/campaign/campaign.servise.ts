@@ -56,6 +56,7 @@ export class campaignService {
         Campaign.endDate = endDate;
         Campaign.adCategory = adCategory;
 
+        
         return this.campaignRepository.save(Campaign);
     }
 

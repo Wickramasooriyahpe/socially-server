@@ -9,6 +9,7 @@ import { Publisher } from './src/Publisher/publisher.entity';
 import { PublisherTransaction } from './src/publisher-transaction/publisher-transaction.entity';
 //import { Advertiser } from "./src/advertiser/advertiser.entity";
 import {Advertiser} from "./src/advertiser/advertiser.entity";
+import { AdvertiserTransaction } from "src/advertiser-transaction/advertiser-transaction.entity";
 
 const config: MysqlConnectionOptions = {
     type: 'mysql',
@@ -24,7 +25,7 @@ const config: MysqlConnectionOptions = {
         Publisher,
         CreativeLibrary,
         uploadMdata,
-        PublisherTransaction
+        PublisherTransaction,AdvertiserTransaction
     ],
     //entities: ['**/src/entity/*{.ts,.js}'],
   synchronize: true,

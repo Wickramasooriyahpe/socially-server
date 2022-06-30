@@ -1,6 +1,7 @@
 import { BeforeInsert, Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import { Campaign } from "../campaign/campaign.entity";
+import { AdvertiserTransaction } from "src/advertiser-transaction/advertiser-transaction.entity";
 
 @Entity()
 export class Advertiser {
@@ -30,6 +31,7 @@ export class Advertiser {
 
     @Column()
     password: string
+  static stripeCustomerId: string;
 
   @BeforeInsert()
   async hashPassword() {
@@ -47,6 +49,12 @@ export class Advertiser {
   @Column()
   stripeCustomerId: string;
 
+  // @Column()
+  // balance: number;
+
   @OneToMany(() => Campaign, Campaign => Campaign.Advertiser)
   public Campaign: Campaign[];
+
+  @OneToMany(() => AdvertiserTransaction, AdvertiserTransaction => AdvertiserTransaction.Advertiser)
+  public AdvertiserTransaction: AdvertiserTransaction[];
 }

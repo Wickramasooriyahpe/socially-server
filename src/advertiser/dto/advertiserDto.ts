@@ -19,5 +19,5 @@ export class AdvertiserDto{
     otpSentTime : Date
     isActive:boolean
     stripeCustomerId: string;
-
+    // balance:number
 }

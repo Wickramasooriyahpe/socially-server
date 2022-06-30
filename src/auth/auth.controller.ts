@@ -1,4 +1,4 @@
-import { Body, Controller, HttpException, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, HttpException, HttpStatus, Post, UseGuards } from '@nestjs/common';
 import { AdvertiserCreateDto } from 'src/advertiser/dto/advertiser-create.dto';
 import { AdvertiserLoginDto } from 'src/advertiser/dto/advertiserLogin.dto';
 import { AuthService } from './auth.service';
@@ -9,6 +9,8 @@ import { OtpDto } from 'src/OTP/otp.dto';
 import { PublisherCreateDto } from 'src/Publisher/publisherCreate.dto';
 import { AdvertiserVerifyDto } from 'src/advertiser/dto/AdvertiserVerifyDto';
 import { verificationStatus } from './interfaces/verificationStatus';
+import { AdvertiserTopupDto } from 'src/advertiser/dto/adwertiserTopup.dto';
+import { JwtAuthGuard } from './jwt.guard';
 
 
 @Controller('auth')
@@ -45,6 +47,17 @@ export class AuthController {
     return result;  
     }
 
+    // //TopUp
+    // @UseGuards(JwtAuthGuard)
+    // @Post('topup')  
+    // public async topUpAccount(@Body() advertiserTopupDto: AdvertiserTopupDto,  ): Promise<TopupStatus> 
+    // {    
+    // const result:TopupStatus = await this.authService.topUpBalance(advertiserTopupDto,);
+    // if (!result.success) {
+    //     throw new HttpException(result.message, HttpStatus.BAD_REQUEST);    
+    // }
+    // return result;  
+    // }
 
 
     //send forgotPasswordEmail

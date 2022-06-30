@@ -18,7 +18,7 @@ import { CreativePreviewModule } from './creative-preview/creative-preview.modul
 import { ConversionController } from './ad-sharing/conversion.controller';
 import { ConversionModule } from './ad-sharing/conversion.module';
 import { PublisherTransactionModule } from './publisher-transaction/publisher-transaction.module';
-import { uploadMediaModule } from './UploadMedia/media.module';
+import { AdvertiserTransactionModule } from './advertiser-transaction/advertiser-transaction.module';
 
 @Dependencies(Connection)
 @Module({
@@ -38,9 +38,9 @@ import { uploadMediaModule } from './UploadMedia/media.module';
     MailModule,
     StripeModule,
     CreativePreviewModule,
-    uploadMediaModule,
-    ConversionModule,
+    AdSharingModule,
     PublisherTransactionModule,
+    AdvertiserTransactionModule
   ],
   controllers: [AppController, ConversionController],
   providers: [AppService],

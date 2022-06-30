@@ -17,6 +17,7 @@ import { MailService } from 'src/mail/mail.service';
 import { StripeService } from 'src/Payments-stripe/stripe.service';
 import { AdvertiserVerifyDto } from './dto/AdvertiserVerifyDto';
 import * as bcrypt from 'bcrypt';
+import { AdvertiserTopupDto } from './dto/adwertiserTopup.dto';
 
 
 @Injectable()
@@ -125,7 +126,7 @@ export class AdvertiserService {
             email,
             password,
             generatedOTP, 
-            otpSentTime: new Date(), 
+            otpSentTime: new Date(),
             isActive: false, 
             stripeCustomerId: stripeCustomer.id});
 
@@ -161,7 +162,7 @@ export class AdvertiserService {
                     throw new HttpException('OTP has expired. Sign-up again', HttpStatus.UNAUTHORIZED);
                 } else {
                     const areEqual = advertiser.generatedOTP == enteredOTP;
-                    if(!areEqual ){
+                    if (!areEqual ){
                         
                        // throw new HttpException('Invalid OTP', HttpStatus.UNAUTHORIZED);
                        throw new HttpException('Invalid OTP', HttpStatus.UNAUTHORIZED);
@@ -192,9 +193,11 @@ export class AdvertiserService {
         //Send Forgot Password Email
         async sendforgotPasswordEmail({email}: AdvertiserCreateDto):Promise<any>{
             const advertiser = await this.advertiserRepository.findOne({where:  {email}});
-            const pwToken = Math.random().toString(20).substring(2,10);
+            //const pwToken = Math.random().toString(20).substring(2,10);
 
-        const url = `http://localhost:3001/forgotPassword/${pwToken}`;
+       // const url = `http://localhost:3001/forgotPassword/${pwToken}`;
+       const url = `http://localhost:3001/resetPassword/`;
+       
             //send Email
             await this.mailService.sendRestPasswordEmail(advertiser ,url);
             
@@ -204,12 +207,22 @@ export class AdvertiserService {
         //Reset Password 
         async saveResetPassword({email,password}: AdvertiserCreateDto):Promise<any>{
             const advertiser = await this.advertiserRepository.findOne({where:  {email}});
-            
+            password = await bcrypt.hash(password, 10)
             advertiser.password= password;
             await this.advertiserRepository.save(advertiser);
             return toAdvertiserDto(advertiser);
         }
 
+        // //Top up account
+        // async topUpAccount({email, amount}: AdvertiserTopupDto):Promise<any>{
+        //     const advertiser = await this.advertiserRepository.findOne({where:  {email}});
+        //     // advertiser.balance = advertiser.balance - amount;
+        //     //((advertiser.balance)+ amount);
+        //     advertiser.balance += (amount);
+        //     //console.log(advertiser.balance - amount)
+        //     await this.advertiserRepository.save(advertiser);
+        //     return toAdvertiserDto(advertiser);
+        // }
 
         
 

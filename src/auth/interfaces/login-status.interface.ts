@@ -6,6 +6,7 @@ export interface LoginStatus {
   userRole: string;
   accessToken: any;
   expiresIn: any;
+ balance: number;
 }
 
 export interface PublisherLoginStatus {
